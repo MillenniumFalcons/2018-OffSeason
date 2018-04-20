@@ -54,15 +54,38 @@ public class Drivetrain
 			leftSRX.configPeakOutputForward(1, Constants.kTimeoutMs);
 			leftSRX.configPeakOutputReverse(-1, Constants.kTimeoutMs);
 			leftSRX.configAllowableClosedloopError(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
+			leftSRX.config_kF(Constants.kPIDLoopIdx, 0.0, Constants.kTimeoutMs);
+			leftSRX.config_kP(Constants.kPIDLoopIdx, 0.1, Constants.kTimeoutMs);
+			leftSRX.config_kI(Constants.kPIDLoopIdx, 0.0, Constants.kTimeoutMs);
+			leftSRX.config_kD(Constants.kPIDLoopIdx, 0.0, Constants.kTimeoutMs);
 			int absolutePosition = leftSRX.getSensorCollection().getPulseWidthPosition();
 			absolutePosition &= 0xFFF;
 			if (Constants.kSensorPhase)
 				absolutePosition *= -1;
 			if (Constants.kMotorInvert)
 				absolutePosition *= -1;
-			/* set the quadrature (relative) sensor to match absolute */
 			leftSRX.setSelectedSensorPosition(absolutePosition, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
-
+			rightSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, Constants.kPIDLoopIdx,
+					Constants.kTimeoutMs);
+			
+			rightSRX.setSensorPhase(Constants.kSensorPhase);
+			rightSRX.setInverted(Constants.kMotorInvert);
+			rightSRX.configNominalOutputForward(0, Constants.kTimeoutMs);
+			rightSRX.configNominalOutputReverse(0, Constants.kTimeoutMs);
+			rightSRX.configPeakOutputForward(1, Constants.kTimeoutMs);
+			rightSRX.configPeakOutputReverse(-1, Constants.kTimeoutMs);
+			rightSRX.configAllowableClosedloopError(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
+			rightSRX.config_kF(Constants.kPIDLoopIdx, 0.0, Constants.kTimeoutMs);
+			rightSRX.config_kP(Constants.kPIDLoopIdx, 0.1, Constants.kTimeoutMs);
+			rightSRX.config_kI(Constants.kPIDLoopIdx, 0.0, Constants.kTimeoutMs);
+			rightSRX.config_kD(Constants.kPIDLoopIdx, 0.0, Constants.kTimeoutMs);
+			int absolutePosition = rightSRX.getSensorCollection().getPulseWidthPosition();
+			absolutePosition &= 0xFFF;
+			if (Constants.kSensorPhase)
+				absolutePosition *= -1;
+			if (Constants.kMotorInvert)
+				absolutePosition *= -1;
+			rightSRX.setSelectedSensorPosition(absolutePosition, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
 			
 		}
 		
