@@ -1,5 +1,10 @@
 package org.usfirst.frc.team3647.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
 public class Drivetrain 
 {
 	public static boolean velocityMode, closedPositionLoop;
@@ -8,8 +13,8 @@ public class Drivetrain
 	
 	public static void setMode()
 	{
-		velocityMode = true;
-		closedPositionLoop = false;
+		velocityMode = false;
+		closedPositionLoop = true;
 	}
 	
 	public static TalonSRX leftSRX = new TalonSRX(Constants.leftMaster);
