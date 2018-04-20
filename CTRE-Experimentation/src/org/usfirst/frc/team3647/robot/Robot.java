@@ -10,6 +10,7 @@ public class Robot extends IterativeRobot
 	public void robotInit() 
 	{
 		joy = new Joysticks();
+		Drivetrain.setMode();
 		Drivetrain.driveTrainInitialization();
 	}
 
@@ -29,7 +30,7 @@ public class Robot extends IterativeRobot
 	@Override
 	public void teleopInit()
 	{
-		Drivetrain.setMode();
+		
 	}
 	
 	@Override
