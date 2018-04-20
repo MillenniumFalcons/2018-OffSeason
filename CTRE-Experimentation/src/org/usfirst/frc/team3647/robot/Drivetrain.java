@@ -79,7 +79,7 @@ public class Drivetrain
 			rightSRX.config_kP(Constants.kPIDLoopIdx, 0.1, Constants.kTimeoutMs);
 			rightSRX.config_kI(Constants.kPIDLoopIdx, 0.0, Constants.kTimeoutMs);
 			rightSRX.config_kD(Constants.kPIDLoopIdx, 0.0, Constants.kTimeoutMs);
-			int absolutePosition = rightSRX.getSensorCollection().getPulseWidthPosition();
+			absolutePosition = rightSRX.getSensorCollection().getPulseWidthPosition();
 			absolutePosition &= 0xFFF;
 			if (Constants.kSensorPhase)
 				absolutePosition *= -1;
@@ -114,6 +114,8 @@ public class Drivetrain
 		{
 			targetPositionRotationsForRight = rSpeed * 10.0 * 4096;
 			targetPositionRotationsForLeft = lSpeed * 10.0 * 4096;
+			System.out.println("Right: " + targetPositionRotationsForRight);
+			System.out.println("Left: " + targetPositionRotationsForLeft);
 			rightSRX.set(ControlMode.Position, targetPositionRotationsForRight);
 			leftSRX.set(ControlMode.Position, targetPositionRotationsForLeft);
 		}
