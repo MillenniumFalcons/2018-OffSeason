@@ -2,30 +2,7 @@ import libjevois as jevois
 import cv2
 import numpy as np
 
-## Simple example of image processing using OpenCV in Python on JeVois
-#
-# This module is here for you to experiment with Python OpenCV on JeVois.
-#
-# By default, we get the next video frame from the camera as an OpenCV BGR (color) image named 'inimg'.
-# We then apply some image processing to it to create an output BGR image named 'outimg'.
-# We finally add some text drawings to outimg and send it to host over USB.
-#
-# See http://jevois.org/tutorials for tutorials on getting started with programming JeVois in Python without having
-# to install any development software on your host computer.
-#
-# @author Laurent Itti
-# 
-# @videomapping YUYV 352 288 30.0 YUYV 352 288 30.0 JeVois PythonSandbox
-# @email itti\@usc.edu
-# @address University of Southern California, HNB-07A, 3641 Watt Way, Los Angeles, CA 90089-2520, USA
-# @copyright Copyright (C) 2017 by Laurent Itti, iLab and the University of Southern California
-# @mainurl http://jevois.org
-# @supporturl http://jevois.org/doc
-# @otherurl http://iLab.usc.edu
-# @license GPL v3
-# @distribution Unrestricted
-# @restrictions None
-# @ingroup modules
+
 class PythonSandbox:
     # ###################################################################################################
     ## Constructor
@@ -73,7 +50,7 @@ class PythonSandbox:
    # BEGIN GRIP METHODS (@StaticMethod stuff)
 ##################################################################################################
     
-
+	
 #################################################################################################
 	# END GRIP CODE
 ##################################################################################################
