@@ -13,8 +13,8 @@ public class Drivetrain
 	
 	public static void setMode()
 	{
-		velocityMode = false;
-		closedPositionLoop = true;
+		velocityMode = true;
+		closedPositionLoop = false;
 	}
 	
 	public static TalonSRX leftSRX = new TalonSRX(Constants.leftMaster);
@@ -36,12 +36,22 @@ public class Drivetrain
 			leftSRX.configPeakOutputForward(1, Constants.kTimeoutMs);
 			leftSRX.configPeakOutputReverse(-1, Constants.kTimeoutMs);
 			
+			leftSRX.config_kF(Constants.kPIDLoopIdx, 0.1097, Constants.kTimeoutMs);
+			leftSRX.config_kP(Constants.kPIDLoopIdx, 0.113333, Constants.kTimeoutMs);
+			leftSRX.config_kI(Constants.kPIDLoopIdx, 0, Constants.kTimeoutMs);
+			leftSRX.config_kD(Constants.kPIDLoopIdx, 0, Constants.kTimeoutMs);
+			
 			rightSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder , 0, Constants.kTimeoutMs);
 			rightSRX.setSensorPhase(true);
 			rightSRX.configNominalOutputForward(0, Constants.kTimeoutMs);
 			rightSRX.configNominalOutputReverse(0, Constants.kTimeoutMs);
 			rightSRX.configPeakOutputForward(1, Constants.kTimeoutMs);
 			rightSRX.configPeakOutputReverse(-1, Constants.kTimeoutMs);
+			
+			rightSRX.config_kF(Constants.kPIDLoopIdx, 0.1097, Constants.kTimeoutMs);
+			rightSRX.config_kP(Constants.kPIDLoopIdx, 0.113333, Constants.kTimeoutMs);
+			rightSRX.config_kI(Constants.kPIDLoopIdx, 0, Constants.kTimeoutMs);
+			rightSRX.config_kD(Constants.kPIDLoopIdx, 0, Constants.kTimeoutMs);
 		}
 		else if(closedPositionLoop)
 		{
