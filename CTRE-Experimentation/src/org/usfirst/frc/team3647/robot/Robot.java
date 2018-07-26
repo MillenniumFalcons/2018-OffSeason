@@ -10,7 +10,6 @@ public class Robot extends IterativeRobot
 	public void robotInit() 
 	{
 		joy = new Joysticks();
-		Drivetrain.setMode();
 		Drivetrain.driveTrainInitialization();
 	}
 
@@ -46,4 +45,5 @@ public class Robot extends IterativeRobot
 		
 	}
 }
+
 
