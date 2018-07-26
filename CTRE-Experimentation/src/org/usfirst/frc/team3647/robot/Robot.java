@@ -6,6 +6,9 @@ public class Robot extends IterativeRobot
 {
 	Joysticks joy;
 	
+	boolean testEncoders = false;
+	boolean testError = false;
+	
 	@Override
 	public void robotInit() 
 	{
@@ -29,14 +32,23 @@ public class Robot extends IterativeRobot
 	@Override
 	public void teleopInit()
 	{
-		
+		Drivetrain.resetEncoders();
 	}
 	
 	@Override
 	public void teleopPeriodic() 
 	{
 		joy.setMainContollerValues();
+		Drivetrain.setEncoderValues();
 		Drivetrain.runDrivetrain(joy.leftJoySticky, joy.rightJoyStickx);
+		if(testEncoders)
+		{
+			Drivetrain.testEncoders();
+		}
+		if(testError)
+		{
+			Drivetrain.printError();
+		}
 	}
 
 	@Override
