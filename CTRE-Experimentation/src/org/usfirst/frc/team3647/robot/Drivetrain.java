@@ -74,5 +74,42 @@ public class Drivetrain
 		leftSRX.set(ControlMode.Velocity, targetVelocityForLeftMotor_UnitsPer100ms);
 	}
 	
+	public static double leftEncoderValue, rightEncoderValue;
+	
+	public void setEncoderValues()
+	{
+		leftEncoderValue = leftSRX.getSensorCollection().getQuadraturePosition();
+		rightEncoderValue = -rightSRX.getSensorCollection().getQuadraturePosition();
+	}
+	
+	public static void resetEncoders()
+	{
+		leftSRX.getSensorCollection().setQuadraturePosition(0, 10);
+		rightSRX.getSensorCollection().setQuadraturePosition(0, 10);
+	}
+	
+	public static void testEncoders()
+	{
+		System.out.println("Left Encoder Value: " + leftEncoderValue);
+		System.out.println("Right Encoder Value: " + rightEncoderValue);
+	}
+	
+	public static void printError()
+	{
+		double error = Math.abs(leftEncoderValue - rightEncoderValue);
+		if(Math.abs(leftEncoderValue) > Math.abs(rightEncoderValue))
+		{
+			System.out.println("Left going too fast; " + error);
+		}
+		else if(Math.abs(leftEncoderValue) < Math.abs(rightEncoderValue))
+		{
+			System.out.println("Right going too fast; " + error);
+		}
+		else
+		{	
+			System.out.println("No error");
+		}
+	}
+	
 	
 }
