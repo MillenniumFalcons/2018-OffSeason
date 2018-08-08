@@ -16,3 +16,12 @@ For steps 1 - 3 use the [Wrist.java](https://github.com/MillenniumFalcons/2018-P
 
 ## Step 2: Adjust the speed of the wrist ##
 Since I am out of town, set the wrist to a constant speed for now. Try to pick a speed value that is not too fast, not too slow. So for example if you set ```.2``` as your speed, make the wrist move at ```.2``` whenever the joystick value is greater than ```0```,  and make the wrist move at ```-.2``` when the joystick value is less than ```0```. You guys are smart enough to figure this out.
+
+
+## Step 3: Program the limit switch and the encoders ##
+1. The limit switch works the same way the banner sensor does. Remember that the purpose of the limit switch is to that tell us wheater the wrist is flat or not. If it is flat, it must return ```true```, otherwise ```false```. Name the limit switch object ```limitSwitch``` (it's a ```DigitalInput```. If you have trouble, reference to [ElevatorLevel.java](https://github.com/MillenniumFalcons/2018-PowerUp/blob/master/Robot_Code/src/team3647elevator/ElevatorLevel.java) to see how the banner sensor was programmed).
+2. Create a static ```testLimitSwitch()``` and ```setLimitSwitch()``` function to see if the limit switch works. Remember to use ```limitSwitch.get()``` to recieve the boolean variable. Make sure it returns ```true``` when the wrist is flat, and ```false``` otherwise. If it is flipped, change the ```flat``` variable statement to ```flat = !limitSwitch.get();``` instead of ```flat = limitSwitch.get();``` in the ```setLimitSwitch()``` function.
+3. For getting the encoder values use ```wristMotor.getSensorCollection().getQuadraturePosition();```. Test if the encoder works. Make the following functions like we always do: ```setEncoderValues()```, ```resetEncoders()```, ```testEncoders()```.
+4. Call the ```resetEncoders()``` function whenever the wrist is flat (when the ```flat``` variable is ```true```). For reseting the encoders, ```wristMotor.getSensorCollection().setQuadraturePosition(0, 10);```
+
+
