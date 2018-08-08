@@ -1,11 +1,13 @@
 package org.usfirst.frc.team3647.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.GenericHID;
 
 public class Joysticks 
 {
 	public Joystick mainController = new Joystick(0);
 	public Joystick coController = new Joystick(1);
+	public GenericHID lol = new GenericHID(1);
 	
 	// Main contoller Variables
 	public double leftTrigger, rightTrigger, leftJoySticky, leftJoyStickx, rightJoySticky, rightJoyStickx;

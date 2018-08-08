@@ -45,16 +45,18 @@ public class Robot extends IterativeRobot
 	public void teleopPeriodic() 
 	{
 		joy.setMainContollerValues();
-		Drivetrain.setEncoderValues();
-		Drivetrain.runDrivetrain(joy.leftJoySticky, joy.rightJoyStickx);
-		if(testEncoders)
-		{
-			Drivetrain.testEncoders();
-		}
-		if(testError)
-		{
-			Drivetrain.printError();
-		}
+		System.out.println(joy.lol.getPOV() + "; not lol");
+		System.out.println(joy.lol.getPOV(1) + "; lol");
+		//Drivetrain.setEncoderValues();
+		// Drivetrain.runDrivetrain(joy.leftJoySticky, joy.rightJoyStickx);
+		// if(testEncoders)
+		// {
+		// 	Drivetrain.testEncoders();
+		// }
+		// if(testError)
+		// {
+		// 	Drivetrain.printError();
+		// }
 	}
 
 	@Override
