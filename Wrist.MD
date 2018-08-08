@@ -24,3 +24,5 @@ Since I am out of town, set the wrist to a constant speed for now. Try to pick a
 3. For getting the encoder values use ```wristMotor.getSensorCollection().getQuadraturePosition();```. _Test if the encoder works_. Make the following functions like we always do: ```setEncoderValues()```, ```resetEncoders()```, ```testEncoders()```.
 4. Call the ```resetEncoders()``` function whenever the wrist is flat (when the ```flat``` variable is ```true```). For reseting the encoders, ```wristMotor.getSensorCollection().setQuadraturePosition(0, 10);```
 
+## Step 4: Record the encoder values for each position ##
+Very similar to how each elevator position had its own encoder position, the same thing applies for the wrist. Be sure to 0 the encoders when its flat before you measure the tick count. You can view the tick count by just printing the encoder value from the ```wristMotor```.
