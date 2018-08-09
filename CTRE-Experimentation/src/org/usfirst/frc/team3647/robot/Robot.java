@@ -13,13 +13,13 @@ public class Robot extends IterativeRobot
 	public void robotInit() 
 	{
 		joy = new Joysticks();
-		Drivetrain.driveTrainInitialization();
-		Drivetrain.leftSRX.setNeutralMode(NeutralMode.Brake);
-		Drivetrain.rightSRX.setNeutralMode(NeutralMode.Brake);
-		Drivetrain.leftSPX1.setNeutralMode(NeutralMode.Brake);
-		Drivetrain.leftSPX2.setNeutralMode(NeutralMode.Brake);
-		Drivetrain.rightSPX1.setNeutralMode(NeutralMode.Brake);
-		Drivetrain.rightSPX2.setNeutralMode(NeutralMode.Brake);
+//		Drivetrain.driveTrainInitialization();
+//		Drivetrain.leftSRX.setNeutralMode(NeutralMode.Brake);
+//		Drivetrain.rightSRX.setNeutralMode(NeutralMode.Brake);
+//		Drivetrain.leftSPX1.setNeutralMode(NeutralMode.Brake);
+//		Drivetrain.leftSPX2.setNeutralMode(NeutralMode.Brake);
+//		Drivetrain.rightSPX1.setNeutralMode(NeutralMode.Brake);
+//		Drivetrain.rightSPX2.setNeutralMode(NeutralMode.Brake);
 	}
 
 	@Override
