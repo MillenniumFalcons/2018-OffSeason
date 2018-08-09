@@ -115,8 +115,8 @@ public class Drivetrain
 	
 	public static void kms()
 	{
-		System.out.println("right error: " + rightSRX.getClosedLoopError());
-		System.out.println("left error: " + leftSRX.getClosedLoopError());
+//		System.out.println("right error: " + rightSRX.getClosedLoopError());
+//		System.out.println("left error: " + leftSRX.getClosedLoopError());
 	}
 	
 }
