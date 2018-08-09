@@ -25,7 +25,17 @@ Since I am out of town, set the wrist to a constant speed for now. Try to pick a
 4. Call the ```resetEncoders()``` function whenever the wrist is flat (when the ```flat``` variable is ```true```). For reseting the encoders, ```wristMotor.getSensorCollection().setQuadraturePosition(0, 10);```
 
 ## Step 4: Record the encoder values for each position ##
-Very similar to how each elevator position had its own encoder position, the same thing applies for the wrist. Be sure to reset the encoders when its flat before you measure the tick count. You can view the tick count by just printing the encoder value from the ```wristMotor```. The code you will be editing is in [Constants.java](https://github.com/MillenniumFalcons/2018-PowerUp/blob/master/Robot_Code/src/team3647ConstantsAndFunctions/Constants.java):
+Very similar to how each elevator position had its own encoder position, the same thing applies for the wrist.
+```
+// These are the encoder values for these elevator positions
+public static final double stop = 0;
+public static final double pickUp = 3000;
+public static final double sWitch = 13000;
+public static final double lowerScale = 36300;
+public static final double scale = 41500;
+```
+
+Remember to reset the wrist encoder when its flat before you measure the tick count. You can view the tick count by just printing the encoder value from the ```wristMotor```. The code you will be editing is in [Constants.java](https://github.com/MillenniumFalcons/2018-PowerUp/blob/master/Robot_Code/src/team3647ConstantsAndFunctions/Constants.java):
 
 ```
 //Wrist
@@ -33,3 +43,7 @@ public final static int flat = 0;
 public final static int sixtyDegrees = 0;
 public final static int up = 0;
 ```
+
+Obvious clues:
+* The encoder count for the ```flat``` variable is ```0```, very similar to how the ```stop``` variable had a value of 0.
+* For printing the enoder values, you would use the ```testEncoders()``` function.
