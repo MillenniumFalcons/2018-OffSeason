@@ -7,7 +7,7 @@ public class Joysticks
 {
 	public Joystick mainController = new Joystick(0);
 	public Joystick coController = new Joystick(1);
-	public GenericHID lol = new GenericHID(1);
+	public GenericHID lol = new Joystick(1);
 	
 	// Main contoller Variables
 	public double leftTrigger, rightTrigger, leftJoySticky, leftJoyStickx, rightJoySticky, rightJoyStickx;
