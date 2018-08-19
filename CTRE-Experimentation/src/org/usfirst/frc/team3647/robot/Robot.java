@@ -1,5 +1,7 @@
 package org.usfirst.frc.team3647.robot;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 
 public class Robot extends IterativeRobot 
@@ -8,18 +10,27 @@ public class Robot extends IterativeRobot
 	
 	boolean testEncoders = true;
 	boolean testError = false;
+	boolean driveEncoderPosition, driveEncoderVelocity, driveEncoderVelocityErrorR, driveEncoderVelocityErrorL;
+	
+	public void setTests(){
+		driveEncoderPosition = false;
+		driveEncoderVelocity = false;
+		driveEncoderVelocityErrorR = false;
+		driveEncoderVelocityErrorL = false;
+		
+	}
 	
 	@Override
 	public void robotInit() 
 	{
 		joy = new Joysticks();
-//		Drivetrain.driveTrainInitialization();
-//		Drivetrain.leftSRX.setNeutralMode(NeutralMode.Brake);
-//		Drivetrain.rightSRX.setNeutralMode(NeutralMode.Brake);
-//		Drivetrain.leftSPX1.setNeutralMode(NeutralMode.Brake);
-//		Drivetrain.leftSPX2.setNeutralMode(NeutralMode.Brake);
-//		Drivetrain.rightSPX1.setNeutralMode(NeutralMode.Brake);
-//		Drivetrain.rightSPX2.setNeutralMode(NeutralMode.Brake);
+		Drivetrain.driveTrainInitialization();
+		Drivetrain.leftSRX.setNeutralMode(NeutralMode.Coast);
+		Drivetrain.rightSRX.setNeutralMode(NeutralMode.Coast);
+		Drivetrain.leftSPX1.setNeutralMode(NeutralMode.Coast);
+		Drivetrain.leftSPX2.setNeutralMode(NeutralMode.Coast);
+		Drivetrain.rightSPX1.setNeutralMode(NeutralMode.Coast);
+		Drivetrain.rightSPX2.setNeutralMode(NeutralMode.Coast);
 	}
 
 	@Override
@@ -45,10 +56,9 @@ public class Robot extends IterativeRobot
 	public void teleopPeriodic() 
 	{
 		joy.setMainContollerValues();
-		System.out.println(joy.lol.getPOV() + "; not lol");
-		System.out.println(joy.lol.getPOV(1) + "; lol");
 		//Drivetrain.setEncoderValues();
-		// Drivetrain.runDrivetrain(joy.leftJoySticky, joy.rightJoyStickx);
+		Drivetrain.runMEATDrivetrain(joy.leftJoySticky, joy.rightJoyStickx);
+		//Drivetrain.setSpeed(1, 0);
 		// if(testEncoders)
 		// {
 		// 	Drivetrain.testEncoders();
@@ -57,12 +67,31 @@ public class Robot extends IterativeRobot
 		// {
 		// 	Drivetrain.printError();
 		// }
+		runTests();
 	}
 
 	@Override
 	public void testPeriodic() 
 	{
 		
+	}
+	public void runTests(){
+		if(driveEncoderPosition)
+		{
+			Drivetrain.testEncodersPosition();
+		}
+		else if(driveEncoderVelocity)
+		{
+			Drivetrain.printVelocityError(2);
+		}
+		else if(driveEncoderVelocityErrorR)
+		{
+			Drivetrain.printVelocityError(0);
+		}
+		else if(driveEncoderVelocityErrorL)
+		{
+			Drivetrain.printVelocityError(1);
+		}
 	}
 }
 
