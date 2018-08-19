@@ -8,8 +8,6 @@ public class Robot extends IterativeRobot
 {
 	Joysticks joy;
 	
-	boolean testEncoders = true;
-	boolean testError = false;
 	boolean driveEncoderPosition, driveEncoderVelocity, driveEncoderVelocityErrorR, driveEncoderVelocityErrorL;
 	
 	public void setTests(){
@@ -56,17 +54,9 @@ public class Robot extends IterativeRobot
 	public void teleopPeriodic() 
 	{
 		joy.setMainContollerValues();
-		//Drivetrain.setEncoderValues();
+		Drivetrain.setEncoderValues();
 		Drivetrain.runYeetDrive(joy.leftJoySticky, joy.rightJoyStickx);
 		//Drivetrain.setSpeed(1, 0);
-		// if(testEncoders)
-		// {
-		// 	Drivetrain.testEncoders();
-		// }
-		// if(testError)
-		// {
-		// 	Drivetrain.printError();
-		// }
 		runTests();
 	}
 

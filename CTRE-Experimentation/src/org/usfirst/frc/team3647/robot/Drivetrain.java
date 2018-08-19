@@ -80,25 +80,26 @@ public class Drivetrain
 	
 	public static void runYeetDrive(double yValue, double xValue)
 	{
-		speed = Math.pow(yValue, 1.96);
-		turn = Math.pow(xValue, 1.96);
+		speed = deadZone(Math.pow(yValue, 1.96));
+		turn = deadZone(Math.pow(xValue, 1.96));
+		
 		if(turn == 0)
 		{
 			turnRatioR = 1;
 			turnRatioL = 1;
 		}
-		else if (speed == 0 && turn != 0)
+		else if (speed == 0)
 		{
 			turnRatioR = -1;
 			turnRatioL = 1;
 			speed = turn;
 		}
-		else if(turn>0)
+		else if(turn>0 && !(speed == 0))
 		{
 			turnRatioR = 1 - turn;
 			turnRatioL = 1;
 		}
-		else if(turn<0)
+		else if(turn<0 &&!(speed == 0))
 		{
 			turnRatioR = 1;
 			turnRatioL = 1 - turn;
@@ -121,12 +122,12 @@ public class Drivetrain
 	
 	public static double leftEncoderValue, rightEncoderValue, leftEncoderVelocity, rightEncoderVelocity;
 	
-	public void setEncoderValues()
+	public static void setEncoderValues()
 	{
-		leftEncoderValue = leftSRX.getSensorCollection().getQuadraturePosition();
-		rightEncoderValue = -rightSRX.getSensorCollection().getQuadraturePosition();
-		leftEncoderVelocity = leftSRX.getSelectedSensorVelocity();
-		rightEncoderVelocity = -rightSRX.getSelectedSensorVelocity();
+		leftEncoderValue = leftSRX.getSelectedSensorPosition(Constants.drivePID);
+		rightEncoderValue = -rightSRX.getSelectedSensorPosition(Constants.drivePID);
+		leftEncoderVelocity = leftSRX.getSelectedSensorVelocity(Constants.drivePID);
+		rightEncoderVelocity = -rightSRX.getSelectedSensorVelocity(Constants.drivePID);
 	}
 	
 	public static void resetEncoders()
@@ -139,12 +140,6 @@ public class Drivetrain
 	{
 		System.out.println("Left Encoder Value: " + leftEncoderValue);
 		System.out.println("Right Encoder Value: " + rightEncoderValue);
-	}
-	
-	public static void testEncoderVelocity()
-	{
-		System.out.println("Left Encoder Velocity: " + leftEncoderVelocity);
-		System.out.println("Right Encoder Velocity: " + rightEncoderVelocity);
 	}
 	
 	public static void printValueError()
@@ -170,24 +165,37 @@ public class Drivetrain
 		int leftVelocityError = leftSRX.getClosedLoopError(Constants.drivePID);
 		int velocityDifference = Math.abs(rightSRX.getSelectedSensorVelocity() - leftSRX.getSelectedSensorVelocity());
 		
-		if(side == 0)//right
+		switch(side)//right
 		{
+		case 0:
+			
 			System.out.println("Target: " + targetVelocityRight + "Actual: " + rightEncoderVelocity + "Error: " + rightVelocityError);
-		}
-		else if(side == 1)//left
-		{
+			break;
+			
+		case 1://left
+			
 			System.out.println("Target: " + targetVelocityLeft + "Actual: " + leftEncoderVelocity + "Error: " + leftVelocityError);
-		}
-		else if(side == 2)//both
-		{
+			break;
+			
+		case 2://both
+		
 			System.out.println("Difference between Velocity: " + velocityDifference + "Right Velocity: " + rightEncoderVelocity + "Left Velocity: " + leftEncoderVelocity);
+			break;
 		}
 	}
 	
-	public static void kms()
-	{
-//		System.out.println("right error: " + rightSRX.getClosedLoopError());
-//		System.out.println("left error: " + leftSRX.getClosedLoopError());
-	}
+	public static double adjustedJValue;
 	
+	public static double deadZone(double input)
+	{
+		if(Math.abs(input) < Constants.deadZone)
+		{
+			adjustedJValue = 0;
+		}
+		else
+		{
+			adjustedJValue = input;
+		}
+		return (adjustedJValue);
+	}
 }

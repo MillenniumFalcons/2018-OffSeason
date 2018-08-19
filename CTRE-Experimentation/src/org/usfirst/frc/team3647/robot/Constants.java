@@ -22,4 +22,7 @@ public class Constants
 	public final static double rDrivekI = 0;
 	public final static double rDrivekD = 0;
 	public final static double velocityConstant = 1024 * 759 / 600; //ticks * free RPM / (1 minute divided by 100ms)
+	
+	public final static double deadZone = 0.05;
+	
 }
