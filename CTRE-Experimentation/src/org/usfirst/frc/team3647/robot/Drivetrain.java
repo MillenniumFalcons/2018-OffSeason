@@ -78,7 +78,7 @@ public class Drivetrain
 	public static double turnRatioR;
 	public static double turnRatioL;
 	
-	public static void runMEATDrivetrain(double yValue, double xValue)
+	public static void runYeetDrive(double yValue, double xValue)
 	{
 		speed = Math.pow(yValue, 1.96);
 		turn = Math.pow(xValue, 1.96);

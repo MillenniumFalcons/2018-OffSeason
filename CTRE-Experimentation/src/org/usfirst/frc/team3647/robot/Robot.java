@@ -57,7 +57,7 @@ public class Robot extends IterativeRobot
 	{
 		joy.setMainContollerValues();
 		//Drivetrain.setEncoderValues();
-		Drivetrain.runMEATDrivetrain(joy.leftJoySticky, joy.rightJoyStickx);
+		Drivetrain.runYeetDrive(joy.leftJoySticky, joy.rightJoyStickx);
 		//Drivetrain.setSpeed(1, 0);
 		// if(testEncoders)
 		// {
