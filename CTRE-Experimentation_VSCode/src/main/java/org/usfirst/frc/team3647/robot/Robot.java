@@ -8,14 +8,18 @@ public class Robot extends IterativeRobot
 {
 	Joysticks joy;
 	
-	boolean driveEncoderPosition, driveEncoderVelocity, driveEncoderVelocityErrorR, driveEncoderVelocityErrorL;
+	boolean driveEncoderPosition, driveEncoderVelocity, driveEncoderVelocityErrorR, driveEncoderVelocityErrorL, wristEncoderPosition, wristMotorCurrent, wristBannerSensor, wristLimitSwitch, intakeBannerSensor;
 	
 	public void setTests(){
 		driveEncoderPosition = false;
 		driveEncoderVelocity = false;
 		driveEncoderVelocityErrorR = false;
 		driveEncoderVelocityErrorL = false;
-		
+		wristEncoderPosition = false;
+		wristMotorCurrent = false;
+		wristBannerSensor = false;
+		intakeBannerSensor = false;
+		wristLimitSwitch = false;
 	}
 	
 	@Override
@@ -23,12 +27,6 @@ public class Robot extends IterativeRobot
 	{
 		joy = new Joysticks();
 		Drivetrain.driveTrainInitialization();
-		Drivetrain.leftSRX.setNeutralMode(NeutralMode.Coast);
-		Drivetrain.rightSRX.setNeutralMode(NeutralMode.Coast);
-		Drivetrain.leftSPX1.setNeutralMode(NeutralMode.Coast);
-		Drivetrain.leftSPX2.setNeutralMode(NeutralMode.Coast);
-		Drivetrain.rightSPX1.setNeutralMode(NeutralMode.Coast);
-		Drivetrain.rightSPX2.setNeutralMode(NeutralMode.Coast);
 	}
 
 	@Override
@@ -53,10 +51,11 @@ public class Robot extends IterativeRobot
 	@Override
 	public void teleopPeriodic() 
 	{
-		joy.setMainContollerValues();
+		updateJoysticks();
 		Drivetrain.setEncoderValues();
 		Drivetrain.runYeetDrive(joy.leftJoySticky, joy.rightJoyStickx);
 		//Drivetrain.setSpeed(1, 0);
+		runWrist();
 		runTests();
 	}
 
@@ -65,6 +64,22 @@ public class Robot extends IterativeRobot
 	{
 		
 	}
+
+	public void updateJoysticks()
+	{
+		joy.setMainContollerValues();
+		joy.setCoDriverContollerValues();
+		joy.setDPadValues();
+	}
+
+	public void runWrist()
+	{
+		Wrist.setWristEncoder();
+		Wrist.setWristButtons(joy.dPadDown,joy.dPadSide,joy.dPadUp);
+		Wrist.setManualWristOverride(joy.leftJoySticky * 0.6);
+		Wrist.runWrist();
+	}
+
 	public void runTests(){
 		if(driveEncoderPosition)
 		{
@@ -81,6 +96,22 @@ public class Robot extends IterativeRobot
 		else if(driveEncoderVelocityErrorL)
 		{
 			Drivetrain.printVelocityError(1);
+		}
+		else if(wristEncoderPosition)
+		{
+			Wrist.testWristEncoder();
+		}
+		else if(wristMotorCurrent)
+		{
+			Wrist.testWristCurrent();
+		}
+		else if(intakeBannerSensor)
+		{
+			Wrist.testBannerSensor();
+		}
+		else if(wristLimitSwitch)
+		{
+			Wrist.testLimitSwitch();
 		}
 	}
 }

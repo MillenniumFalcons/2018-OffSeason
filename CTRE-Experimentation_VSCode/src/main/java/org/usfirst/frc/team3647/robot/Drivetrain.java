@@ -23,38 +23,45 @@ public class Drivetrain
 	
 	public static void driveTrainInitialization()
 	{
+		//Config left side PID settings
 		leftSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder , 0, Constants.kTimeoutMs);
 		leftSRX.setSensorPhase(true);
 		leftSRX.configNominalOutputForward(0, Constants.kTimeoutMs);
 		leftSRX.configNominalOutputReverse(0, Constants.kTimeoutMs);
 		leftSRX.configPeakOutputForward(1, Constants.kTimeoutMs);
 		leftSRX.configPeakOutputReverse(-1, Constants.kTimeoutMs);
-		
+		//Config left side PID Values
 		leftSRX.selectProfileSlot(Constants.drivePID, 0);
 		leftSRX.config_kF(Constants.drivePID, Constants.lDrivekF, Constants.kTimeoutMs);
 		leftSRX.config_kP(Constants.drivePID, Constants.lDrivekP, Constants.kTimeoutMs);
 		leftSRX.config_kI(Constants.drivePID, Constants.lDrivekI, Constants.kTimeoutMs);
 		leftSRX.config_kD(Constants.drivePID, Constants.lDrivekD, Constants.kTimeoutMs);
-			
-		rightSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder , 0, Constants.kTimeoutMs);
+		//Config right side PID settings
+		rightSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder , Constants.drivePID, Constants.kTimeoutMs);
 		rightSRX.setSensorPhase(true);
 		rightSRX.configNominalOutputForward(0, Constants.kTimeoutMs);
 		rightSRX.configNominalOutputReverse(0, Constants.kTimeoutMs);
 		rightSRX.configPeakOutputForward(1, Constants.kTimeoutMs);
 		rightSRX.configPeakOutputReverse(-1, Constants.kTimeoutMs);
-		
+		//Config right side PID Values
 		rightSRX.selectProfileSlot(Constants.drivePID, 0);
 		rightSRX.config_kF(Constants.drivePID, Constants.rDrivekF, Constants.kTimeoutMs);
 		rightSRX.config_kP(Constants.drivePID, Constants.rDrivekP, Constants.kTimeoutMs);
 		rightSRX.config_kI(Constants.drivePID, Constants.rDrivekI, Constants.kTimeoutMs);
 		rightSRX.config_kD(Constants.drivePID, Constants.rDrivekD, Constants.kTimeoutMs);
-		
+		//Set up followers
 		leftSPX1.follow(leftSRX);
-		leftSPX2.follow(leftSRX);    
+		leftSPX2.follow(leftSRX);
 		rightSPX1.follow(rightSRX);
 		rightSPX2.follow(rightSRX);
+		//Set neutral mode
+		Drivetrain.leftSRX.setNeutralMode(NeutralMode.Coast);
+		Drivetrain.rightSRX.setNeutralMode(NeutralMode.Coast);
+		Drivetrain.leftSPX1.setNeutralMode(NeutralMode.Coast);
+		Drivetrain.leftSPX2.setNeutralMode(NeutralMode.Coast);
+		Drivetrain.rightSPX1.setNeutralMode(NeutralMode.Coast);
+		Drivetrain.rightSPX2.setNeutralMode(NeutralMode.Coast);
 	}
-	
 	
 	public static void runArcadeDrivetrain(double yValue, double xValue)
 	{
@@ -78,7 +85,7 @@ public class Drivetrain
 	public static double turnRatioR;
 	public static double turnRatioL;
 	
-	public static void runYeetDrive(double yValue, double xValue)
+	public static void runYeetDrive(double yValue, double xValue) // doesn't work lmao
 	{
 		speed = deadZone(Math.pow(yValue, 1.96));
 		turn = deadZone(Math.pow(xValue, 1.96));
