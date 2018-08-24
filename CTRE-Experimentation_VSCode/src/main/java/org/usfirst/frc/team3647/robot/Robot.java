@@ -8,13 +8,14 @@ public class Robot extends IterativeRobot
 {
 	Joysticks joy;
 	
-	boolean driveEncoderPosition, driveEncoderVelocity, driveEncoderVelocityErrorR, driveEncoderVelocityErrorL, wristEncoderPosition, wristMotorCurrent, wristBannerSensor, wristLimitSwitch, intakeBannerSensor;
+	boolean driveEncoderPosition, driveEncoderVelocity, driveEncoderVelocityErrorR, driveEncoderVelocityErrorL, driveVelocity, wristEncoderPosition, wristMotorCurrent, wristBannerSensor, wristLimitSwitch, intakeBannerSensor;
 	
 	public void setTests(){
 		driveEncoderPosition = false;
-		driveEncoderVelocity = true;
+		driveEncoderVelocity = false;
 		driveEncoderVelocityErrorR = false;
 		driveEncoderVelocityErrorL = false;
+		driveVelocity = true;
 		wristEncoderPosition = false;
 		wristMotorCurrent = false;
 		wristBannerSensor = false;
@@ -48,15 +49,15 @@ public class Robot extends IterativeRobot
 		Drivetrain.resetEncoders();
 		Wrist.aimedWristState = 0;
 		Elevator.aimedElevatorState = 0;
+		Drivetrain.setEncoderValues();
 	}
 	
 	@Override
 	public void teleopPeriodic() 
 	{
 		updateJoysticks();
-		Drivetrain.setEncoderValues();
 		//Drivetrain.runYeetDrive(joy.leftJoySticky, joy.rightJoyStickx);
-		Drivetrain.setSpeed(1, 1);
+		//runDrive(1, -1);
 		//runWrist();
 		//runElevator();
 		runTests();
@@ -122,6 +123,10 @@ public class Robot extends IterativeRobot
 		else if(wristLimitSwitch)
 		{
 			Wrist.testLimitSwitch();
+		}
+		else if(driveEncoderVelocity)
+		{
+			Drivetrain.printVelocity();
 		}
 	}
 }

@@ -121,10 +121,16 @@ public class Drivetrain
 	
 	public static void setSpeed(double lSpeed, double rSpeed)
 	{
-		targetVelocityRight = rSpeed * Constants.velocityConstant;
-		targetVelocityLeft = lSpeed * Constants.velocityConstant;
-		rightSRX.set(ControlMode.Velocity, targetVelocityRight);
-		leftSRX.set(ControlMode.Velocity, targetVelocityLeft);
+		//targetVelocityRight = rSpeed * Constants.velocityConstant;
+		//targetVelocityLeft = lSpeed * Constants.velocityConstant;
+		//rightSRX.set(ControlMode.Velocity, targetVelocityRight);
+		//leftSRX.set(ControlMode.Velocity, targetVelocityLeft);
+	}
+
+	public static void runDrive(double lSpeed, double rSpeed)
+	{
+		rightSRX.set(ControlMode.PercentOutput, rSpeed);
+		leftSRX.set(ControlMode.PercentOutput, lSpeed);
 	}
 	
 	public static double leftEncoderValue, rightEncoderValue, leftEncoderVelocity, rightEncoderVelocity;
@@ -189,6 +195,12 @@ public class Drivetrain
 			System.out.println("Difference between Velocity: " + velocityDifference + "Right Velocity: " + rightEncoderVelocity + "Left Velocity: " + leftEncoderVelocity);
 			break;
 		}
+	}
+
+	public static void printVelocity()
+	{
+		//System.out.println("Right Velocity: " + rightSRX.getSelectedSensorVelocity(Constants.drivePID) + "Left Velocity: " + leftSRX.getSelectedSensorVelocity(Constants.drivePID));
+		System.out.println("attemping print");
 	}
 	
 	public static double adjustedJValue;
