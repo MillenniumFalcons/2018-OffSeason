@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 
 public class Wrist {
 	public static int elevatorState, aimedElevatorState;
-	public static int wristState, aimedWristState;
+	public static int aimedWristState;
 	/*
 	 * 0. Surya Big Gay
 	 * 1. Flat
@@ -162,6 +162,10 @@ public class Wrist {
 			{
 				aimedWristState = 3;
 			}
+			else if(manualOverride)
+			{
+				aimedWristState = -1;
+			}
 			switch(aimedWristState)
 			{
 				case 0:
@@ -182,6 +186,13 @@ public class Wrist {
 				break;
 				case 3:
 					moveWristPosition(Constants.idle);
+				break;
+				case -1:
+					if(!manualOverride)
+					{
+						overrideValue = 0;
+					}
+					moveWrist(overrideValue);
 				break;
 			}
 		}
@@ -220,6 +231,13 @@ public class Wrist {
 				break;
 				case 3:
 					moveWristPosition(Constants.idle);
+				break;
+				case -1:
+					if(!manualOverride)
+					{
+						overrideValue = 0;
+					}
+					moveWrist(overrideValue);
 				break;
 			}
 		}
