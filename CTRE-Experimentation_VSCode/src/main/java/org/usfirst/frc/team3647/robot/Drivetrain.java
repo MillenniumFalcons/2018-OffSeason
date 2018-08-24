@@ -199,8 +199,8 @@ public class Drivetrain
 
 	public static void printVelocity()
 	{
-		//System.out.println("Right Velocity: " + rightSRX.getSelectedSensorVelocity(Constants.drivePID) + "Left Velocity: " + leftSRX.getSelectedSensorVelocity(Constants.drivePID));
-		System.out.println("attemping print");
+		System.out.println("Right Velocity: " + rightSRX.getSelectedSensorVelocity(Constants.drivePID) + "Left Velocity: " + leftSRX.getSelectedSensorVelocity(Constants.drivePID));
+		//System.out.println("attemping print");
 	}
 	
 	public static double adjustedJValue;

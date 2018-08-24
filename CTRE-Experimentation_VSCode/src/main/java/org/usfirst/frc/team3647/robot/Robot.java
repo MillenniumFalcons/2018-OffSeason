@@ -50,6 +50,7 @@ public class Robot extends IterativeRobot
 		Wrist.aimedWristState = 0;
 		Elevator.aimedElevatorState = 0;
 		Drivetrain.setEncoderValues();
+		setTests();
 	}
 	
 	@Override
@@ -57,7 +58,7 @@ public class Robot extends IterativeRobot
 	{
 		updateJoysticks();
 		//Drivetrain.runYeetDrive(joy.leftJoySticky, joy.rightJoyStickx);
-		//runDrive(1, -1);
+		runDrive(1, -1);
 		//runWrist();
 		//runElevator();
 		runTests();
@@ -124,7 +125,7 @@ public class Robot extends IterativeRobot
 		{
 			Wrist.testLimitSwitch();
 		}
-		else if(driveEncoderVelocity)
+		else if(driveVelocity)
 		{
 			Drivetrain.printVelocity();
 		}
