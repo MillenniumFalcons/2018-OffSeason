@@ -48,31 +48,35 @@ public class Constants
 	public final static int cubeI = 0;
 	public final static int cubeD = 0;
 
-	//Wrist level Speeds
-
-		//flat
-	public final static double moveToFlat = -0.1;
-	public final static double aimMoveToFlat = -0.3;
-	public final static double idleMoveToFlat = -0.25;
-		//aim
-	public final static double idleMoveToAim = -0.2;
-	public final static double moveToAim = 0.3;
-	public final static double maintainAimWithCube = 0.17;
-	public final static double maintainAim = 0.1;
-	public final static double adjustAimUpWithCube = 0.2;
-	public final static double adjustAimUp = 0.15;
-	public final static double adjustAimDownWithCube = 0;
-	public final static double adjustAimDown = 0;
-		//idle
-	public final static double moveToIdle = 0.3;
-	public final static double maintainIdleWithcube = 0.15;
-	public final static double maintainIdle = 0;
-	public final static double adjustIdleUpWithCube = 0.2;
-	public final static double adjustidleUp = 0.15;
-	public final static double adjustIdleDownWithCube = -0.15;
-	public final static double adjustIdleDown = -0.1;
-
 	//intake
 	public final static int intakeBannerSensor = 8;
+
+	//Elevator Pins
+	public final static int leftGearboxSRX = 52;
+	public final static int rightGearboxSRX = 62;
+	public final static int leftGearboxSPX = 54;
+	public final static int rightGearboxSPX = 57;
+	public final static int elevatorBannerSensor = 9;
+
+	//Elevator Position
+	public static final double bottom = 0;
+	public static final double sWitch = 13000;
+	public static final double lowerScale = 36300;
+	public static final double scale = 41500;
+	public static final double climb = 11000;
+
+	// Elevator PID Values
+		//carriage only
+	public final static int carriagePID = 0;
+	public final static int carriageF = 0;
+	public final static int carriageP = 0;
+	public final static int carriageI = 0;
+	public final static int carriageD = 0;
+		//interstage
+	public final static int interstagePID = 1;
+	public final static int interstageP = 0;
+	public final static int interstageF = 0;
+	public final static int interstageI = 0;
+	public final static int interstageD = 0;
 	
 }

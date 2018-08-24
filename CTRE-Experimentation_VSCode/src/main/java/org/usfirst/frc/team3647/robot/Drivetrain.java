@@ -85,39 +85,39 @@ public class Drivetrain
 	public static double turnRatioR;
 	public static double turnRatioL;
 	
-	public static void runYeetDrive(double yValue, double xValue) // doesn't work lmao
-	{
-		speed = deadZone(Math.pow(yValue, 1.96));
-		turn = deadZone(Math.pow(xValue, 1.96));
+	// public static void runYeetDrive(double yValue, double xValue) // doesn't work lmao
+	// {
+	// 	speed = deadZone(Math.pow(yValue, 1.96));
+	// 	turn = deadZone(Math.pow(xValue, 1.96));
 		
-		if(turn == 0)
-		{
-			turnRatioR = 1;
-			turnRatioL = 1;
-		}
-		else if (speed == 0)
-		{
-			turnRatioR = -1;
-			turnRatioL = 1;
-			speed = turn;
-		}
-		else if(turn>0 && !(speed == 0))
-		{
-			turnRatioR = 1 - turn;
-			turnRatioL = 1;
-		}
-		else if(turn<0 &&!(speed == 0))
-		{
-			turnRatioR = 1;
-			turnRatioL = 1 - turn;
-		}
-		rSpeed = speed * Math.pow(turnRatioR, 2);
-		lSpeed = speed * Math.pow(turnRatioL, 2);
-		targetVelocityRight = rSpeed * Constants.velocityConstant;
-		targetVelocityLeft = lSpeed * Constants.velocityConstant;
-		rightSRX.set(ControlMode.Velocity, targetVelocityRight);
-		leftSRX.set(ControlMode.Velocity, targetVelocityLeft);
-	}
+	// 	if(turn == 0)
+	// 	{
+	// 		turnRatioR = 1;
+	// 		turnRatioL = 1;
+	// 	}
+	// 	else if (speed == 0)
+	// 	{
+	// 		turnRatioR = -1;
+	// 		turnRatioL = 1;
+	// 		speed = turn;
+	// 	}
+	// 	else if(turn>0 && !(speed == 0))
+	// 	{
+	// 		turnRatioR = 1 - turn;
+	// 		turnRatioL = 1;
+	// 	}
+	// 	else if(turn<0 &&!(speed == 0))
+	// 	{
+	// 		turnRatioR = 1;
+	// 		turnRatioL = 1 - turn;
+	// 	}
+	// 	rSpeed = speed * Math.pow(turnRatioR, 2);
+	// 	lSpeed = speed * Math.pow(turnRatioL, 2);
+	// 	targetVelocityRight = rSpeed * Constants.velocityConstant;
+	// 	targetVelocityLeft = lSpeed * Constants.velocityConstant;
+	// 	rightSRX.set(ControlMode.Velocity, targetVelocityRight);
+	// 	leftSRX.set(ControlMode.Velocity, targetVelocityLeft);
+	// }
 	
 	public static void setSpeed(double lSpeed, double rSpeed)
 	{
