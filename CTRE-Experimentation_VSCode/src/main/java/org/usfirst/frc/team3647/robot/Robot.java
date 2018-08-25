@@ -13,9 +13,9 @@ public class Robot extends IterativeRobot
 	public void setTests(){
 		driveEncoderPosition = false;
 		driveEncoderVelocity = false;
-		driveEncoderVelocityErrorR = false;
+		driveEncoderVelocityErrorR = true;
 		driveEncoderVelocityErrorL = false;
-		driveVelocity = true;
+		driveVelocity = false;
 		wristEncoderPosition = false;
 		wristMotorCurrent = false;
 		wristBannerSensor = false;
@@ -56,9 +56,12 @@ public class Robot extends IterativeRobot
 	@Override
 	public void teleopPeriodic() 
 	{
+		Drivetrain.setEncoderValues();
 		updateJoysticks();
 		//Drivetrain.runYeetDrive(joy.leftJoySticky, joy.rightJoyStickx);
-		runDrive(1, -1);
+		//Drivetrain.runDrive(1, -1);
+		Drivetrain.runArcadeDrivetrain(joy.leftJoySticky, -joy.rightJoyStickx);
+		//Drivetrain.setSpeed(1, 1);
 		//runWrist();
 		//runElevator();
 		runTests();

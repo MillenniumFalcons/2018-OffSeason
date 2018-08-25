@@ -15,15 +15,15 @@ public class Constants
 	public final static boolean kSensorPhase = true;
 	public final static boolean kMotorInvert = false;
 	//Drive PID Constants
-	public final static double lDrivekF = 0.0274;
-	public final static double lDrivekP = 0.113333;
+	public final static double lDrivekF = 0.577966;
+	public final static double lDrivekP = 0;
 	public final static double lDrivekI = 0;
 	public final static double lDrivekD = 0;
-	public final static double rDrivekF = 0.0274;
-	public final static double rDrivekP = 0.113333;
+	public final static double rDrivekF = 0.571189;
+	public final static double rDrivekP = 0;
 	public final static double rDrivekI = 0;
 	public final static double rDrivekD = 0;
-	public final static double velocityConstant = 1024 * 759 / 600; //ticks * free RPM / (1 minute divided by 100ms)
+	public final static double velocityConstant = 1770; //ticks * free RPM / (1 minute divided by 100ms) //1830
 	
 	public final static double deadZone = 0.05;
 

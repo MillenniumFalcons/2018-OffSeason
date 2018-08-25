@@ -66,12 +66,12 @@ public class Drivetrain
 	public static void runArcadeDrivetrain(double yValue, double xValue)
 	{
 		
-		speed = Math.pow(yValue, 1.9);
-		turn = Math.pow(xValue, 1.9);
-	//	checks = Math.abs(yValue);
-	//	checkt = Math.abs(xValue);
-	//	speed = checks * yValue;
-	//	turn = checkt * xValue;
+	//	speed = Math.pow(yValue, 1.9);
+	//	turn = Math.pow(xValue, 1.9);
+		checks = Math.abs(yValue);
+		checkt = Math.abs(xValue);
+		speed = checks * yValue;
+		turn = checkt * xValue;
 		
 		lSpeed = speed + turn;
 		rSpeed = -speed - turn;
@@ -121,10 +121,10 @@ public class Drivetrain
 	
 	public static void setSpeed(double lSpeed, double rSpeed)
 	{
-		//targetVelocityRight = rSpeed * Constants.velocityConstant;
-		//targetVelocityLeft = lSpeed * Constants.velocityConstant;
-		//rightSRX.set(ControlMode.Velocity, targetVelocityRight);
-		//leftSRX.set(ControlMode.Velocity, targetVelocityLeft);
+		targetVelocityRight = -rSpeed * Constants.velocityConstant;
+		targetVelocityLeft = lSpeed * Constants.velocityConstant;
+		rightSRX.set(ControlMode.Velocity, targetVelocityRight);
+		leftSRX.set(ControlMode.Velocity, targetVelocityLeft);
 	}
 
 	public static void runDrive(double lSpeed, double rSpeed)
@@ -174,9 +174,10 @@ public class Drivetrain
 	
 	public static void printVelocityError(int side)
 	{
-		int rightVelocityError = rightSRX.getClosedLoopError(Constants.drivePID);
-		int leftVelocityError = leftSRX.getClosedLoopError(Constants.drivePID);
-		int velocityDifference = Math.abs(rightSRX.getSelectedSensorVelocity(Constants.drivePID) - leftSRX.getSelectedSensorVelocity(Constants.drivePID));
+		int rightVelocityError = -rightSRX.getClosedLoopError(Constants.drivePID);
+		int leftVelocityError = leftSRX.getSelectedSensorVelocity(Constants.drivePID);
+		
+		int velocityDifference = Math.abs(Math.abs(rightSRX.getSelectedSensorVelocity(Constants.drivePID)) - Math.abs(leftSRX.getSelectedSensorVelocity(Constants.drivePID)));
 		
 		switch(side)//right
 		{
