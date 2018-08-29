@@ -14,8 +14,8 @@ public class ReadMotionProfileData
 	public static double[] position = new double[154];	//**NEED WAY TO DYNAMICALLY CHANGE ARRAY SIZE**
 	public static double[] velocity = new double[154];	//**NEED WAY TO DYNAMICALLY CHANGE ARRAY SIZE**
     public static int[] dT = new int[154];		//**NEED WAY TO DYNAMICALLY CHANGE ARRAY SIZE**
+    public static double[][] data = arrayConvert(154);
     
-    private double data[][];
     private int pointTimeMilliS;
 
     //take file path input ex: C:\\Users\\Username\\Downloads\\file.csv
@@ -57,5 +57,22 @@ public class ReadMotionProfileData
     		
     		count++;
     	}
+    }
+
+    public static double[][] arrayConvert(int rows)
+    {
+        double[][] output = new double[rows][2];
+        for(int i = 0; i < rows; i++)
+        {
+            for(int j = 0; j < 2; j++)
+            {
+            	if(j == 0)
+            		output[i][j] = position[i];
+            	else if(j == 1)
+            		output[i][j] = velocity[i];
+            }
+        }
+
+        return output;
     }
 }
