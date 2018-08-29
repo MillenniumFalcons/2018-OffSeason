@@ -33,7 +33,7 @@ public class Robot extends IterativeRobot
 	@Override
 	public void autonomousInit() 
 	{
-		Autonomous.autonomousIntialization();
+		Autonomous.runAuto();
 	}
 
 	@Override
