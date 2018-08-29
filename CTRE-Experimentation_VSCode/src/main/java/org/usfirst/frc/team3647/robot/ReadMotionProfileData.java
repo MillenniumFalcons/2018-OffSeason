@@ -3,55 +3,59 @@ package org.usfirst.frc.team3647.robot;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.List;
+import java.util.*;
 
 public class ReadMotionProfileData
 {
+    //This ArrayList contains all the values (unseparated) from a CSV file
+    public static List<String> allValues = new ArrayList<String>();
+    //These arrays below contain the parsed values of ArrayList
+	//**NEED WAY TO DYNAMICALLY CHANGE ARRAY SIZE**
+	public static double[] position = new double[154];	//**NEED WAY TO DYNAMICALLY CHANGE ARRAY SIZE**
+	public static double[] velocity = new double[154];	//**NEED WAY TO DYNAMICALLY CHANGE ARRAY SIZE**
+    public static int[] dT = new int[154];		//**NEED WAY TO DYNAMICALLY CHANGE ARRAY SIZE**
+    
     private double data[][];
     private int pointTimeMilliS;
 
-    public ReadMotionProfileData(String filename, boolean reversed)
+    //take file path input ex: C:\\Users\\Username\\Downloads\\file.csv
+    public void parseCSVFile(String csvFile) throws IOException
     {
-        pointTimeMilliS = 0;
-        try
+        String line = "";
+        String cvsSplitBy = ",";
+
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) 
         {
-            readFile(filename);
-        }
-        catch(IOException exception)
-        {
-            exception.printStackTrace();
-        }
-    }
 
-    private void readFile(String filename) throws IOException
-    {
-        BufferedReader bufferReader = new BufferedReader(new FileReader(filename));
-        int lines = Integer.parseInt(bufferReader.readLine());
-
-        data = new double[lines][3];
-        String[] line;
-        double[] temp;
-
-        for(int i = 1; i < lines; i++)
-        {
-            line = bufferReader.readLine().split(",\t");
-            temp = new double[4];
-
-            temp[0] = Double.parseDouble(line[0]);
-            temp[1] = Double.parseDouble(line[1]);
-            temp[2] = Double.parseDouble(line[2]);
-
-            if(pointTimeMilliS == 0) // convert to milliseconds and only do it once
+            while ((line = br.readLine()) != null) 
             {
-                pointTimeMilliS = (int) (Double.parseDouble(line[3]) * 1000);
-            }
-            data[i] = temp;
-        }
-        bufferReader.close();
-    }
 
-    public double[][] getMPData()
-    {
-        return data;
+                // use comma as separator
+                String[] country = line.split(cvsSplitBy);
+
+                System.out.println("Country [code= " + country[4] + " , name=" + country[5] + "]");
+
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        //parses the list that contains all the values of CSV and assigns each value to its respective type
+        int count = 0;
+    	//parsing for Position, Velocity, and dT
+    	for(int i = 0; i < allValues.size(); i+=3)
+    	{
+    		allValues.set(i, allValues.get(i).replace(" ", ""));
+    		position[count] = Double.parseDouble(allValues.get(i));
+    		
+    		allValues.set(i+1, allValues.get(i+1).replace(" ", ""));
+    		velocity[count] = Double.parseDouble(allValues.get(i+1));
+    		
+    		allValues.set(i+2, allValues.get(i+2).replace(" ", ""));
+    		dT[count] = Integer.parseInt(allValues.get(i+2));
+    		
+    		count++;
+    	}
     }
 }
