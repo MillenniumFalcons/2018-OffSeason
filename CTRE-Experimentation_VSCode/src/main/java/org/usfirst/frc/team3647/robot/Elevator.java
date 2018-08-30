@@ -118,7 +118,7 @@ public class Elevator
 		}
 	}
     
-	public static void runDarthVader()
+	public static void runElevator()
 	{
 		if(bottom)
 		{

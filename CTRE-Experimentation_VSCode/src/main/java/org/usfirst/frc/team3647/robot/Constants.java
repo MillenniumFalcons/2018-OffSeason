@@ -68,15 +68,15 @@ public class Constants
 	// Elevator PID Values
 		//carriage only
 	public final static int carriagePID = 0;
-	public final static int carriageF = 0;
-	public final static int carriageP = 0;
-	public final static int carriageI = 0;
-	public final static int carriageD = 0;
+	public final static double carriageF = 0;
+	public final static double carriageP = 0;
+	public final static double carriageI = 0;
+	public final static double carriageD = 0;
 		//interstage
 	public final static int interstagePID = 1;
-	public final static int interstageP = 0;
-	public final static int interstageF = 0;
-	public final static int interstageI = 0;
-	public final static int interstageD = 0;
+	public final static double interstageP = 2;
+	public final static double interstageF = 0;
+	public final static double interstageI = 0;
+	public final static double interstageD = 0;
 	
 }

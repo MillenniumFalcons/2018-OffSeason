@@ -29,6 +29,7 @@ public class Robot extends IterativeRobot
 		joy = new Joysticks();
 		Drivetrain.driveTrainInitialization();
 		Wrist.wristInitialization();
+		Elevator.elevatorInitialization();
 	}
 
 	@Override
@@ -63,7 +64,7 @@ public class Robot extends IterativeRobot
 		//Drivetrain.runArcadeDrivetrain(joy.leftJoySticky, joy.rightJoyStickx);
 		//Drivetrain.setSpeed(joy.leftJoySticky, joy.leftJoySticky);
 		runWrist();
-		//runElevator();
+		runElevator();
 		runTests();
 		Compressor007.runCompressor();
 	}
@@ -93,7 +94,7 @@ public class Robot extends IterativeRobot
 		Elevator.setElevatorEncoder();
 		Elevator.setElevatorButtons(joy.buttonA1, joy.buttonB1,  joy.buttonY1, joy.buttonX1);
 		Elevator.setManualOverride(joy.rightJoySticky1 * .6);
-		Elevator.runDarthVader();
+		Elevator.runElevator();
 	}
 
 	public void runTests(){
