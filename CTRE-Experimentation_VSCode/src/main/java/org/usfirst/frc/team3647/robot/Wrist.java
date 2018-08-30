@@ -178,7 +178,7 @@ public class Wrist {
 					}
 					else
 					{
-						stopWrist();
+						moveWrist(-.2);
 					}
 				break;
 				case 2:

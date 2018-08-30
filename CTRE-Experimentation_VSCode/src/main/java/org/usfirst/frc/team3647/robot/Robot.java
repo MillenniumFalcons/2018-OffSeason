@@ -13,13 +13,13 @@ public class Robot extends IterativeRobot
 	public void setTests(){
 		driveEncoderPosition = false;
 		driveEncoderVelocity = false;
-		driveEncoderVelocityErrorR = true;
+		driveEncoderVelocityErrorR = false;
 		driveEncoderVelocityErrorL = false;
 		driveVelocity = false;
-		wristEncoderPosition = false;
+		wristEncoderPosition = true;
 		wristMotorCurrent = false;
 		wristBannerSensor = false;
-		intakeBannerSensor = false;
+		intakeBannerSensor = true;
 		wristLimitSwitch = false;
 	}
 	
@@ -28,12 +28,13 @@ public class Robot extends IterativeRobot
 	{
 		joy = new Joysticks();
 		Drivetrain.driveTrainInitialization();
+		Wrist.wristInitialization();
 	}
 
 	@Override
 	public void autonomousInit() 
 	{
-		Autonomous.runAuto();
+		//Autonomous.runAuto();
 	}
 
 	@Override
@@ -46,7 +47,7 @@ public class Robot extends IterativeRobot
 	public void teleopInit()
 	{
 		Drivetrain.resetEncoders();
-		Wrist.aimedWristState = 0;
+		Wrist.aimedWristState = 1;
 		Elevator.aimedElevatorState = 0;
 		Drivetrain.setEncoderValues();
 		setTests();
@@ -59,11 +60,12 @@ public class Robot extends IterativeRobot
 		updateJoysticks();
 		//Drivetrain.runYeetDrive(joy.leftJoySticky, joy.rightJoyStickx);
 		//Drivetrain.runDrive(1, -1);
-		Drivetrain.runArcadeDrivetrain(joy.leftJoySticky, -joy.rightJoyStickx);
-		//Drivetrain.setSpeed(1, 1);
-		//runWrist();
+		//Drivetrain.runArcadeDrivetrain(joy.leftJoySticky, joy.rightJoyStickx);
+		//Drivetrain.setSpeed(joy.leftJoySticky, joy.leftJoySticky);
+		runWrist();
 		//runElevator();
 		runTests();
+		Compressor007.runCompressor();
 	}
 
 	@Override
@@ -83,7 +85,7 @@ public class Robot extends IterativeRobot
 	{
 		Wrist.setWristEncoder();
 		Wrist.setWristButtons(joy.dPadDown,joy.dPadSide,joy.dPadUp);
-		Wrist.setManualWristOverride(joy.leftJoySticky * 0.6);
+		Wrist.setManualWristOverride(joy.leftJoySticky1 * 0.6);
 		Wrist.runWrist();
 	}
 	public void runElevator()

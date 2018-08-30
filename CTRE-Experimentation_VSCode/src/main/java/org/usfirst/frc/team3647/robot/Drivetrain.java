@@ -54,13 +54,16 @@ public class Drivetrain
 		leftSPX2.follow(leftSRX);
 		rightSPX1.follow(rightSRX);
 		rightSPX2.follow(rightSRX);
+		rightSRX.setInverted(true);
+		rightSPX1.setInverted(true);
+		rightSPX2.setInverted(true);
 		//Set neutral mode
-		Drivetrain.leftSRX.setNeutralMode(NeutralMode.Coast);
-		Drivetrain.rightSRX.setNeutralMode(NeutralMode.Coast);
-		Drivetrain.leftSPX1.setNeutralMode(NeutralMode.Coast);
-		Drivetrain.leftSPX2.setNeutralMode(NeutralMode.Coast);
-		Drivetrain.rightSPX1.setNeutralMode(NeutralMode.Coast);
-		Drivetrain.rightSPX2.setNeutralMode(NeutralMode.Coast);
+		Drivetrain.leftSRX.setNeutralMode(NeutralMode.Brake);
+		Drivetrain.rightSRX.setNeutralMode(NeutralMode.Brake);
+		Drivetrain.leftSPX1.setNeutralMode(NeutralMode.Brake);
+		Drivetrain.leftSPX2.setNeutralMode(NeutralMode.Brake);
+		Drivetrain.rightSPX1.setNeutralMode(NeutralMode.Brake);
+		Drivetrain.rightSPX2.setNeutralMode(NeutralMode.Brake);
 	}
 	
 	public static void runArcadeDrivetrain(double yValue, double xValue)
@@ -74,7 +77,7 @@ public class Drivetrain
 		turn = checkt * xValue;
 		
 		lSpeed = speed + turn;
-		rSpeed = -speed - turn;
+		rSpeed = speed - turn;
 		
 		targetVelocityRight = rSpeed * Constants.velocityConstant;
 		targetVelocityLeft = lSpeed * Constants.velocityConstant;
@@ -121,7 +124,7 @@ public class Drivetrain
 	
 	public static void setSpeed(double lSpeed, double rSpeed)
 	{
-		targetVelocityRight = -rSpeed * Constants.velocityConstant;
+		targetVelocityRight = rSpeed * Constants.velocityConstant;
 		targetVelocityLeft = lSpeed * Constants.velocityConstant;
 		rightSRX.set(ControlMode.Velocity, targetVelocityRight);
 		leftSRX.set(ControlMode.Velocity, targetVelocityLeft);
@@ -138,9 +141,9 @@ public class Drivetrain
 	public static void setEncoderValues()
 	{
 		leftEncoderValue = leftSRX.getSelectedSensorPosition(Constants.drivePID);
-		rightEncoderValue = -rightSRX.getSelectedSensorPosition(Constants.drivePID);
+		rightEncoderValue = rightSRX.getSelectedSensorPosition(Constants.drivePID);
 		leftEncoderVelocity = leftSRX.getSelectedSensorVelocity(Constants.drivePID);
-		rightEncoderVelocity = -rightSRX.getSelectedSensorVelocity(Constants.drivePID);
+		rightEncoderVelocity = rightSRX.getSelectedSensorVelocity(Constants.drivePID);
 	}
 	
 	public static void resetEncoders()
@@ -174,7 +177,7 @@ public class Drivetrain
 	
 	public static void printVelocityError(int side)
 	{
-		int rightVelocityError = -rightSRX.getClosedLoopError(Constants.drivePID);
+		int rightVelocityError = rightSRX.getClosedLoopError(Constants.drivePID);
 		int leftVelocityError = leftSRX.getSelectedSensorVelocity(Constants.drivePID);
 		
 		int velocityDifference = Math.abs(Math.abs(rightSRX.getSelectedSensorVelocity(Constants.drivePID)) - Math.abs(leftSRX.getSelectedSensorVelocity(Constants.drivePID)));
@@ -194,6 +197,7 @@ public class Drivetrain
 		case 2://both
 		
 			System.out.println("Difference between Velocity: " + velocityDifference + "Right Velocity: " + rightEncoderVelocity + "Left Velocity: " + leftEncoderVelocity);
+			//System.out.println("left/right speed: " + rightEncoderVelocity/leftEncoderVelocity);
 			break;
 		}
 	}

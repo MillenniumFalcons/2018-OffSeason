@@ -15,38 +15,38 @@ public class Constants
 	public final static boolean kSensorPhase = true;
 	public final static boolean kMotorInvert = false;
 	//Drive PID Constants
-	public final static double lDrivekF = 0.577966;
+	public final static double lDrivekF = 0.682;
 	public final static double lDrivekP = 0;
 	public final static double lDrivekI = 0;
 	public final static double lDrivekD = 0;
-	public final static double rDrivekF = 0.571189;
+	public final static double rDrivekF = 0.62;//608928
 	public final static double rDrivekP = 0;
 	public final static double rDrivekI = 0;
 	public final static double rDrivekD = 0;
-	public final static double velocityConstant = 1770; //ticks * free RPM / (1 minute divided by 100ms) //1830
+	public final static double velocityConstant = 1700; //ticks * free RPM / (1 minute divided by 100ms) //1830
 	
 	public final static double deadZone = 0.05;
 
 	//Wrist Levels
 	public final static int flat = 0;
-	public final static int aim = 350;
-	public final static int idle = 720;
+	public final static int aim = 500;
+	public final static int idle = 700;
 	public final static int wristPin = 0;
 	public final static int wristLimitSwitch = 1;
 
 	//Wrist PID
-		//noCube
-	public final static int noCubePID = 0;
-	public final static int noCubeF = 0;
-	public final static int noCubeP = 0;
-	public final static int noCubeI = 0;
-	public final static int noCubeD = 0;
-		//cube
+		//Cube
 	public final static int cubePID = 1;
-	public final static int cubeP = 0;
-	public final static int cubeF = 0;
-	public final static int cubeI = 0;
-	public final static int cubeD = 0;
+	public final static double cubeF = 0.1;
+	public final static double cubeP = 1;
+	public final static double cubeI = 0;
+	public final static double cubeD = 50;
+		//no cube
+	public final static int noCubePID = 0;
+	public final static double noCubeP = .45;
+	public final static double noCubeF = .1;
+	public final static double noCubeI = 0;
+	public final static double noCubeD = 50;
 
 	//intake
 	public final static int intakeBannerSensor = 8;
