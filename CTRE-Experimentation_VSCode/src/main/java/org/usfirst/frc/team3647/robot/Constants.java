@@ -37,14 +37,14 @@ public class Constants
 	//Wrist PID
 		//Cube
 	public final static int cubePID = 1;
-	public final static double cubeF = 0.1;
+	public final static double cubeF = 0.1; // should be (0.75*1023)/700 = 1.096
 	public final static double cubeP = 1;
 	public final static double cubeI = 0;
 	public final static double cubeD = 50;
 		//no cube
 	public final static int noCubePID = 0;
-	public final static double noCubeP = .45;
 	public final static double noCubeF = .1;
+	public final static double noCubeP = .45;
 	public final static double noCubeI = 0;
 	public final static double noCubeD = 50;
 
@@ -74,8 +74,8 @@ public class Constants
 	public final static double carriageD = 0;
 		//interstage
 	public final static int interstagePID = 1;
-	public final static double interstageP = 2;
 	public final static double interstageF = 0;
+	public final static double interstageP = 2;
 	public final static double interstageI = 0;
 	public final static double interstageD = 0;
 	
