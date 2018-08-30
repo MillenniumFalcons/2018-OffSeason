@@ -211,6 +211,10 @@ public class Wrist {
 			{
 				aimedWristState = 3;
 			}
+			else if(manualOverride)
+			{
+				aimedWristState = -1;
+			}
 			switch(aimedWristState)
 			{
 				case 0:
@@ -223,7 +227,7 @@ public class Wrist {
 					}
 					else
 					{
-						stopWrist();
+						moveWrist(-0.2);
 					}
 				break;
 				case 2:
