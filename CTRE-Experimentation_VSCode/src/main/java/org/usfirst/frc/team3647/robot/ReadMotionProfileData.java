@@ -9,35 +9,63 @@ public class ReadMotionProfileData
 {
     //This ArrayList contains all the values (unseparated) from a CSV file
     public static List<String> allValues = new ArrayList<String>();
+    public static int lineCount = countLines("C:\\Users\\Kunal\\Downloads\\Same_Side_Scale_left_Talon.csv");
     //These arrays below contain the parsed values of ArrayList
-	//**NEED WAY TO DYNAMICALLY CHANGE ARRAY SIZE**
-	public static double[] position = new double[154];	//**NEED WAY TO DYNAMICALLY CHANGE ARRAY SIZE**
-	public static double[] velocity = new double[154];	//**NEED WAY TO DYNAMICALLY CHANGE ARRAY SIZE**
-    public static int[] dT = new int[154];		//**NEED WAY TO DYNAMICALLY CHANGE ARRAY SIZE**
-    public static double[][] data = arrayConvert(154);
+	public static double[] position = new double[lineCount];	
+	public static double[] velocity = new double[lineCount];	
+    public static int[] dT = new int[lineCount];		
+    public static double[][] data = arrayConvert(lineCount);
     
     private int pointTimeMilliS;
 
-    //take file path input ex: C:\\Users\\Username\\Downloads\\file.csv
-    public void parseCSVFile(String csvFile) throws IOException
+    public ReadMotionProfileData(String csvFile)
     {
+        countLines(csvFile);
+        System.out.println("There are " + lineCount + " lines in your CSV File");
+    }
+    
+    public static int countLines(String csvFile)
+    {
+    	int lc = 0;
         String line = "";
-        String cvsSplitBy = ",";
 
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) 
         {
 
             while ((line = br.readLine()) != null) 
             {
-
-                // use comma as separator
-                String[] country = line.split(cvsSplitBy);
-
-                System.out.println("Country [code= " + country[4] + " , name=" + country[5] + "]");
-
+                lc++;
             }
 
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return lc;
+    }
+
+    //take file path input ex: C:\\Users\\Username\\Downloads\\file.csv
+    public void parseCSVFile(String csvFile) //throws IOException
+    {
+        String line = "";
+        String cvsSplitBy = ",";
+        String[] pvt = new String[4];
+
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) 
+        {
+            while ((line = br.readLine()) != null) 
+            {
+                // use comma as separator
+                pvt = line.split(cvsSplitBy);
+                
+                //print each line of CSV
+                //System.out.println("Value [value1 = " + pvt[0] + " , value2 = " + pvt[1] + " , value3 = " + pvt[2] + "]");
+                allValues.add(pvt[0]);
+                allValues.add(pvt[1]);
+                allValues.add(pvt[2]);
+            }
+            
+        } catch (IOException e) 
+        {
             e.printStackTrace();
         }
         
@@ -75,4 +103,5 @@ public class ReadMotionProfileData
 
         return output;
     }
+    
 }

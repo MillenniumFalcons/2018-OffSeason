@@ -39,7 +39,7 @@ public class MotionProfileFunctions
     public void runTalon(String csvFile)
     {
         int state = 0;
-        ReadMotionProfileData profileData = new ReadMotionProfileData();
+        ReadMotionProfileData profileData = new ReadMotionProfileData(csvFile);
         SetValueMotionProfile setOutput = mpSetValue;
         while(!finishedPath)
         {
@@ -48,7 +48,7 @@ public class MotionProfileFunctions
                 case 0:
                 finishedPath = false;
                 profileData.parseCSVFile(csvFile);
-                sendMPPoints(profileData.data, profileData.numPoints);
+                sendMPPoints(profileData.data, profileData.lineCount);
                 state = 1;
                 case 1:
                 if(mpStatus.btmBufferCnt > minPoints)
