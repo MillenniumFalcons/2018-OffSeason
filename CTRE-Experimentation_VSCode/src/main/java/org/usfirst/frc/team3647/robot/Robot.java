@@ -8,7 +8,7 @@ public class Robot extends IterativeRobot
 {
 	Joysticks joy;
 	
-	boolean driveEncoderPosition, driveEncoderVelocity, driveEncoderVelocityErrorR, driveEncoderVelocityErrorL, driveVelocity, wristEncoderPosition, wristMotorCurrent, wristBannerSensor, wristLimitSwitch, intakeBannerSensor;
+	boolean elevatorEncoder, driveEncoderPosition, driveEncoderVelocity, driveEncoderVelocityErrorR, driveEncoderVelocityErrorL, driveVelocity, wristEncoderPosition, wristMotorCurrent, wristBannerSensor, wristLimitSwitch, intakeBannerSensor;
 	
 	public void setTests(){
 		driveEncoderPosition = false;
@@ -16,11 +16,12 @@ public class Robot extends IterativeRobot
 		driveEncoderVelocityErrorR = false;
 		driveEncoderVelocityErrorL = false;
 		driveVelocity = false;
-		wristEncoderPosition = true;
+		wristEncoderPosition = false;
 		wristMotorCurrent = false;
 		wristBannerSensor = false;
-		intakeBannerSensor = true;
+		intakeBannerSensor = false;
 		wristLimitSwitch = false;
+		elevatorEncoder = true;
 	}
 	
 	@Override
@@ -49,7 +50,7 @@ public class Robot extends IterativeRobot
 	{
 		Drivetrain.resetEncoders();
 		Wrist.aimedWristState = 1;
-		Elevator.aimedElevatorState = 0;
+		Elevator.aimedElevatorState = 1;
 		Drivetrain.setEncoderValues();
 		setTests();
 	}
@@ -133,6 +134,10 @@ public class Robot extends IterativeRobot
 		else if(driveVelocity)
 		{
 			Drivetrain.printVelocity();
+		}
+		else if(elevatorEncoder)
+		{
+			Elevator.testElevatorEncoders();
 		}
 	}
 }

@@ -25,11 +25,11 @@ public class Elevator
 	public static DigitalInput bannerSensor = new DigitalInput(Constants.elevatorBannerSensor); 
 
 	public static WPI_TalonSRX leftGearboxMaster = new WPI_TalonSRX(Constants.leftGearboxSRX);
-	public static WPI_TalonSRX rightGearbox = new WPI_TalonSRX(Constants.rightGearboxSRX);
+	public static WPI_TalonSRX rightGearboxSRX = new WPI_TalonSRX(Constants.rightGearboxSRX);
 	public static VictorSPX leftGearboxSPX = new VictorSPX(Constants.leftGearboxSPX);
 	public static VictorSPX rightGearboxSPX = new VictorSPX(Constants.rightGearboxSPX);
 	
-	public static DifferentialDrive elevatorDrive = new DifferentialDrive(leftGearboxMaster, rightGearbox);
+//	public static DifferentialDrive elevatorDrive = new DifferentialDrive(leftGearboxMaster, rightGearbox);
 	public static boolean reachedBottom = false;
     
     public static void elevatorInitialization()
@@ -47,11 +47,13 @@ public class Elevator
 		leftGearboxMaster.config_kI(Constants.interstagePID, Constants.interstageI, Constants.kTimeoutMs);		
         leftGearboxMaster.config_kD(Constants.interstagePID, Constants.interstageD, Constants.kTimeoutMs);	
         
-        leftGearboxMaster.follow(leftGearboxMaster);
+        rightGearboxSRX.follow(leftGearboxMaster);
         rightGearboxSPX.follow(leftGearboxMaster);
         leftGearboxSPX.follow(leftGearboxMaster);
-        rightGearbox.setInverted(true);
-        rightGearboxSPX.setInverted(true);
+        rightGearboxSRX.setInverted(true);
+		rightGearboxSPX.setInverted(true);
+		leftGearboxMaster.setInverted(true);
+		leftGearboxSPX.setInverted(true);
 	}
 
 	public static void setElevatorEncoder()
@@ -75,7 +77,7 @@ public class Elevator
     
     public static void moveElevator(double speed)
     {
-        leftGearboxMaster.set(ControlMode.PercentOutput, -speed);
+        leftGearboxMaster.set(ControlMode.PercentOutput, speed);
         //leftGearboxMasterSPX.set(ControlMode.PercentOutput, -speed);
         //rightGearboxSPX.set(ControlMode.PercentOutput, -speed);
     }
@@ -120,6 +122,10 @@ public class Elevator
     
 	public static void runElevator()
 	{
+		if(manualOverride)
+		{
+			aimedElevatorState = -1;
+		}
 		if(bottom)
 		{
 			leftGearboxMaster.selectProfileSlot(Constants.carriagePID, 0);
@@ -154,7 +160,7 @@ public class Elevator
 				}
 				else
 				{
-					moveElevator(-.2);
+					moveElevator(-.3);
 				}
 			break;
 			case 1:
@@ -165,7 +171,7 @@ public class Elevator
 				}
 				else
 				{
-					moveElevator(-0.2);
+					moveElevator(-0.4);
 				}
 			break;
 			case 2:
