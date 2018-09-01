@@ -29,7 +29,6 @@ public class Elevator
 	public static VictorSPX leftGearboxSPX = new VictorSPX(Constants.leftGearboxSPX);
 	public static VictorSPX rightGearboxSPX = new VictorSPX(Constants.rightGearboxSPX);
 	
-//	public static DifferentialDrive elevatorDrive = new DifferentialDrive(leftGearboxMaster, rightGearbox);
 	public static boolean reachedBottom = false;
     
     public static void elevatorInitialization()
