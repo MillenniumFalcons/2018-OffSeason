@@ -12,7 +12,7 @@ public class Robot extends IterativeRobot
 	
 	public void setTests(){
 		driveEncoderPosition = false;
-		driveEncoderVelocity = false;
+		driveEncoderVelocity = true;
 		driveEncoderVelocityErrorR = false;
 		driveEncoderVelocityErrorL = false;
 		driveVelocity = false;
@@ -21,7 +21,7 @@ public class Robot extends IterativeRobot
 		wristBannerSensor = false;
 		intakeBannerSensor = false;
 		wristLimitSwitch = false;
-		elevatorEncoder = true;
+		elevatorEncoder = false;
 	}
 	
 	@Override
@@ -62,12 +62,12 @@ public class Robot extends IterativeRobot
 		updateJoysticks();
 		//Drivetrain.runYeetDrive(joy.leftJoySticky, joy.rightJoyStickx);
 		//Drivetrain.runDrive(1, -1);
-		//Drivetrain.runArcadeDrivetrain(joy.leftJoySticky, joy.rightJoyStickx);
+		Drivetrain.runArcadeDrivetrain(joy.leftJoySticky, joy.rightJoyStickx);
 		//Drivetrain.setSpeed(joy.leftJoySticky, joy.leftJoySticky);
-		runWrist();
-		runElevator();
+		//runWrist();
+		//runElevator();
 		runTests();
-		Compressor007.runCompressor();
+		//Compressor007.runCompressor();
 	}
 
 	@Override

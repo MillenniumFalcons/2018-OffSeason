@@ -25,7 +25,7 @@ public class Drivetrain
 	{
 		//Config left side PID settings
 		leftSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder , 0, Constants.kTimeoutMs);
-		leftSRX.setSensorPhase(true);
+		leftSRX.setSensorPhase(false);
 		leftSRX.configNominalOutputForward(0, Constants.kTimeoutMs);
 		leftSRX.configNominalOutputReverse(0, Constants.kTimeoutMs);
 		leftSRX.configPeakOutputForward(1, Constants.kTimeoutMs);
@@ -38,7 +38,7 @@ public class Drivetrain
 		leftSRX.config_kD(Constants.drivePID, Constants.lDrivekD, Constants.kTimeoutMs);
 		//Config right side PID settings
 		rightSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder , Constants.drivePID, Constants.kTimeoutMs);
-		rightSRX.setSensorPhase(true);
+		rightSRX.setSensorPhase(false);
 		rightSRX.configNominalOutputForward(0, Constants.kTimeoutMs);
 		rightSRX.configNominalOutputReverse(0, Constants.kTimeoutMs);
 		rightSRX.configPeakOutputForward(1, Constants.kTimeoutMs);
