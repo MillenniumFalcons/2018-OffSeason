@@ -178,27 +178,27 @@ public class Drivetrain
 	public static void printVelocityError(int side)
 	{
 		int rightVelocityError = rightSRX.getClosedLoopError(Constants.drivePID);
-		int leftVelocityError = leftSRX.getSelectedSensorVelocity(Constants.drivePID);
+		int leftVelocityError = leftSRX.getClosedLoopError(Constants.drivePID);
 		
 		int velocityDifference = Math.abs(Math.abs(rightSRX.getSelectedSensorVelocity(Constants.drivePID)) - Math.abs(leftSRX.getSelectedSensorVelocity(Constants.drivePID)));
 		
 		switch(side)//right
 		{
-		case 0:
+			case 0:
+				
+				System.out.println("Target: " + targetVelocityRight + "Actual: " + rightEncoderVelocity + "Error: " + rightVelocityError);
+				break;
+				
+			case 1://left
+				
+				System.out.println("Target: " + targetVelocityLeft + "Actual: " + leftEncoderVelocity + "Error: " + leftVelocityError);
+				break;
+				
+			case 2://both
 			
-			System.out.println("Target: " + targetVelocityRight + "Actual: " + rightEncoderVelocity + "Error: " + rightVelocityError);
-			break;
-			
-		case 1://left
-			
-			System.out.println("Target: " + targetVelocityLeft + "Actual: " + leftEncoderVelocity + "Error: " + leftVelocityError);
-			break;
-			
-		case 2://both
-		
-			System.out.println("Difference between Velocity: " + velocityDifference + "Right Velocity: " + rightEncoderVelocity + "Left Velocity: " + leftEncoderVelocity);
-			//System.out.println("left/right speed: " + rightEncoderVelocity/leftEncoderVelocity);
-			break;
+				System.out.println("Difference between Velocity: " + velocityDifference + "Right Velocity: " + rightEncoderVelocity + "Left Velocity: " + leftEncoderVelocity);
+				//System.out.println("left/right speed: " + rightEncoderVelocity/leftEncoderVelocity);
+				break;
 		}
 	}
 

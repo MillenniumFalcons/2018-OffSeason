@@ -19,7 +19,7 @@ public class Constants
 	public final static double lDrivekP = .68; // double until oscillates too much
 	public final static double lDrivekI = 0;
 	public final static double lDrivekD = 0; // start with 10x P
-	public final static double rDrivekF = 0.66;//.66 if 100% for 1550 ticks
+	public final static double rDrivekF = 0.66; //.66 if 100% for 1550 ticks
 	public final static double rDrivekP = .68; //10% correction for 150 ticks off
 	public final static double rDrivekI = 0;
 	public final static double rDrivekD = 0;
