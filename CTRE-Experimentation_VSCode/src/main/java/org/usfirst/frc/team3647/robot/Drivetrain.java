@@ -121,6 +121,29 @@ public class Drivetrain
 	// 	rightSRX.set(ControlMode.Velocity, targetVelocityRight);
 	// 	leftSRX.set(ControlMode.Velocity, targetVelocityLeft);
 	// }
+
+	public static void yeetDrive(double yValue, double xValue)
+	{
+		double powerOfStraight = 1, powerOfTurn = .6;
+		double speedOfStraight = 1, speedOfTurn = 1;
+
+		if(yValue != 0 && xValue == 0)
+		{
+			setSpeed(yValue, yValue);
+		}
+		else if(yValue == 0 && xValue != 0)
+		{
+			setSpeed(xValue, -xValue);
+		}
+		else if(yValue != 0 && xValue != 0)
+		{
+			yValue = Math.pow(yValue, powerOfStraight);
+			xValue = Math.pow(xValue, powerOfStraight);
+			yValue *= speedOfStraight;
+			xValue *= speedOfTurn;
+			setSpeed(yValue + xValue, yValue - xValue);
+		}
+	}
 	
 	public static void setSpeed(double lSpeed, double rSpeed)
 	{
