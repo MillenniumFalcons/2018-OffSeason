@@ -25,7 +25,10 @@ public class Constants
 
 	//Pathfinder Constants
 	public final static double wheelDiameter = 0.127;//wheel diameter in m
+	public final static double wheelBase = 0;
 	public final static double maxVelocity = 0;
+	public final static double maxAcceleration = 0;
+	public final static double maxJerk = 0;
 	public final static double lPFkP = 0; //P Gain
 	public final static double lPFkI = 0; //I Gain
 	public final static double lPFkD = 0; //D Gain

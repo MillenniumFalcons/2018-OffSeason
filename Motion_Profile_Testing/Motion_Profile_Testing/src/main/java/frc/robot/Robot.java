@@ -28,7 +28,7 @@ public class Robot extends IterativeRobot
 	double prevLeftEncoder = 0, prevRightEncoder = 0;
 
 	//Test Variables
-	boolean driveEncoders, driveCurrent;
+	boolean driveEncoders, driveCurrent, driveVelocity, driveClError;
 
 	@Override
 	public void robotInit() 
@@ -51,7 +51,9 @@ public class Robot extends IterativeRobot
 	public void setTests()
 	{
 		driveEncoders = false;
-		driveCurrent = false;
+    driveCurrent = false;
+    driveVelocity = false;
+    driveClError = false;
 	}
 	
 	@Override
@@ -63,7 +65,8 @@ public class Robot extends IterativeRobot
 	@Override
 	public void autonomousPeriodic() 
 	{
-    Autonomous.testAuto(enc);
+    Autonomous.soloPathAuto(enc);
+    //Autonomous.twoPathAuto(enc);
 	}
 	
 	@Override
@@ -137,10 +140,18 @@ public class Robot extends IterativeRobot
 		if(driveEncoders)
 		{
 			enc.testEncoders();
-		}
+    }
 		if(driveCurrent)
 		{
 			Drivetrain.testDrivetrainCurrent();
-		}
+    }
+    if(driveVelocity)
+    {
+      enc.testEncoderVelocity();
+    }
+    if(driveClError)
+    {
+      enc.testEncoderCLError();
+    }
 	}
 }

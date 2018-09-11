@@ -3,16 +3,16 @@ package frc.team3647Autonomous;
 
 import jaci.pathfinder.*;
 import jaci.pathfinder.followers.EncoderFollower;
+import jaci.pathfinder.modifiers.TankModifier;
 import frc.team3647ConstantsAndFunctions.Constants;
 import frc.team3647Subsystems.Drivetrain;
-import frc.team3647Subsystems.Encoders;
 import edu.wpi.first.wpilibj.*;
 import java.io.File;
 
 public class TrajectoryFollower
 {
     Trajectory leftTrajectory, rightTrajectory;
-    public static boolean pathFinished = false;
+    public boolean pathFinished = false;
 
     public void runPath(int lEncoder, int rEncoder)
     {
@@ -43,7 +43,19 @@ public class TrajectoryFollower
 
     public void followPath(String path)
     {
-        rightTrajectory = Pathfinder.readFromCSV(new File("/home/lvuser/paths/" + path + "_right.csv"));
-        leftTrajectory = Pathfinder.readFromCSV(new File("/home/lvuser/paths/" + path + "_left.csv"));
+        rightTrajectory = Pathfinder.readFromCSV(new File("/home/lvuser/src/main/paths/" + path + "_right.csv"));
+        leftTrajectory = Pathfinder.readFromCSV(new File("/home/lvuser/src/main/paths/" + path + "_left.csv"));
+    }
+
+    public void followPath(Waypoint[] points)
+    {
+        Trajectory.Config configPoints = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_LOW, 10, Constants.maxVelocity, Constants.maxAcceleration, Constants.maxJerk);
+        Trajectory trajPoints = Pathfinder.generate(points, configPoints);
+
+        TankModifier tankModifier = new TankModifier(trajPoints);
+        tankModifier.modify(Constants.wheelBase);
+
+        leftTrajectory = tankModifier.getLeftTrajectory();
+        rightTrajectory = tankModifier.getRightTrajectory();
     }
 }
