@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.MotorSafetyHelper;
 import edu.wpi.first.wpilibj.Timer;
 import frc.team3647Subsystems.Drivetrain;
 import frc.team3647Subsystems.Encoders;
+import frc.team3647Autonomous.*;
 
 
 
@@ -16,7 +17,8 @@ public class Robot extends IterativeRobot
 {
 	//Objects
 	Encoders enc;
-	Joysticks joy;
+  Joysticks joy;
+  trajectoryFollower traj;
 	MotorSafety safety;
 	MotorSafetyHelper safetyChecker;
 	CameraServer server;
@@ -56,13 +58,13 @@ public class Robot extends IterativeRobot
 	@Override
 	public void autonomousInit() 
 	{
-
+    Autonomous.initialization(enc);
 	}
 
 	@Override
 	public void autonomousPeriodic() 
 	{
-
+    Autonomous.testAuto(traj, enc);
 	}
 	
 	@Override

@@ -1,19 +1,20 @@
 package frc.team3647Subsystems;
+import frc.team3647ConstantsAndFunctions.*;
 
 public class Encoders 
 {
-	public double leftEncoderValue, rightEncoderValue;
+	public int leftEncoderValue, rightEncoderValue;
 	
 	public void setEncoderValues()
 	{
-		leftEncoderValue = Drivetrain.leftSRX.getSensorCollection().getQuadraturePosition();
-		rightEncoderValue = -Drivetrain.rightSRX.getSensorCollection().getQuadraturePosition();
+		leftEncoderValue = Drivetrain.leftSRX.getSelectedSensorPosition(Constants.drivePID);
+		rightEncoderValue = Drivetrain.rightSRX.getSelectedSensorPosition(Constants.drivePID);
 	}
 	
 	public void resetEncoders()
 	{
-		Drivetrain.leftSRX.getSensorCollection().setQuadraturePosition(0, 10);
-		Drivetrain.rightSRX.getSensorCollection().setQuadraturePosition(0, 10);
+		Drivetrain.leftSRX.setSelectedSensorPosition(0, Constants.drivePID, Constants.kTimeoutMs);
+		Drivetrain.rightSRX.setSelectedSensorPosition(0, Constants.drivePID, Constants.kTimeoutMs);
 	}
 	
 	public void testEncoders()
