@@ -126,7 +126,7 @@ public class Robot extends IterativeRobot
 			//Drivetrain.arcadeDrive(Encoders.leftEncoderValue, Encoders.rightEncoderValue, joy.leftJoySticky, joy.rightJoyStickx);
 			//Drivetrain.FRCarcadedrive(joy.leftJoySticky, joy.rightJoyStickx);
 			//Drivetrain.runMEATDrivetrain(joy.leftJoySticky, joy.rightJoyStickx);
-			Drivetrain.newArcadeDrive(joy.leftJoySticky, joy.rightJoyStickx);
+			Drivetrain.yeetDrive(joy.leftJoySticky, joy.rightJoyStickx);
 		}
 	}
 	

@@ -43,8 +43,8 @@ public class TrajectoryFollower
 
     public void followPath(String path)
     {
-        rightTrajectory = Pathfinder.readFromCSV(new File("/home/lvuser/src/main/paths/" + path + "_right.csv"));
-        leftTrajectory = Pathfinder.readFromCSV(new File("/home/lvuser/src/main/paths/" + path + "_left.csv"));
+        rightTrajectory = Pathfinder.readFromCSV(new File("/home/lvuser/src/main/paths/" + path + "_right_Jaci.csv"));
+        leftTrajectory = Pathfinder.readFromCSV(new File("/home/lvuser/src/main/paths/" + path + "_left_Jaci.csv"));
     }
 
     public void followPath(Waypoint[] points)
