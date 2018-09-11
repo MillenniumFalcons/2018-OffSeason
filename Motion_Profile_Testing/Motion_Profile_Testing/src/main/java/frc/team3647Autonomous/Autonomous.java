@@ -15,10 +15,12 @@ public class Autonomous
         Drivetrain.stop();
     }
 
-    public static void testAuto(trajectoryFollower traj, Encoders enc) // do i use object for trajectory??
+    public static void testAuto(Encoders enc) // do i use object for trajectory??
     {
-        System.out.println("path finished?: " + trajectoryFollower.pathFinished);
+        TrajectoryFollower traj = new TrajectoryFollower();
+        enc.setEncoderValues();
+        System.out.println("path finished?: " + TrajectoryFollower.pathFinished);
         traj.followPath("test");
-        traj.runPath(enc);
+        traj.runPath(enc.leftEncoderValue, enc.rightEncoderValue);
     }
 }

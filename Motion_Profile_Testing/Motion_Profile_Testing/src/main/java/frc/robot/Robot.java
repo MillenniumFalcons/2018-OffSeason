@@ -18,7 +18,6 @@ public class Robot extends IterativeRobot
 	//Objects
 	Encoders enc;
   Joysticks joy;
-  trajectoryFollower traj;
 	MotorSafety safety;
 	MotorSafetyHelper safetyChecker;
 	CameraServer server;
@@ -64,7 +63,7 @@ public class Robot extends IterativeRobot
 	@Override
 	public void autonomousPeriodic() 
 	{
-    Autonomous.testAuto(traj, enc);
+    Autonomous.testAuto(enc);
 	}
 	
 	@Override

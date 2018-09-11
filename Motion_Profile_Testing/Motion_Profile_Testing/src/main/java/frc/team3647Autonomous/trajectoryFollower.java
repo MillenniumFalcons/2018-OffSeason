@@ -9,27 +9,25 @@ import frc.team3647Subsystems.Encoders;
 import edu.wpi.first.wpilibj.*;
 import java.io.File;
 
-public class trajectoryFollower
+public class TrajectoryFollower
 {
     Trajectory leftTrajectory, rightTrajectory;
     public static boolean pathFinished = false;
 
-    public void runPath(Encoders enc)
+    public void runPath(int lEncoder, int rEncoder)
     {
-
         EncoderFollower right = new EncoderFollower(leftTrajectory);
         EncoderFollower left = new EncoderFollower(rightTrajectory);
 
-        enc.setEncoderValues();
-        right.configureEncoder(enc.rightEncoderValue, 1440, Constants.wheelDiameter);
-        left.configureEncoder(enc.leftEncoderValue, 1440, Constants.wheelDiameter);
+        right.configureEncoder(rEncoder, 1440, Constants.wheelDiameter);
+        left.configureEncoder(lEncoder, 1440, Constants.wheelDiameter);
 
         //set PID values
         right.configurePIDVA(Constants.rPFkP, Constants.rPFkI, Constants.rPFkD, Constants.rPFkV, Constants.rPFkA);
         left.configurePIDVA(Constants.lPFkP, Constants.lPFkI, Constants.lPFkD, Constants.lPFkV, Constants.lPFkA);
 
-        double rValue = right.calculate(enc.rightEncoderValue);
-        double lValue = left.calculate(enc.leftEncoderValue);
+        double rValue = right.calculate(rEncoder);
+        double lValue = left.calculate(lEncoder);
         //set output
         Drivetrain.setPercentOutput(lValue, rValue);
 
