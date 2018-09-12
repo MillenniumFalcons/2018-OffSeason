@@ -57,7 +57,7 @@ public class TrajectoryFollower
 
     public void followPath(Waypoint[] points)
     {
-        Trajectory.Config configPoints = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_LOW, 10, Constants.maxVelocity, Constants.maxAcceleration, Constants.maxJerk);
+        Trajectory.Config configPoints = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_LOW, Constants.MPTimeStep, Constants.maxVelocity, Constants.maxAcceleration, Constants.maxJerk);
         Trajectory trajPoints = Pathfinder.generate(points, configPoints);
 
         TankModifier tankModifier = new TankModifier(trajPoints);
