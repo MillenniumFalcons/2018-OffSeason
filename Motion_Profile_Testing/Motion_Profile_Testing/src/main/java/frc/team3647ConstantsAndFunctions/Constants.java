@@ -25,16 +25,16 @@ public class Constants
 
 	//Pathfinder Constants
 	public final static double wheelDiameter = 0.127;//wheel diameter in m
-	public final static double wheelBase = 0;
-	public final static double maxVelocity = 0;
+	public final static double wheelBase = .66; //26 in
+	public final static double maxVelocity = 2; //15 ft/s to m/s?
 	public final static double maxAcceleration = 0;
 	public final static double maxJerk = 0;
-	public final static double lPFkP = 0; //P Gain
+	public final static double lPFkP = 1; //P Gain
 	public final static double lPFkI = 0; //I Gain
 	public final static double lPFkD = 0; //D Gain
 	public final static double lPFkV = 1 / maxVelocity ; //Velocity Ratio (1/max velocity) -- changes m/s to -1 to 1 scale
 	public final static double lPFkA = 0; //Acceleration Gain
-	public final static double rPFkP = 0; //P Gain
+	public final static double rPFkP = 1; //P Gain
 	public final static double rPFkI = 0; //I Gain
 	public final static double rPFkD = 0; //D Gain
 	public final static double rPFkV = 1 / maxVelocity ; //Velocity Ratio (1/max velocity) -- changes m/s to -1 to 1 scale

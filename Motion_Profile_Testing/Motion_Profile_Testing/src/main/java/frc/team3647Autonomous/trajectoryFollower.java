@@ -7,6 +7,8 @@ import jaci.pathfinder.modifiers.TankModifier;
 import frc.team3647ConstantsAndFunctions.Constants;
 import frc.team3647Subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import java.io.File;
 
 public class TrajectoryFollower
@@ -30,6 +32,12 @@ public class TrajectoryFollower
         double lValue = left.calculate(lEncoder);
         //set output
         Drivetrain.setPercentOutput(lValue, rValue);
+
+        SmartDashboard.putNumber("target left speed", lValue);
+        SmartDashboard.putNumber("target right speed", rValue);
+        
+        SmartDashboard.putNumber("left encoder value", lEncoder);
+        SmartDashboard.putNumber("right encoder value", rEncoder);
 
         if(left.isFinished() && right.isFinished())
         {
