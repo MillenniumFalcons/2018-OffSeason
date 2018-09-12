@@ -5,6 +5,11 @@ plugins {
 
 def ROBOT_CLASS = "frc.robot.Robot"
 
+task generateProfiles(type:Exec) {
+    workingDir 'profiles'
+    commandLine 'java', '-jar', 'path-util-1.2.jar'
+}
+
 // Define my targets (RoboRIO) and artifacts (deployable files)
 // This is added by GradleRIO's backing project EmbeddedTools.
 deploy {
@@ -22,6 +27,12 @@ deploy {
             targets << "roborio"
             // Debug can be overridden by command line, for use with VSCode
             debug = getDebugOrDefault(false)
+        }
+        fileCollectionArtifact('motionProfiles') {
+            dependsOn("generateProfiles")
+            targets << 'roborio'
+            files = fileTree(dir: 'paths', include: "**/*.csv")
+            directory = "/home/lvuser/src/main/paths"
         }
     }
 }
@@ -41,6 +52,10 @@ dependencies {
 jar {
     from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_CLASS)
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.4'
 }
 
 // Force Java 8 Compatibility mode for deployed code, in case the develoment

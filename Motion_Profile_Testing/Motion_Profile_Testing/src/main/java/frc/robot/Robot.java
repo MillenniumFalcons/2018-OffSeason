@@ -17,7 +17,7 @@ public class Robot extends IterativeRobot
 {
 	//Objects
 	Encoders enc;
-  Joysticks joy;
+  	Joysticks joy;
 	MotorSafety safety;
 	MotorSafetyHelper safetyChecker;
 	CameraServer server;
@@ -59,14 +59,16 @@ public class Robot extends IterativeRobot
 	@Override
 	public void autonomousInit() 
 	{
-    Autonomous.initialization(enc);
+    	Autonomous.initialization(enc);
 	}
 
 	@Override
 	public void autonomousPeriodic() 
 	{
-    Autonomous.soloPathAuto(enc);
-    //Autonomous.twoPathAuto(enc);
+		System.out.println("STARTING SOLO PATH AUTO IN ROBOT.JAVA");
+		Autonomous.soloPathAuto(enc);
+		System.out.println("END SOLO PATH AUTO IN ROBOT.JAVA");
+    	//Autonomous.twoPathAuto(enc);
 	}
 	
 	@Override
