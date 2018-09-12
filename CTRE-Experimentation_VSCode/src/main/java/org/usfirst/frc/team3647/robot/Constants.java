@@ -15,14 +15,14 @@ public class Constants
 	public final static boolean kSensorPhase = true;
 	public final static boolean kMotorInvert = false;
 	//Drive PID Constants
-	public final static double lDrivekF = 0.7; // right side is slightly faster?
-	public final static double lDrivekP = .68; // double until oscillates too much
+	public final static double lDrivekF = .65; // right side is slightly faster?
+	public final static double lDrivekP = 0.4; // double until oscillates too much
 	public final static double lDrivekI = 0;
-	public final static double lDrivekD = 0; // start with 10x P
-	public final static double rDrivekF = 0.66; //.66 if 100% for 1550 ticks
-	public final static double rDrivekP = .68; //10% correction for 150 ticks off
+	public final static double lDrivekD = 40; // start with 10x P
+	public final static double rDrivekF = 0.63; //.66 if 100% for 1550 ticks
+	public final static double rDrivekP = 0.4; //10% correction for 150 ticks off
 	public final static double rDrivekI = 0;
-	public final static double rDrivekD = 0;
+	public final static double rDrivekD = 40;
 	public final static double velocityConstant = 1872; //ticks(1440) * free RPM(780) / 1 minute divided by 100ms (600) = 1872 ticks/100ms
 	// drive maxes out at ~1550 ticks/100ms
 	

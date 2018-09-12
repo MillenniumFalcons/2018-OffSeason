@@ -27,7 +27,7 @@ public class Constants
 	public final static double wheelDiameter = 5;
 		//Used for waypoint generation method
 	public final static double wheelBase = 25;
-	public final static double maxVelocity = 120; // also used for csv file method
+	public final static double maxVelocity = 160; // also used for csv file method
 	public final static double maxAcceleration = 0;
 	public final static double maxJerk = 0;
 	public final static double MPTimeStep = 0.01;

@@ -203,7 +203,7 @@ public class Drivetrain
 		int rightVelocityError = rightSRX.getClosedLoopError(Constants.drivePID);
 		int leftVelocityError = leftSRX.getClosedLoopError(Constants.drivePID);
 		
-		int velocityDifference = Math.abs(Math.abs(rightSRX.getSelectedSensorVelocity(Constants.drivePID)) - Math.abs(leftSRX.getSelectedSensorVelocity(Constants.drivePID)));
+		int velocityDifference = Math.abs(rightSRX.getSelectedSensorVelocity(Constants.drivePID)) - Math.abs(leftSRX.getSelectedSensorVelocity(Constants.drivePID));
 		
 		switch(side)//right
 		{
