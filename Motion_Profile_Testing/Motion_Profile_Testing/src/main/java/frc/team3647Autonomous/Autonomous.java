@@ -28,19 +28,19 @@ public class Autonomous
                 currentState = 1;
                 break;
             case 1:
-              traj.runPath(enc.leftEncoderValue, enc.rightEncoderValue);
-              if(traj.pathFinished)
-              {
-                System.out.println("path finished");
-                currentState = 2;
-              }
-              else
-              {
-                System.out.println("path not finished");
-              }
-              break;
+                traj.runPath(enc.leftEncoderValue, enc.rightEncoderValue);
+                if(traj.pathFinished)
+                {
+                    System.out.println("path finished");
+                    currentState = 2;
+                }
+                else
+                {
+                    System.out.println("path not finished");
+                }
+                break;
             case 2:
-              break;
+                break;
         }
     }
 
