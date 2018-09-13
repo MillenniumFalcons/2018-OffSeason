@@ -7,8 +7,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.MotorSafety;
 import edu.wpi.first.wpilibj.MotorSafetyHelper;
 import edu.wpi.first.wpilibj.Timer;
-import frc.team3647Subsystems.Drivetrain;
-import frc.team3647Subsystems.Encoders;
+import frc.team3647Subsystems.*;
 import frc.team3647Autonomous.*;
 
 
@@ -17,7 +16,8 @@ public class Robot extends IterativeRobot
 {
 	//Objects
 	Encoders enc;
-  	Joysticks joy;
+	Joysticks joy;
+	NavX navX;  
 	MotorSafety safety;
 	MotorSafetyHelper safetyChecker;
 	CameraServer server;
@@ -28,7 +28,7 @@ public class Robot extends IterativeRobot
 	double prevLeftEncoder = 0, prevRightEncoder = 0;
 
 	//Test Variables
-	boolean driveEncoders, driveCurrent, driveVelocity, driveClError;
+	boolean driveEncoders, driveCurrent, driveVelocity, driveClError, navXAngle;
 
 	@Override
 	public void robotInit() 
@@ -36,8 +36,11 @@ public class Robot extends IterativeRobot
 		try
 		{
 			enc = new Encoders();
+			navX = new NavX();
 			joy = new Joysticks();
 			enc.resetEncoders();
+			navX.navXInitialize();
+			navX.resetAngle();
 			Drivetrain.drivetrainInitialization();
 			setTests();
 			
@@ -51,23 +54,24 @@ public class Robot extends IterativeRobot
 	public void setTests()
 	{
 		driveEncoders = false;
-    driveCurrent = false;
-    driveVelocity = false;
-    driveClError = false;
+		driveCurrent = false;
+    	driveVelocity = false;
+		driveClError = false;
+		navXAngle = true;
 	}
 	
 	@Override
 	public void autonomousInit() 
 	{
-    	Autonomous.initialization(enc);
+    	Autonomous.initialization(enc, navX);
 	}
 
 	@Override
 	public void autonomousPeriodic() 
 	{
-		System.out.println("STARTING SOLO PATH AUTO IN ROBOT.JAVA");
-		Autonomous.soloPathAuto(enc);
-		System.out.println("END SOLO PATH AUTO IN ROBOT.JAVA");
+		System.out.println("STARTING PATH IN ROBOT.JAVA");
+		Autonomous.soloPathAuto(enc, navX);
+		System.out.println("END PATH IN ROBOT.JAVA");
     	//Autonomous.twoPathAuto(enc);
 	}
 	
@@ -80,6 +84,7 @@ public class Robot extends IterativeRobot
 	@Override
 	public void teleopInit()
 	{
+		navX.resetAngle();
 		Drivetrain.setToCoast();
 	}
 	
@@ -88,6 +93,7 @@ public class Robot extends IterativeRobot
 	{
 		try 
 		{
+			navX.getAngle();
 			updateJoysticks();
 			runDrivetrain();
 			runTests();
@@ -142,18 +148,22 @@ public class Robot extends IterativeRobot
 		if(driveEncoders)
 		{
 			enc.testEncoders();
-    }
+    	}
 		if(driveCurrent)
 		{
 			Drivetrain.testDrivetrainCurrent();
-    }
-    if(driveVelocity)
-    {
-      enc.testEncoderVelocity();
-    }
-    if(driveClError)
-    {
-      enc.testEncoderCLError();
-    }
+    	}
+    	if(driveVelocity)
+    	{
+    		enc.testEncoderVelocity();
+    	}
+    	if(driveClError)
+    	{
+    		enc.testEncoderCLError();
+		}
+		if(navXAngle)
+		{
+			navX.testAngle();
+		}
 	}
 }

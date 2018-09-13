@@ -16,7 +16,7 @@ public class TrajectoryFollower
     Trajectory leftTrajectory, rightTrajectory;
     public boolean pathFinished = false;
 
-    public void runPath(int lEncoder, int rEncoder)
+    public void runPath(int lEncoder, int rEncoder, double navXAngle)
     {
         EncoderFollower right = new EncoderFollower(leftTrajectory);
         EncoderFollower left = new EncoderFollower(rightTrajectory);
@@ -27,11 +27,20 @@ public class TrajectoryFollower
         //set PID values
         right.configurePIDVA(Constants.rPFkP, Constants.rPFkI, Constants.rPFkD, Constants.rPFkV, Constants.rPFkA);
         left.configurePIDVA(Constants.lPFkP, Constants.lPFkI, Constants.lPFkD, Constants.lPFkV, Constants.lPFkA);
-
+        //set follower values
         double rValue = right.calculate(rEncoder);
         double lValue = left.calculate(lEncoder);
+
+        //navX gyro code
+        double gyroHeading = navXAngle; //might have to invert since RHR
+        double desiredHeading = Pathfinder.r2d(right.getHeading());
+        double headingDifference = Pathfinder.boundHalfDegrees(desiredHeading - gyroHeading);
+        double turn = 0.8 * (-1.0/80.0) * headingDifference;
+
+        double rPower = rValue + turn;
+        double lPower = lValue - turn;
         //set output
-        Drivetrain.setPercentOutput(lValue, rValue);
+        Drivetrain.setPercentOutput(lPower, rPower);
 
         SmartDashboard.putNumber("target left speed", lValue);
         SmartDashboard.putNumber("target right speed", rValue);
