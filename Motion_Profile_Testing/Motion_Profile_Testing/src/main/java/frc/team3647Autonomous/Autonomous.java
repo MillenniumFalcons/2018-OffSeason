@@ -26,8 +26,8 @@ public class Autonomous
         {
             case 0:
                 System.out.println("Starting to Load Path (1/2)");
-                traj.followPath("StraightandLeftCurve");
-                //traj.followPath("StraightTenFeet");
+               // traj.followPath("StraightandLeftCurve");
+                traj.followPath("StraightTenFeet");
                 System.out.println("Loaded Path (2/2)");
                 currentState = 1;
                 break;
