@@ -35,7 +35,7 @@ public class Autonomous
                 break;
             case 1:
                 System.out.println("Running Path (1/2)");
-                traj.runPath(enc.leftEncoderValue, enc.rightEncoderValue, navX.yaw);
+               // traj.runPath(enc.leftEncoderValue, enc.rightEncoderValue, navX.yaw);
                 if(traj.pathFinished)
                 {
                     System.out.println("Path Finished (2/2)");
