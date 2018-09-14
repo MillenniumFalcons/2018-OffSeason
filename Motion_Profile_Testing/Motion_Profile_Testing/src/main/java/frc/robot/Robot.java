@@ -69,10 +69,8 @@ public class Robot extends IterativeRobot
 	@Override
 	public void autonomousPeriodic() 
 	{
-		System.out.println("STARTING PATH IN ROBOT.JAVA");
 		Autonomous.soloPathAuto(enc, navX);
-		System.out.println("END PATH IN ROBOT.JAVA");
-    	//Autonomous.twoPathAuto(enc);
+    	//Autonomous.twoPathAuto(enc, navX);
 	}
 	
 	@Override

@@ -16,26 +16,21 @@ public class Autonomous
 
     public static void soloPathAuto(Encoders enc, NavX navX)
     {
+        TrajectoryFollower traj = new TrajectoryFollower();
         enc.setEncoderValues();
         navX.getAngle();
-        System.out.println("STARTING SOLO PATH AUTO");
-        TrajectoryFollower traj = new TrajectoryFollower();
-        System.out.println("SETTING ENCODERS");
         enc.resetEncoders();
         navX.resetAngle();
-        System.out.println("ENCODERS HAVE BEEN RESET");
         switch(currentState)
         {
             case 0:
-                System.out.println("Starting to Load Path (1/2)");
                // traj.followPath("StraightandLeftCurve");
                 traj.followPath("StraightTenFeet");
-                System.out.println("Loaded Path (2/2)");
+                System.out.println("Running Path (1/2)");
                 currentState = 1;
                 break;
             case 1:
-                System.out.println("Running Path (1/2)");
-               // traj.runPath(enc.leftEncoderValue, enc.rightEncoderValue, navX.yaw);
+                traj.runPath(enc.leftEncoderValue, enc.rightEncoderValue, navX.yaw);
                 if(traj.pathFinished)
                 {
                     System.out.println("Path Finished (2/2)");

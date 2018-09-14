@@ -18,8 +18,8 @@ public class TrajectoryFollower
 
     public void runPath(int lEncoder, int rEncoder, double navXAngle)
     {
-        EncoderFollower right = new EncoderFollower(leftTrajectory);
-        EncoderFollower left = new EncoderFollower(rightTrajectory);
+        EncoderFollower right = new EncoderFollower(rightTrajectory);
+        EncoderFollower left = new EncoderFollower(leftTrajectory);
 
         right.configureEncoder(rEncoder, 1440, Constants.wheelDiameter);
         left.configureEncoder(lEncoder, 1440, Constants.wheelDiameter);
