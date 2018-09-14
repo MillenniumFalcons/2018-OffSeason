@@ -6,14 +6,9 @@ import edu.wpi.first.wpilibj.*;
 
 public class NavX
 {
-    public AHRS AHRSnavX;
+    AHRS AHRSnavX = new AHRS(SPI.Port.kMXP);
 
     public double yaw, pitch, roll;
-
-    public void navXInitialize()
-    {
-        AHRSnavX = new AHRS(SPI.Port.kMXP);
-    }
 
     public void getAngle()
     {

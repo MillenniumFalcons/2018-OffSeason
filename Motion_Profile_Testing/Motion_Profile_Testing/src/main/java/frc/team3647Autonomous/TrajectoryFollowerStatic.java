@@ -11,12 +11,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.io.File;
 
-public class TrajectoryFollower
+public class TrajectoryFollowerStatic
 {
-    Trajectory leftTrajectory, rightTrajectory;
-    public boolean pathFinished = false;
+    static Trajectory leftTrajectory, rightTrajectory;
+    public static boolean pathFinished = false;
 
-    public void runPath(int lEncoder, int rEncoder, double navXAngle)
+    public static void runPath(int lEncoder, int rEncoder, double navXAngle)
     {
         EncoderFollower right = new EncoderFollower(rightTrajectory);
         EncoderFollower left = new EncoderFollower(leftTrajectory);
@@ -60,13 +60,13 @@ public class TrajectoryFollower
         }
     }
 
-    public void followPath(String path)
+    public static void followPath(String path)
     {
         rightTrajectory = Pathfinder.readFromCSV(new File("/home/lvuser/paths/" + path + "_right_Jaci.csv"));
         leftTrajectory = Pathfinder.readFromCSV(new File("/home/lvuser/paths/" + path + "_left_Jaci.csv"));
     }
 
-    public void followPath(Waypoint[] points)
+    public static void followPath(Waypoint[] points)
     {
         Trajectory.Config configPoints = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_LOW, Constants.MPTimeStep, Constants.maxVelocity, Constants.maxAcceleration, Constants.maxJerk);
         Trajectory trajPoints = Pathfinder.generate(points, configPoints);

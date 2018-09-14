@@ -47,6 +47,38 @@ public class Autonomous
         }
     }
 
+    public static void soloPathAutoStatic(Encoders enc, NavX navX)
+    {
+        enc.setEncoderValues();
+        navX.getAngle();
+        enc.resetEncoders();
+        navX.resetAngle();
+        switch(currentState)
+        {
+            case 0:
+               // traj.followPath("StraightandLeftCurve");
+                TrajectoryFollowerStatic.followPath("StraightTenFeet");
+                System.out.println("Running Path (1/2)");
+                currentState = 1;
+                break;
+            case 1:
+                TrajectoryFollowerStatic.runPath(enc.leftEncoderValue, enc.rightEncoderValue, navX.yaw);
+                if(TrajectoryFollowerStatic.pathFinished)
+                {
+                    System.out.println("Path Finished (2/2)");
+                    currentState = 2;
+                }
+                else
+                {
+                    System.out.println("PATH NOT FINISHED");
+                }
+                break;
+            case 2:
+                System.out.println("CASE 2 REACHED");
+                break;
+        }
+    }
+
     public static void twoPathAuto(Encoders enc, NavX navX)
     {
         TrajectoryFollower traj = new TrajectoryFollower();

@@ -39,7 +39,6 @@ public class Robot extends IterativeRobot
 			navX = new NavX();
 			joy = new Joysticks();
 			enc.resetEncoders();
-			navX.navXInitialize();
 			navX.resetAngle();
 			Drivetrain.drivetrainInitialization();
 			setTests();
