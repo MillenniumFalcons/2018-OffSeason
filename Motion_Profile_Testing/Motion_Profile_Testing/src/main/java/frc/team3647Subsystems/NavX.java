@@ -10,7 +10,7 @@ public class NavX
 
     public double yaw, pitch, roll;
 
-    public void getAngle()
+    public void setAngle()
     {
         yaw = AHRSnavX.getYaw();
         pitch = AHRSnavX.getPitch();

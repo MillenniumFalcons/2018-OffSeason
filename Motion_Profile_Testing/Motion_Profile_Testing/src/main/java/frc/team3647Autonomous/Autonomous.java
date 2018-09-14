@@ -5,6 +5,7 @@ import frc.team3647Subsystems.*;
 public class Autonomous
 {
     static int currentState = 0;
+    static TrajectoryFollower traj = new TrajectoryFollower();
    
     public static void initialization(Encoders enc, NavX navX)
     {
@@ -16,22 +17,22 @@ public class Autonomous
 
     public static void soloPathAuto(Encoders enc, NavX navX)
     {
-        TrajectoryFollower traj = new TrajectoryFollower();
         enc.setEncoderValues();
-        navX.getAngle();
-        enc.resetEncoders();
-        navX.resetAngle();
+        navX.setAngle();
         switch(currentState)
         {
             case 0:
                // traj.followPath("StraightandLeftCurve");
+                enc.resetEncoders();
+                navX.resetAngle();
+                System.out.println("Loading Path");
                 traj.followPath("StraightTenFeet");
-                System.out.println("Running Path (1/2)");
                 currentState = 1;
                 break;
             case 1:
+            System.out.println("Running Path (1/2)");
                 traj.runPath(enc.leftEncoderValue, enc.rightEncoderValue, navX.yaw);
-                if(traj.pathFinished)
+                if(traj.isFinished())
                 {
                     System.out.println("Path Finished (2/2)");
                     currentState = 2;
@@ -42,60 +43,27 @@ public class Autonomous
                 }
                 break;
             case 2:
-                System.out.println("CASE 2 REACHED");
-                break;
-        }
-    }
-
-    public static void soloPathAutoStatic(Encoders enc, NavX navX)
-    {
-        enc.setEncoderValues();
-        navX.getAngle();
-        enc.resetEncoders();
-        navX.resetAngle();
-        switch(currentState)
-        {
-            case 0:
-               // traj.followPath("StraightandLeftCurve");
-                TrajectoryFollowerStatic.followPath("StraightTenFeet");
-                System.out.println("Running Path (1/2)");
-                currentState = 1;
-                break;
-            case 1:
-                TrajectoryFollowerStatic.runPath(enc.leftEncoderValue, enc.rightEncoderValue, navX.yaw);
-                if(TrajectoryFollowerStatic.pathFinished)
-                {
-                    System.out.println("Path Finished (2/2)");
-                    currentState = 2;
-                }
-                else
-                {
-                    System.out.println("PATH NOT FINISHED");
-                }
-                break;
-            case 2:
-                System.out.println("CASE 2 REACHED");
+                System.out.println("CASE 2 REACHED (path finished)");
                 break;
         }
     }
 
     public static void twoPathAuto(Encoders enc, NavX navX)
     {
-        TrajectoryFollower traj = new TrajectoryFollower();
         enc.setEncoderValues();
-        navX.getAngle();
-        enc.resetEncoders();
-        navX.resetAngle();
+        navX.setAngle();
         switch(currentState)
         {
             case 0:
+                enc.resetEncoders();
+                navX.resetAngle();
                 traj.followPath("StraightandLeftCurve");
                 System.out.println("loaded path 1");
                 currentState = 1;
                 break;
             case 1:
                 traj.runPath(enc.leftEncoderValue, enc.rightEncoderValue, navX.yaw);
-                if(traj.pathFinished)
+                if(traj.isFinished())
                 {
                     System.out.println("path 1 finished");
                     currentState = 2;
@@ -113,7 +81,7 @@ public class Autonomous
                 currentState = 3;
             case 3:
                 traj.runPath(enc.leftEncoderValue, enc.rightEncoderValue, navX.yaw);
-                if(traj.pathFinished)
+                if(traj.isFinished())
                 {
                     System.out.println("path 2 finished");
                     currentState = 4;

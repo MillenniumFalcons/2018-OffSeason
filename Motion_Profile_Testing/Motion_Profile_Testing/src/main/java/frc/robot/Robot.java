@@ -38,8 +38,6 @@ public class Robot extends IterativeRobot
 			enc = new Encoders();
 			navX = new NavX();
 			joy = new Joysticks();
-			enc.resetEncoders();
-			navX.resetAngle();
 			Drivetrain.drivetrainInitialization();
 			setTests();
 			
@@ -90,7 +88,7 @@ public class Robot extends IterativeRobot
 	{
 		try 
 		{
-			navX.getAngle();
+			navX.setAngle();
 			updateJoysticks();
 			runDrivetrain();
 			runTests();

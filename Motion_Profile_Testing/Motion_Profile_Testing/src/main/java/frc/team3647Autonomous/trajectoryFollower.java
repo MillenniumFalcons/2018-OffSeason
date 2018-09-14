@@ -14,21 +14,13 @@ import java.io.File;
 public class TrajectoryFollower
 {
     Trajectory leftTrajectory, rightTrajectory;
-    public boolean pathFinished = false;
+
+    EncoderFollower right = new EncoderFollower(rightTrajectory);
+    EncoderFollower left = new EncoderFollower(leftTrajectory);
 
     public void runPath(int lEncoder, int rEncoder, double navXAngle)
     {
-        EncoderFollower right = new EncoderFollower(rightTrajectory);
-        EncoderFollower left = new EncoderFollower(leftTrajectory);
-
-        right.configureEncoder(rEncoder, 1440, Constants.wheelDiameter);
-        left.configureEncoder(lEncoder, 1440, Constants.wheelDiameter);
-
-        //set PID values
-        right.configurePIDVA(Constants.rPFkP, Constants.rPFkI, Constants.rPFkD, Constants.rPFkV, Constants.rPFkA);
-        left.configurePIDVA(Constants.lPFkP, Constants.lPFkI, Constants.lPFkD, Constants.lPFkV, Constants.lPFkA);
         //set follower values
-
         double rValue = right.calculate(5);
         double lValue = left.calculate(lEncoder);
 
@@ -37,33 +29,30 @@ public class TrajectoryFollower
         double desiredHeading = Pathfinder.r2d(right.getHeading());
         double headingDifference = Pathfinder.boundHalfDegrees(desiredHeading - gyroHeading);
         double turn = 0.8 * (-1.0/80.0) * headingDifference;
-
         double rPower = rValue + turn;
         double lPower = lValue - turn;
+
         //set output
         //Drivetrain.setPercentOutput(lValue, rValue); //no gyro
         Drivetrain.setPercentOutput(lPower, rPower); //with gyro
 
         SmartDashboard.putNumber("target left speed", lValue);
         SmartDashboard.putNumber("target right speed", rValue);
-        
         SmartDashboard.putNumber("left encoder value", lEncoder);
         SmartDashboard.putNumber("right encoder value", rEncoder);
-
-        if(left.isFinished() && right.isFinished())
-        {
-          pathFinished = true;
-        } 
-        else
-        {
-          pathFinished = false;
-        }
     }
 
     public void followPath(String path)
     {
         rightTrajectory = Pathfinder.readFromCSV(new File("/home/lvuser/paths/" + path + "_right_Jaci.csv"));
         leftTrajectory = Pathfinder.readFromCSV(new File("/home/lvuser/paths/" + path + "_left_Jaci.csv"));
+    
+        right.configureEncoder(0, 1440, Constants.wheelDiameter);//first arg set to 0 since encoders reset just before
+        left.configureEncoder(0, 1440, Constants.wheelDiameter);
+
+        //set PID values
+        right.configurePIDVA(Constants.rPFkP, Constants.rPFkI, Constants.rPFkD, Constants.rPFkV, Constants.rPFkA);
+        left.configurePIDVA(Constants.lPFkP, Constants.lPFkI, Constants.lPFkD, Constants.lPFkV, Constants.lPFkA);
     }
 
     public void followPath(Waypoint[] points)
@@ -76,5 +65,10 @@ public class TrajectoryFollower
 
         leftTrajectory = tankModifier.getLeftTrajectory();
         rightTrajectory = tankModifier.getRightTrajectory();
+    }
+
+    public boolean isFinished()
+    {
+        return left.isFinished() && right.isFinished();
     }
 }
