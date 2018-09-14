@@ -22,12 +22,12 @@ public class Autonomous
         switch(currentState)
         {
             case 0:
-               // traj.followPath("StraightandLeftCurve");
+                traj.followPath("StraightandLeftCurve");
                 enc.resetEncoders();
                 navX.resetAngle();
                 System.out.println("Loading Path");
                 traj.initialize();
-                traj.followPath("StraightTenFeet");
+                //traj.followPath("StraightTenFeet");
                 currentState = 1;
                 break;
             case 1:

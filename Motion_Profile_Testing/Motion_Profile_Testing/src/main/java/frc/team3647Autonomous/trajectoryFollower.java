@@ -15,14 +15,15 @@ public class TrajectoryFollower
 {
     Trajectory leftTrajectory, rightTrajectory;
 
-    EncoderFollower right = new EncoderFollower(rightTrajectory);
-    EncoderFollower left = new EncoderFollower(leftTrajectory);
-
+    EncoderFollower right = new EncoderFollower();
+    EncoderFollower left = new EncoderFollower();
+    double heading = right.getHeading();
     public void runPath(int lEncoder, int rEncoder, double navXAngle)
     {
+        
         //set follower values
         double rValue = right.calculate(5);
-        double lValue = left.calculate(lEncoder);
+        double lValue = left.calculate(5);
 
         //navX gyro code
         double gyroHeading = -navXAngle; //invert since RHR
@@ -46,6 +47,8 @@ public class TrajectoryFollower
     {
         rightTrajectory = Pathfinder.readFromCSV(new File("/home/lvuser/paths/" + path + "_right_Jaci.csv"));
         leftTrajectory = Pathfinder.readFromCSV(new File("/home/lvuser/paths/" + path + "_left_Jaci.csv"));
+        right.setTrajectory(rightTrajectory);
+        left.setTrajectory(leftTrajectory);
     }
 
     public void followPath(Waypoint[] points)
