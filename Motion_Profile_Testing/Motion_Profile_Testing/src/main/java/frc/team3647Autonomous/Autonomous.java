@@ -26,6 +26,7 @@ public class Autonomous
                 enc.resetEncoders();
                 navX.resetAngle();
                 System.out.println("Loading Path");
+                traj.initialize();
                 traj.followPath("StraightTenFeet");
                 currentState = 1;
                 break;
@@ -57,6 +58,7 @@ public class Autonomous
             case 0:
                 enc.resetEncoders();
                 navX.resetAngle();
+                traj.initialize();
                 traj.followPath("StraightandLeftCurve");
                 System.out.println("loaded path 1");
                 currentState = 1;
@@ -76,6 +78,7 @@ public class Autonomous
             case 2:
                 enc.resetEncoders();
                 navX.resetAngle();
+                traj.initialize();
                 traj.followPath("CurveRightandStraight");
                 System.out.println("loaded path 2");
                 currentState = 3;
