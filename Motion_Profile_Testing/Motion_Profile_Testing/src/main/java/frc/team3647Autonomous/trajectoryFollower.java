@@ -22,8 +22,8 @@ public class TrajectoryFollower
     {
         
         //set follower values
-        double rValue = right.calculate(5);
-        double lValue = left.calculate(5);
+        double rValue = right.calculate(rEncoder);
+        double lValue = left.calculate(lEncoder);
 
         //navX gyro code
         double gyroHeading = -navXAngle; //invert since RHR
