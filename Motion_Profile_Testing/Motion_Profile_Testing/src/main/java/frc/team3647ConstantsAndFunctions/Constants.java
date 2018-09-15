@@ -46,4 +46,6 @@ public class Constants
 	//Auto Constants
 	public final static double shootCubeTime = 0.5;
 	public final static double elevatorTimeout = 1;
+	public final static double autoIntakeSpeed = 1;
+	public final static double autoShootSpeed = -1;
 }

@@ -11,13 +11,17 @@ public class Autonomous
     public static Timer stopWatch = new Timer();
     public static int currentState;
     public static double time;
+    public static boolean twoCube;
+
     public static void initialization(Encoders enc, NavX navX)
     {
         enc.resetEncoders();
         navX.resetAngle();
+        traj.initialize();
         Drivetrain.setToBrake();
         Drivetrain.stop();
         currentState = 0;
+        twoCube = false;
     }
 
     public static void middleToRightSwitch(Encoders enc, NavX navX)
@@ -31,38 +35,37 @@ public class Autonomous
                 enc.resetEncoders();
                 navX.resetAngle();
                 System.out.println("Loading Path");
-                traj.initialize();
                 traj.followPath("MiddleToRightSwitch", false);
+                // Elevator.currentWristState = 0;
                 currentState = 1;
                 break;
             case 1: //move elevator down
-                //Wrist.moveUp();
+                // Wrist.moveUp();
 				// if(Elevator.elevatorEncoderValue == 0)
 				// {
-				// 	    Elevator.stopElevator();
+                // 	    Elevator.stopElevator();
 				// 	    currentState = 2;
 				// }
 				// else if(stopWatch.get() > Constants.elevatorTimeout)
 				// {
-				// 	    Elevator.stopElevator();
+                // 	    Elevator.stopElevator();
 				// 	    currentState = 2;
 				// }
 				// else
 				// {
 				// 	    Elevator.moveElevator(-.3);
                 // }
-                currentState = 2;
+                currentState = 2;//remove in final
 				break;
             case 2: //go to right switch from middle and move elevator up and wrist to flat
                 traj.runPath(enc.leftEncoderValue, enc.rightEncoderValue, navX.yawUnClamped);
-                //wrist.currentWristState = 0;
                 //Elevator.moveSwitch();
                 if(traj.isFinished())
                 {
                     System.out.println("Path Finished (2/2)");
-                    currentState = 3;
                     stopWatch.reset();
                     stopWatch.start();
+                    currentState = 3;
                 }
                 break;
             case 3: //keep elevator up and drop cube
@@ -70,83 +73,93 @@ public class Autonomous
                 time = stopWatch.get();
                 if(time < Constants.shootCubeTime)
                 {
-                    //IntakeWheels.runIntake(0, 0, true, -1, -1, false);
-                    enc.resetEncoders();
-                    navX.resetAngle();
+                    //IntakeWheels.runIntake(0, 0, true, Constants.autoShootSpeed, Constants.autoShootSpeed, false);
                 }
                 else
                 {
-                    currentState = 4;
                     stopWatch.reset();
+                    enc.resetEncoders();
+                    navX.resetAngle();
+                    currentState = 4;
                 }
                 break;
-            case 4: //maintain elevator position
+            case 4: //maintain elevator position and if 2 cube proceed
                 //Elevator.moveSwitch();
+                if(twoCube)
+                {
+                    enc.resetEncoders();
+                    navX.resetAngle();
+                    System.out.println("Loading Path");
+                    traj.followPath("RightSwitchMoveToSecondCube", true);                  
+                    currentState = 5;
+                }
                 break;
-        }
-    }
-
-    public static void middleToLeftSwitch(Encoders enc, NavX navX)
-    {
-        enc.setEncoderValues();
-        navX.setAngle();
-        switch(currentState)
-        {
-            case 0: //initialize
-                stopWatch.start(); 
-                enc.resetEncoders();
-                navX.resetAngle();
-                System.out.println("Loading Path");
-                traj.initialize();
-                traj.followPath("MiddleToLeftSwitch", false);
-                currentState = 1;
-                break;
-            case 1: //move elevator down
-                //Wrist.moveUp();
-				// if(Elevator.elevatorEncoderValue == 0)
-				// {
-				// 	    Elevator.stopElevator();
-				// 	    currentState = 2;
-				// }
-				// else if(stopWatch.get() > Constants.elevatorTimeout)
-				// {
-				// 	    Elevator.stopElevator();
-				// 	    currentState = 2;
-				// }
-				// else
-				// {
-				// 	    Elevator.moveElevator(-.3);
-                // }
-                currentState = 2;
-				break;
-            case 2: //go to right switch from middle and move elevator up and wrist to flat
+            case 5: //move elevator and wrist down, move to position to pick up 2nd cube
+                //Elevator.moveBottom(false);
+                //Wrist.moveToBottom();
                 traj.runPath(enc.leftEncoderValue, enc.rightEncoderValue, navX.yawUnClamped);
-                //wrist.currentWristState = 0;
-                //Elevator.moveSwitch();
                 if(traj.isFinished())
                 {
                     System.out.println("Path Finished (2/2)");
-                    currentState = 3;
-                    stopWatch.reset();
-                    stopWatch.start();
+                    enc.resetEncoders();
+                    navX.resetAngle();
+                    System.out.println("Loading Path");
+                    traj.followPath("StraightToSecondCube", false);                  
+                    currentState = 6;
                 }
                 break;
-            case 3: //keep elevator up and drop cube
+            case 6: //move to pick up 2 cube and run intake
+                //IntakeWheels.runIntake(0, 0, true, Constants.autoIntakeSpeed, Constants.autoIntakeSpeed, false);
+                traj.runPath(enc.leftEncoderValue, enc.rightEncoderValue, navX.yawUnClamped);
+                if(traj.isFinished())
+                {
+                    System.out.println("Path Finished (2/2)");
+                    enc.resetEncoders();
+                    navX.resetAngle();
+                    System.out.println("Loading Path");
+                    traj.followPath("BackUpToRightSwitch", true);
+                    currentState = 7;
+                }
+                break;
+            case 7: //move wrist up and back up to line up to switch
+                //Wrist.moveToUp();
+                traj.runPath(enc.leftEncoderValue, enc.rightEncoderValue, navX.yawUnClamped);
+                if(traj.isFinished())
+                {
+                    System.out.println("Path Finished (2/2)");
+                    enc.resetEncoders();
+                    navX.resetAngle();
+                    System.out.println("Loading Path");
+                    traj.followPath("StraightToScoreSecondCube", false);
+                    // Elevator.currentWristState = 0;                  
+                    currentState = 8;
+                }
+            case 8: // move elevator to switch (moves wrist down automatically) and go straight to score
+               //Elevator.moveSwitch(); 
+               traj.runPath(enc.leftEncoderValue, enc.rightEncoderValue, navX.yawUnClamped);
+               if(traj.isFinished())
+               {
+                    System.out.println("Path Finished (2/2)");
+                    stopWatch.reset();
+                    stopWatch.start();
+                    currentState = 9;
+               }
+            case 9: //keep elevator up and shoot cube for x amount of time
                 //Elevator.moveSwitch();
                 time = stopWatch.get();
                 if(time < Constants.shootCubeTime)
                 {
-                    //IntakeWheels.runIntake(0, 0, true, -1, -1, false);
-                    enc.resetEncoders();
-                    navX.resetAngle();
+                    //IntakeWheels.runIntake(0, 0, true, Constants.autoShootSpeed, Constants.autoShootSpeed, false);
                 }
                 else
                 {
-                    currentState = 4;
                     stopWatch.reset();
+                    enc.resetEncoders();
+                    navX.resetAngle();
+                    currentState = 10;
                 }
                 break;
-            case 4: //maintain elevator position
+            case 10: //done with auto -- keep elevator up
                 //Elevator.moveSwitch();
                 break;
         }
