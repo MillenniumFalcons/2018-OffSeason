@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.MotorSafetyHelper;
 import edu.wpi.first.wpilibj.Timer;
 import frc.team3647Subsystems.*;
 import frc.team3647Autonomous.*;
+import frc.team3647Inputs.*;
 
 
 

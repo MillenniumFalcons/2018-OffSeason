@@ -14,19 +14,40 @@ import java.io.File;
 public class TrajectoryFollower
 {
     Trajectory leftTrajectory, rightTrajectory;
+    Trajectory adjustedLeftTrajectory, adjustedRightTrajectory;
+    Trajectory preReverseR, preReverseL;
+    
 
     EncoderFollower right = new EncoderFollower();
     EncoderFollower left = new EncoderFollower();
-    double heading = right.getHeading();
+    int adjustedREncoder, adjustedlEncoder;
+    int reverseModifier;
+    boolean finalReverse;
+    double angleAdjustment;
+    
     public void runPath(int lEncoder, int rEncoder, double navXAngle)
     {
+        if(!finalReverse)
+        {
+            adjustedREncoder = rEncoder;
+            adjustedlEncoder = lEncoder;
+            reverseModifier = 1;
+            angleAdjustment= 0;
+        }
+        else
+        {
+            adjustedlEncoder = -rEncoder;
+            adjustedREncoder = -lEncoder;
+            reverseModifier = -1;
+            angleAdjustment = 180;
+        }
         
         //set follower values
-        double rValue = right.calculate(rEncoder);
-        double lValue = left.calculate(lEncoder);
-
+        double rValue = right.calculate(adjustedREncoder)*reverseModifier;
+        double lValue = left.calculate(adjustedlEncoder)*reverseModifier;
+            
         //navX gyro code
-        double gyroHeading = -navXAngle; //invert since RHR
+        double gyroHeading = -1*navXAngle + angleAdjustment; //invert since RHR
         double desiredHeading = Pathfinder.r2d(right.getHeading());
         double headingDifference = Pathfinder.boundHalfDegrees(desiredHeading - gyroHeading);
         double turn = 0.8 * (-1.0/80.0) * headingDifference;
@@ -43,10 +64,21 @@ public class TrajectoryFollower
         SmartDashboard.putNumber("right encoder value", rEncoder);
     }
 
-    public void followPath(String path)
+    public void followPath(String path, boolean backward)
     {
-        rightTrajectory = Pathfinder.readFromCSV(new File("/home/lvuser/paths/" + path + "_right_Jaci.csv"));
-        leftTrajectory = Pathfinder.readFromCSV(new File("/home/lvuser/paths/" + path + "_left_Jaci.csv"));
+        if(backward)
+        {
+            rightTrajectory = Pathfinder.readFromCSV(new File("/home/lvuser/paths/" + path + "_left_Jaci.csv"));
+            leftTrajectory = Pathfinder.readFromCSV(new File("/home/lvuser/paths/" + path + "_right_Jaci.csv"));
+        }
+        else
+        {
+            rightTrajectory = Pathfinder.readFromCSV(new File("/home/lvuser/paths/" + path + "_right_Jaci.csv"));
+            leftTrajectory = Pathfinder.readFromCSV(new File("/home/lvuser/paths/" + path + "_left_Jaci.csv"));
+        }
+
+        finalReverse = backward;
+        
         right.setTrajectory(rightTrajectory);
         left.setTrajectory(leftTrajectory);
     }
@@ -61,12 +93,9 @@ public class TrajectoryFollower
 
         leftTrajectory = tankModifier.getLeftTrajectory();
         rightTrajectory = tankModifier.getRightTrajectory();
-    }
 
-    public void reset()
-    {
-        right.reset();
-        left.reset();
+        right.setTrajectory(rightTrajectory);
+        left.setTrajectory(leftTrajectory);
     }
 
     public void initialize()
@@ -84,3 +113,28 @@ public class TrajectoryFollower
         return left.isFinished() && right.isFinished();
     }
 }
+
+
+// public void runPath(int lEncoder, int rEncoder, double navXAngle, boolean reverse)
+// {
+//     //set follower values
+//         double rValue = right.calculate(rEncoder);
+//         double lValue = left.calculate(lEncoder);
+        
+//     //navX gyro code
+//     double gyroHeading = -navXAngle; //invert since RHR
+//     double desiredHeading = Pathfinder.r2d(right.getHeading());
+//     double headingDifference = Pathfinder.boundHalfDegrees(desiredHeading - gyroHeading);
+//     double turn = 0.8 * (-1.0/80.0) * headingDifference;
+//     double rPower = rValue + turn;
+//     double lPower = lValue - turn;
+
+//     //set output
+//     //Drivetrain.setPercentOutput(lValue, rValue); //no gyro
+//     Drivetrain.setPercentOutput(lPower, rPower); //with gyro
+
+//     SmartDashboard.putNumber("target left speed", lValue);
+//     SmartDashboard.putNumber("target right speed", rValue);
+//     SmartDashboard.putNumber("left encoder value", lEncoder);
+//     SmartDashboard.putNumber("right encoder value", rEncoder);
+// }

@@ -1,5 +1,6 @@
-package frc.team3647Subsystems;
+package frc.team3647Inputs;
 import frc.team3647ConstantsAndFunctions.*;
+import frc.team3647Subsystems.Drivetrain;;
 
 public class Encoders 
 {

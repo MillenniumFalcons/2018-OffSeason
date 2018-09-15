@@ -1,4 +1,4 @@
-package frc.team3647Subsystems;
+package frc.team3647Inputs;
 
 import frc.team3647ConstantsAndFunctions.*;
 import com.kauailabs.navx.frc.AHRS;
@@ -8,11 +8,12 @@ public class NavX
 {
     AHRS AHRSnavX = new AHRS(SPI.Port.kMXP);
 
-    public double yaw, pitch, roll;
+    public double yaw, yawUnClamped, pitch, roll;
 
     public void setAngle()
     {
         yaw = AHRSnavX.getYaw();
+        yawUnClamped = AHRSnavX.getAngle();
         pitch = AHRSnavX.getPitch();
         roll = AHRSnavX.getRoll();
     }
@@ -24,6 +25,6 @@ public class NavX
 
     public void testAngle()
     {
-        System.out.println("Yaw: " + -yaw + " Pitch: " + pitch + " Roll: " + roll);
+        System.out.println("Yaw: " + -yaw + "Yaw (Unclamped): " + yawUnClamped + " Pitch: " + pitch + " Roll: " + roll);
     }
 }

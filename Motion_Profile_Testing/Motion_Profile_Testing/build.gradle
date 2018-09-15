@@ -26,7 +26,7 @@ deploy {
         }
        fileCollectionArtifact('motionProfiles') {
             targets << 'roborio'
-            files = fileTree(dir: '/src/main/paths')//, include: "**/*.csv"? //pc directory
+            files = fileTree(dir: '/resources/paths')//, include: "**/*.csv"? //pc directory
             directory = "/home/lvuser/paths" //roborio directory
         }
     }
