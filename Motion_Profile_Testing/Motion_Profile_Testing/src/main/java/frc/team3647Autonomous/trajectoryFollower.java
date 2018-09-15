@@ -63,6 +63,12 @@ public class TrajectoryFollower
         rightTrajectory = tankModifier.getRightTrajectory();
     }
 
+    public void reset()
+    {
+        right.reset();
+        left.reset();
+    }
+
     public void initialize()
     {
         right.configureEncoder(0, 1440, Constants.wheelDiameter);//first arg set to 0 since encoders reset just before

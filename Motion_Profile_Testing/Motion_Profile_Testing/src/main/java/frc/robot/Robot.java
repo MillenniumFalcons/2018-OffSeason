@@ -92,6 +92,10 @@ public class Robot extends IterativeRobot
 			updateJoysticks();
 			runDrivetrain();
 			runTests();
+			if(joy.buttonA)
+			{
+				enc.resetEncoders();
+			}
 		}
 		catch(Throwable t)
 		{

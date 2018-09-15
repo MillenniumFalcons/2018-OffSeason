@@ -4,15 +4,15 @@ import frc.team3647Subsystems.*;
 
 public class Autonomous
 {
-    static int currentState = 0;
     static TrajectoryFollower traj = new TrajectoryFollower();
-   
+    public static int currentState;
     public static void initialization(Encoders enc, NavX navX)
     {
         enc.resetEncoders();
         navX.resetAngle();
         Drivetrain.setToBrake();
         Drivetrain.stop();
+        currentState = 0;
     }
 
     public static void soloPathAuto(Encoders enc, NavX navX)
@@ -22,11 +22,12 @@ public class Autonomous
         switch(currentState)
         {
             case 0:
-                traj.followPath("StraightandLeftCurve");
                 enc.resetEncoders();
                 navX.resetAngle();
                 System.out.println("Loading Path");
                 traj.initialize();
+                traj.reset();
+                traj.followPath("StraightandLeftCurve");
                 //traj.followPath("StraightTenFeet");
                 currentState = 1;
                 break;
@@ -58,28 +59,32 @@ public class Autonomous
             case 0:
                 enc.resetEncoders();
                 navX.resetAngle();
+                System.out.println("Loading Path");
                 traj.initialize();
                 traj.followPath("StraightandLeftCurve");
-                System.out.println("loaded path 1");
+                //traj.followPath("StraightTenFeet");
                 currentState = 1;
                 break;
             case 1:
+            System.out.println("Running Path (1/2)");
                 traj.runPath(enc.leftEncoderValue, enc.rightEncoderValue, navX.yaw);
                 if(traj.isFinished())
                 {
-                    System.out.println("path 1 finished");
+                    System.out.println("Path Finished (2/2)");
                     currentState = 2;
                 }
                 else
                 {
-                    System.out.println("path 1 not finished");
+                    System.out.println("PATH NOT FINISHED");
                 }
                 break;
             case 2:
+                System.out.println("CASE 2 REACHED (path finished)");
                 enc.resetEncoders();
                 navX.resetAngle();
                 traj.initialize();
-                traj.followPath("CurveRightandStraight");
+                System.out.println("Loading Path");
+                traj.followPath("StraightandRightCruve");
                 System.out.println("loaded path 2");
                 currentState = 3;
             case 3:
