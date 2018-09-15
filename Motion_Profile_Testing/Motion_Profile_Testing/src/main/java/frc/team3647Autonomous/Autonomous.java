@@ -27,8 +27,10 @@ public class Autonomous
                 System.out.println("Loading Path");
                 traj.initialize();
                 traj.reset();
-                traj.followPath("StraightandLeftCurve");
+                traj.followPath("MiddleToRightSwitch");
                 //traj.followPath("StraightTenFeet");
+               // traj.followPath("SuryaOmegaLul");
+                //traj.followPath("StraightandLeftCurve");
                 currentState = 1;
                 break;
             case 1:
