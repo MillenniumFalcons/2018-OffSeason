@@ -24,6 +24,7 @@ public class Autonomous
         twoCube = false;
     }
 
+    //Comp Autos
     public static void middleToRightSwitch(Encoders enc, NavX navX)
     {
         enc.setEncoderValues();
@@ -161,6 +162,53 @@ public class Autonomous
                 break;
             case 10: //done with auto -- keep elevator up
                 //Elevator.moveSwitch();
+                break;
+        }
+    }
+
+    public static void leftToLeftScale(Encoders enc, NavX navX)
+    {
+        enc.setEncoderValues();
+        navX.setAngle();
+        switch(currentState)
+        {
+            case 0: //initialize
+                stopWatch.start(); 
+                enc.resetEncoders();
+                navX.resetAngle();
+                System.out.println("Loading Path");
+                traj.followPath("leftToLeftScale", false);
+                // Elevator.currentWristState = 0;
+                currentState = 1;
+                break;
+            case 1: //go to left scale from left side and move elevator up and wrist to flat
+                traj.runPath(enc.leftEncoderValue, enc.rightEncoderValue, navX.yawUnClamped);
+                //Elevator.moveScale();
+                if(traj.isFinished())
+                {
+                    System.out.println("Path Finished (2/2)");
+                    stopWatch.reset();
+                    stopWatch.start();
+                    currentState = 2;
+                }
+                break;
+            case 2: //keep elevator up and drop cube
+                //Elevator.moveScale();
+                time = stopWatch.get();
+                if(time < Constants.shootCubeTime)
+                {
+                    //IntakeWheels.runIntake(0, 0, true, Constants.autoShootSpeed, Constants.autoShootSpeed, false);
+                }
+                else
+                {
+                    stopWatch.reset();
+                    enc.resetEncoders();
+                    navX.resetAngle();
+                    currentState = 3;
+                }
+                break;
+            case 3: //auto path complete - elevator down?
+                //Elevator.moveToBottom();
                 break;
         }
     }
