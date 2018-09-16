@@ -48,4 +48,5 @@ public class Constants
 	public final static double elevatorTimeout = 1;
 	public final static double autoIntakeSpeed = 1;
 	public final static double autoShootSpeed = -1;
+	public final static double scaleAutoElevatorUpDistance = 19800; //18ft * 12in * 1440 / (5in * 3.14)
 }

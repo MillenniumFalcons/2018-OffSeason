@@ -168,6 +168,7 @@ public class Autonomous
 
     public static void leftToLeftScale(Encoders enc, NavX navX)
     {
+        double neededDistance = Constants.scaleAutoElevatorUpDistance;
         enc.setEncoderValues();
         navX.setAngle();
         switch(currentState)
@@ -201,6 +202,8 @@ public class Autonomous
 				break;
             case 2: //go to left scale from left side and move elevator up and wrist to flat
                 traj.runPath(enc.leftEncoderValue, enc.rightEncoderValue, navX.yawUnClamped);
+                if(enc.leftEncoderValue > neededDistance && enc.rightEncoderCLError > neededDistance)
+                    //Elevator.moveScale();
                 //Elevator.moveScale();
                 if(traj.isFinished())
                 {
