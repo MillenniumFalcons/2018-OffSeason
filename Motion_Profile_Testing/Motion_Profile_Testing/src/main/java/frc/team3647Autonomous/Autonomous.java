@@ -40,7 +40,7 @@ public class Autonomous
                 // Elevator.currentWristState = 0;
                 currentState = 1;
                 break;
-            case 1: //move elevator down
+            case 1: //move elevator down (ZERO OUT ELEVATOR)
                 // Wrist.moveUp();
 				// if(Elevator.elevatorEncoderValue == 0)
 				// {
@@ -181,7 +181,25 @@ public class Autonomous
                 // Elevator.currentWristState = 0;
                 currentState = 1;
                 break;
-            case 1: //go to left scale from left side and move elevator up and wrist to flat
+            case 1: //move elevator down (ZERO OUT ELEVATOR)
+                // Wrist.moveUp();
+				// if(Elevator.elevatorEncoderValue == 0)
+				// {
+                // 	    Elevator.stopElevator();
+				// 	    currentState = 2;
+				// }
+				// else if(stopWatch.get() > Constants.elevatorTimeout)
+				// {
+                // 	    Elevator.stopElevator();
+				// 	    currentState = 2;
+				// }
+				// else
+				// {
+				// 	    Elevator.moveElevator(-.3);
+                // }
+                currentState = 2;//remove in final
+				break;
+            case 2: //go to left scale from left side and move elevator up and wrist to flat
                 traj.runPath(enc.leftEncoderValue, enc.rightEncoderValue, navX.yawUnClamped);
                 //Elevator.moveScale();
                 if(traj.isFinished())
@@ -189,10 +207,10 @@ public class Autonomous
                     System.out.println("Path Finished (2/2)");
                     stopWatch.reset();
                     stopWatch.start();
-                    currentState = 2;
+                    currentState = 3;
                 }
                 break;
-            case 2: //keep elevator up and drop cube
+            case 3: //keep elevator up and drop cube
                 //Elevator.moveScale();
                 time = stopWatch.get();
                 if(time < Constants.shootCubeTime)
@@ -204,10 +222,10 @@ public class Autonomous
                     stopWatch.reset();
                     enc.resetEncoders();
                     navX.resetAngle();
-                    currentState = 3;
+                    currentState = 4;
                 }
                 break;
-            case 3: //auto path complete - elevator down?
+            case 4: //auto path complete - elevator down?
                 //Elevator.moveToBottom();
                 break;
         }
