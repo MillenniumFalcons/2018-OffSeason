@@ -83,13 +83,12 @@ public class TrajectoryFollower
         left.setTrajectory(leftTrajectory);
     }
 
-    public void followPath(Waypoint[] points, boolean backward)
+    public void followPath(Trajectory trajPoints, boolean backward)
     {
-        Trajectory.Config configPoints = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_LOW, Constants.MPTimeStep, Constants.maxVelocity, Constants.maxAcceleration, Constants.maxJerk);
-        Trajectory trajPoints = Pathfinder.generate(points, configPoints);
+        // Trajectory.Config configPoints = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_LOW, Constants.MPTimeStep, maxVelocity, maxAcceleration, Constants.maxJerk);
+        // Trajectory trajPoints = Pathfinder.generate(points, configPoints);
 
         TankModifier tankModifier = new TankModifier(trajPoints);
-        
         tankModifier.modify(Constants.wheelBase);
 
         if(backward)

@@ -28,8 +28,8 @@ public class Constants
 		//Used for waypoint generation method
 	public final static double wheelBase = 2.1;
 	public final static double maxVelocity = 15.498; // also used for csv file method
-	public final static double maxAcceleration = 0;
-	public final static double maxJerk = 0;
+	public final static double maxAcceleration = 10;
+	public final static double maxJerk = 200;
 	public final static double MPTimeStep = 0.02;
 		//PID Values
 	public final static double lPFkP = 0.3048;//.05; //0.19; //P Gain

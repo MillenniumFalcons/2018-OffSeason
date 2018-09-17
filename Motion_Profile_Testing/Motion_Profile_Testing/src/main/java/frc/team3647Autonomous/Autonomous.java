@@ -247,6 +247,7 @@ public class Autonomous
                 System.out.println("Loading Path");
                 traj.initialize();
                 traj.followPath("MiddleToRightSwitch", false);
+                //traj.followPath(WaypointPaths.middleToRightSwitch(), false);
                // traj.followPath("MiddleToRightSwitch", true);
                 //traj.followPath("StraightTenFeet", false);
                // traj.followPath("SuryaOmegaLul", false);
