@@ -43,8 +43,8 @@ public class TrajectoryFollower
         }
         
         //set follower values
-        double rValue = right.calculate(adjustedREncoder)*reverseModifier;
-        double lValue = left.calculate(adjustedlEncoder)*reverseModifier;
+        double rValue = right.calculate(adjustedREncoder);
+        double lValue = left.calculate(adjustedlEncoder);
             
         //navX gyro code
         double gyroHeading = -1*navXAngle + angleAdjustment; //invert since RHR
@@ -54,9 +54,17 @@ public class TrajectoryFollower
         double rPower = rValue + turn;
         double lPower = lValue - turn;
 
+        if(finalReverse)
+        {
+            Drivetrain.setPercentOutput(rPower*reverseModifier, lPower*reverseModifier); //with gyro
+        }
+        else
+        {
+            Drivetrain.setPercentOutput(lPower, rPower);
+        }
         //set output
         //Drivetrain.setPercentOutput(lValue, rValue); //no gyro
-        Drivetrain.setPercentOutput(lPower, rPower); //with gyro
+        //Drivetrain.setPercentOutput(lPower, rPower);
 
         SmartDashboard.putNumber("target left speed", lValue);
         SmartDashboard.putNumber("target right speed", rValue);

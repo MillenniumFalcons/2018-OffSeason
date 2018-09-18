@@ -21,7 +21,7 @@ public class Autonomous
         Drivetrain.setToBrake();
         Drivetrain.stop();
         currentState = 0;
-        twoCube = false;
+        twoCube = true;
     }
 
     //Comp Autos
@@ -80,7 +80,7 @@ public class Autonomous
                 {
                     stopWatch.reset();
                     enc.resetEncoders();
-                    navX.resetAngle();
+                    // navX.resetAngle();
                     currentState = 4;
                 }
                 break;
@@ -89,7 +89,7 @@ public class Autonomous
                 if(twoCube)
                 {
                     enc.resetEncoders();
-                    navX.resetAngle();
+                    // navX.resetAngle();
                     System.out.println("Loading Path");
                     traj.followPath("RightSwitchMoveToSecondCube", true);                  
                     currentState = 5;
@@ -103,7 +103,7 @@ public class Autonomous
                 {
                     System.out.println("Path Finished (2/2)");
                     enc.resetEncoders();
-                    navX.resetAngle();
+                    // navX.resetAngle();
                     System.out.println("Loading Path");
                     traj.followPath("StraightToSecondCube", false);                  
                     currentState = 6;
@@ -116,25 +116,30 @@ public class Autonomous
                 {
                     System.out.println("Path Finished (2/2)");
                     enc.resetEncoders();
-                    navX.resetAngle();
-                    System.out.println("Loading Path");
+                    // navX.resetAngle();
+                    System.out.println("Loading Path back up to right switch");
                     traj.followPath("BackUpToRightSwitch", true);
+                    System.out.println("Loaded path back up to right switch");
                     currentState = 7;
                 }
                 break;
             case 7: //move wrist up and back up to line up to switch
                 //Wrist.moveToUp();
+                System.out.println("running path 1/2 back up to right switch");
                 traj.runPath(enc.leftEncoderValue, enc.rightEncoderValue, navX.yawUnClamped);
+                System.out.println("Finished running back up to right switch");
                 if(traj.isFinished())
                 {
                     System.out.println("Path Finished (2/2)");
                     enc.resetEncoders();
-                    navX.resetAngle();
+                    // navX.resetAngle();
                     System.out.println("Loading Path");
                     traj.followPath("StraightToScoreSecondCube", false);
                     // Elevator.currentWristState = 0;                  
                     currentState = 8;
                 }
+                System.out.println(traj.isFinished());
+                break;
             case 8: // move elevator to switch (moves wrist down automatically) and go straight to score
                //Elevator.moveSwitch(); 
                traj.runPath(enc.leftEncoderValue, enc.rightEncoderValue, navX.yawUnClamped);
@@ -145,6 +150,7 @@ public class Autonomous
                     stopWatch.start();
                     currentState = 9;
                }
+               break;
             case 9: //keep elevator up and shoot cube for x amount of time
                 //Elevator.moveSwitch();
                 time = stopWatch.get();
@@ -156,7 +162,7 @@ public class Autonomous
                 {
                     stopWatch.reset();
                     enc.resetEncoders();
-                    navX.resetAngle();
+                    // navX.resetAngle();
                     currentState = 10;
                 }
                 break;
@@ -246,7 +252,7 @@ public class Autonomous
                 navX.resetAngle();
                 System.out.println("Loading Path");
                 traj.initialize();
-                traj.followPath("MiddleToRightSwitch", false);
+                traj.followPath("BackUpToRightSwitch", true);   
                 //traj.followPath(WaypointPaths.middleToRightSwitch(), false);
                // traj.followPath("MiddleToRightSwitch", true);
                 //traj.followPath("StraightTenFeet", false);
@@ -284,7 +290,7 @@ public class Autonomous
                 navX.resetAngle();
                 System.out.println("Loading Path");
                 traj.initialize();
-                traj.followPath("StraightandLeftCurve", false);
+                traj.followPath("MiddleToRightSwitch", false);
                 //traj.followPath("StraightTenFeet");
                 currentState = 1;
                 break;
@@ -298,10 +304,10 @@ public class Autonomous
                 break;
             case 2:
                 enc.resetEncoders();
-                navX.resetAngle();
+                // navX.resetAngle();
                 traj.initialize();
                 System.out.println("Loading Path");
-                traj.followPath("StraightandRightCruve", false);
+                traj.followPath("MiddleToRightSwitch", true);
                 currentState = 3;
             case 3:
                 traj.runPath(enc.leftEncoderValue, enc.rightEncoderValue, navX.yawUnClamped);

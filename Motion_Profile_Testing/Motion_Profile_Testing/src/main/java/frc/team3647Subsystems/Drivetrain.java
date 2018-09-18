@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.team3647ConstantsAndFunctions.Constants;
 import edu.wpi.first.wpilibj.*;
+import frc.team3647Inputs.*;
 
 public class Drivetrain 
 {
@@ -159,6 +160,44 @@ public class Drivetrain
 	{
 		rightSRX.set(ControlMode.PercentOutput, lOutput);
 		leftSRX.set(ControlMode.PercentOutput, rOutput);
+	}
+
+	public static boolean turnFinished = false;
+
+	public static void turnDegrees(NavX navX, double goalAngle, double rotationRate, double toleranceDegrees)
+	{
+		double output;
+		double currentAngle = -navX.yawUnClamped;
+		double angleDifference = goalAngle - currentAngle;
+		if(angleDifference < toleranceDegrees)
+		{
+			turnFinished = true;
+		}
+		else
+		{
+			turnFinished = false;
+
+			output = slowDown(0.15, 1*rotationRate, 0, goalAngle, currentAngle);
+
+			if(angleDifference > 0)
+			{
+				setSpeed(-output, output);
+			}
+			else
+			{
+				setSpeed(output, -output);
+			}
+		}
+	}
+
+	public static double slowDown(double lowSpeed, double highSpeed, double startAngle, double endAngle, double currentAngle)
+	{
+		double yDiff = highSpeed - lowSpeed;
+		double xDiff = endAngle - startAngle;
+		double slope = -yDiff / xDiff;
+		double b = highSpeed - (slope * startAngle);
+		double returnValue = (slope * currentAngle) + b;
+		return returnValue;
 	}
 
 	public static void testDrivetrainCurrent()

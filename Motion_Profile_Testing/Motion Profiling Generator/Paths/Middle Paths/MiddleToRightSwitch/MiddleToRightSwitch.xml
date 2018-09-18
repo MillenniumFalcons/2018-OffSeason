@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Trajectory acceleration="8.0" driveBase="TANK" dt="0.02"
-    fitMethod="HERMITE_CUBIC" jerk="60.0" units="FEET" velocity="6.0"
+<Trajectory acceleration="6.0" driveBase="TANK" dt="0.02"
+    fitMethod="HERMITE_CUBIC" jerk="60.0" units="FEET" velocity="8.0"
     wheelBaseD="0.0" wheelBaseW="2.1">
     <Waypoint>
         <X>3.25</X>

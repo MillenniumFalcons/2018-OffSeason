@@ -61,14 +61,18 @@ public class Robot extends IterativeRobot
 	@Override
 	public void autonomousInit() 
 	{
-    	Autonomous.initialization(enc, navX);
+		Autonomous.initialization(enc, navX);
+		navX.resetAngle();
 	}
 
 	@Override
 	public void autonomousPeriodic() 
 	{
-		Autonomous.soloPathAuto(enc, navX);
-    	//Autonomous.twoPathAuto(enc, navX);
+		navX.setAngle();
+		//Autonomous.soloPathAuto(enc, navX);
+		//Autonomous.twoPathAuto(enc, navX);
+		//Autonomous.middleToRightSwitch(enc, navX);
+		Drivetrain.turnDegrees(navX, 180, 0.5, 2);
 	}
 	
 	@Override
