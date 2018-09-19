@@ -71,8 +71,9 @@ public class Robot extends IterativeRobot
 		navX.setAngle();
 		//Autonomous.soloPathAuto(enc, navX);
 		//Autonomous.twoPathAuto(enc, navX);
-		//Autonomous.middleToRightSwitch(enc, navX);
-		Drivetrain.turnDegrees(navX, 180, 0.5, 2);
+		Autonomous.middleSwitch(enc, navX);
+		//Drivetrain.turnDegrees(navX, 180, 0.5, 2);
+		//Autonomous.runAuto(enc, navX);
 	}
 	
 	@Override
