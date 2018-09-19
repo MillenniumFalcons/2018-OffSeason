@@ -8,7 +8,7 @@ import frc.team3647ConstantsAndFunctions.Constants;
 import frc.team3647Subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import java.util.*;
 import java.io.File;
 
 public class TrajectoryFollower
@@ -21,7 +21,6 @@ public class TrajectoryFollower
     EncoderFollower right = new EncoderFollower();
     EncoderFollower left = new EncoderFollower();
     int adjustedREncoder, adjustedlEncoder;
-    int reverseModifier;
     boolean finalReverse;
     double angleAdjustment;
     
@@ -31,14 +30,12 @@ public class TrajectoryFollower
         {
             adjustedREncoder = rEncoder;
             adjustedlEncoder = lEncoder;
-            reverseModifier = 1;
             angleAdjustment= 0;
         }
         else
         {
             adjustedlEncoder = -rEncoder;
             adjustedREncoder = -lEncoder;
-            reverseModifier = -1;
             angleAdjustment = 180;
         }
         
@@ -56,7 +53,7 @@ public class TrajectoryFollower
 
         if(finalReverse)
         {
-            Drivetrain.setPercentOutput(rPower*reverseModifier, lPower*reverseModifier); //with gyro
+            Drivetrain.setPercentOutput(-rPower, -lPower); //with gyro
         }
         else
         {
@@ -129,6 +126,12 @@ public class TrajectoryFollower
     public boolean isFinished()
     {
         return left.isFinished() && right.isFinished();
+    }
+    
+    public Trajectory reverseTrajectory(Trajectory trajectory)
+    {
+        Collections.reverse(Arrays.asList(trajectory));
+        return trajectory;
     }
 }
 
