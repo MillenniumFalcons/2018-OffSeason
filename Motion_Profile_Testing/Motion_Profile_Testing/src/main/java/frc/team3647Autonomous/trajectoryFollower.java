@@ -69,7 +69,7 @@ public class TrajectoryFollower
         SmartDashboard.putNumber("right encoder value", rEncoder);
     }
 
-    public void followPath(String path, boolean backward)
+    public void followPath(String path, boolean backward, boolean reverse)
     {
         if(backward)
         {
@@ -84,11 +84,19 @@ public class TrajectoryFollower
 
         finalReverse = backward;
         
-        right.setTrajectory(rightTrajectory);
-        left.setTrajectory(leftTrajectory);
+        if(reverse)
+        {
+            right.setTrajectory(reverseTrajectory(rightTrajectory));
+            left.setTrajectory(reverseTrajectory(leftTrajectory));
+        }
+        else
+        {
+            right.setTrajectory(rightTrajectory);
+            left.setTrajectory(leftTrajectory);
+        }
     }
 
-    public void followPath(Trajectory trajPoints, boolean backward)
+    public void followPath(Trajectory trajPoints, boolean backward, boolean reverse)
     {
         // Trajectory.Config configPoints = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_LOW, Constants.MPTimeStep, maxVelocity, maxAcceleration, Constants.maxJerk);
         // Trajectory trajPoints = Pathfinder.generate(points, configPoints);
@@ -109,8 +117,16 @@ public class TrajectoryFollower
 
         finalReverse = backward;
 
-        right.setTrajectory(rightTrajectory);
-        left.setTrajectory(leftTrajectory);
+        if(reverse)
+        {
+            right.setTrajectory(reverseTrajectory(rightTrajectory));
+            left.setTrajectory(reverseTrajectory(leftTrajectory));
+        }
+        else
+        {
+            right.setTrajectory(rightTrajectory);
+            left.setTrajectory(leftTrajectory);
+        }
     }
 
     public void initialize()

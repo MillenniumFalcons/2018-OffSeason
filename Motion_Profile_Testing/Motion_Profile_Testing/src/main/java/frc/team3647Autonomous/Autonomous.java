@@ -2,8 +2,9 @@ package frc.team3647Autonomous;
 
 import edu.wpi.first.wpilibj.Timer;
 import frc.team3647ConstantsAndFunctions.Constants;
-import frc.team3647Subsystems.*;
-import frc.team3647Inputs.*;
+import frc.team3647Inputs.Encoders;
+import frc.team3647Inputs.NavX;
+import frc.team3647Subsystems.Drivetrain;
 
 public class Autonomous
 {
@@ -36,7 +37,7 @@ public class Autonomous
                 enc.resetEncoders();
                 navX.resetAngle();
                 System.out.println("Loading Path");
-                traj.followPath("MiddleToRightSwitch", false);
+                traj.followPath("MiddleToRightSwitch", false, false);
                 // Elevator.currentWristState = 0;
                 currentState = 1;
                 break;
@@ -91,7 +92,7 @@ public class Autonomous
                     enc.resetEncoders();
                     // navX.resetAngle();
                     System.out.println("Loading Path");
-                    traj.followPath("RightSwitchMoveToSecondCube", true);                  
+                    traj.followPath("RightSwitchMoveToSecondCube", true, false);                  
                     currentState = 5;
                 }
                 break;
@@ -105,7 +106,7 @@ public class Autonomous
                     enc.resetEncoders();
                     // navX.resetAngle();
                     System.out.println("Loading Path");
-                    traj.followPath("StraightToSecondCube", false);                  
+                    traj.followPath("StraightToSecondCube", false, false);                  
                     currentState = 6;
                 }
                 break;
@@ -118,7 +119,7 @@ public class Autonomous
                     enc.resetEncoders();
                     // navX.resetAngle();
                     System.out.println("Loading Path back up to right switch");
-                    traj.followPath("BackUpToRightSwitch", true);
+                    traj.followPath("BackUpToRightSwitch", true, false);
                     System.out.println("Loaded path back up to right switch");
                     currentState = 7;
                 }
@@ -134,7 +135,7 @@ public class Autonomous
                     enc.resetEncoders();
                     // navX.resetAngle();
                     System.out.println("Loading Path");
-                    traj.followPath("StraightToScoreSecondCube", false);
+                    traj.followPath("StraightToScoreSecondCube", false, false);
                     // Elevator.currentWristState = 0;                  
                     currentState = 8;
                 }
@@ -184,7 +185,7 @@ public class Autonomous
                 enc.resetEncoders();
                 navX.resetAngle();
                 System.out.println("Loading Path");
-                traj.followPath("leftToLeftScale", false);
+                traj.followPath("leftToLeftScale", false, false);
                 // Elevator.currentWristState = 0;
                 currentState = 1;
                 break;
@@ -252,7 +253,7 @@ public class Autonomous
                 navX.resetAngle();
                 System.out.println("Loading Path");
                 traj.initialize();
-                traj.followPath("BackUpToRightSwitch", true);   
+                traj.followPath("BackUpToRightSwitch", true, false);   
                 //traj.followPath(WaypointPaths.middleToRightSwitch(), false);
                // traj.followPath("MiddleToRightSwitch", true);
                 //traj.followPath("StraightTenFeet", false);
@@ -290,7 +291,7 @@ public class Autonomous
                 navX.resetAngle();
                 System.out.println("Loading Path");
                 traj.initialize();
-                traj.followPath("MiddleToRightSwitch", false);
+                traj.followPath("MiddleToRightSwitch", false, false);
                 //traj.followPath("StraightTenFeet");
                 currentState = 1;
                 break;
@@ -307,7 +308,7 @@ public class Autonomous
                 // navX.resetAngle();
                 traj.initialize();
                 System.out.println("Loading Path");
-                traj.followPath("MiddleToRightSwitch", true);
+                traj.followPath("MiddleToRightSwitch", true, true);
                 currentState = 3;
             case 3:
                 traj.runPath(enc.leftEncoderValue, enc.rightEncoderValue, navX.yawUnClamped);
