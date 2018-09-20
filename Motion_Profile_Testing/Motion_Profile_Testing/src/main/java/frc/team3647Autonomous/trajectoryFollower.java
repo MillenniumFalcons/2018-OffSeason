@@ -2,6 +2,7 @@ package frc.team3647Autonomous;
 
 
 import jaci.pathfinder.*;
+import jaci.pathfinder.Trajectory.Segment;
 import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
 import frc.team3647ConstantsAndFunctions.Constants;
@@ -86,8 +87,8 @@ public class TrajectoryFollower
         
         if(reverse)
         {
-            right.setTrajectory(reverseTrajectory(rightTrajectory));
-            left.setTrajectory(reverseTrajectory(leftTrajectory));
+            right.setTrajectory(reverseTrajectory2(rightTrajectory));
+            left.setTrajectory(reverseTrajectory2(leftTrajectory));
         }
         else
         {
@@ -146,8 +147,30 @@ public class TrajectoryFollower
     
     public Trajectory reverseTrajectory(Trajectory trajectory)
     {
+
         Collections.reverse(Arrays.asList(trajectory));
         return trajectory;
+    }
+
+    public Trajectory reverseTrajectory2(Trajectory trajectory)
+    {
+        Trajectory copy  = new Trajectory(trajectory.length());
+        System.arraycopy(trajectory.segments, 0, copy.segments, 0, trajectory.length());
+        System.out.println("***************** INITIAL ARRAY ***********************");
+        System.out.println(Arrays.toString(copy.segments));
+        Double distance = trajectory.segments[copy.segments.length-2].position;
+        System.out.println("*************************DISTANCE IS " + distance + "*************************");
+        Collections.reverse(Arrays.asList(copy.segments));
+        System.out.println("***************** REVERSED ARRAY ***********************");
+        System.out.println(Arrays.toString(copy.segments));
+        for (Segment var : copy.segments)
+        {
+            System.out.println("*******************VAR.POSITION IS " + var.position + "*******************");
+            var.position = distance - var.position;
+        }
+        System.out.println("***************** TRANSVERSED/MODIFIED ARRAY ***********************");
+        System.out.println(Arrays.toString(copy.segments));
+        return copy;
     }
 }
 
