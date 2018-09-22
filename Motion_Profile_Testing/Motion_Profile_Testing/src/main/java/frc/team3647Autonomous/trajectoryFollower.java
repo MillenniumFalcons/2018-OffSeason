@@ -154,23 +154,50 @@ public class TrajectoryFollower
 
     public Trajectory reverseTrajectory2(Trajectory trajectory)
     {
-        Trajectory copy  = new Trajectory(trajectory.length());
-        System.arraycopy(trajectory.segments, 0, copy.segments, 0, trajectory.length());
-        System.out.println("***************** INITIAL ARRAY ***********************");
-        System.out.println(Arrays.toString(copy.segments));
-        Double distance = trajectory.segments[copy.segments.length-2].position;
-        System.out.println("*************************DISTANCE IS " + distance + "*************************");
-        Collections.reverse(Arrays.asList(copy.segments));
-        System.out.println("***************** REVERSED ARRAY ***********************");
-        System.out.println(Arrays.toString(copy.segments));
-        for (Segment var : copy.segments)
+        // System.out.println("***************** COPYING TRAJECTORY ***********************");
+        Trajectory newTrajectory  = trajectory.copy(); //MAKING COPY OF ARRRAY ARR
+
+        // System.out.println("***************** INITIAL ARRAY ***********************");
+        // for (Segment index : copy.segments) 
+        // {
+        //     System.out.println("Position: " + index.position);
+        //     System.out.println("Heading: " + index.heading);
+        // }
+        // System.out.println("***************** END OF INTITAL ARRAY ***********************");        
+        
+        Double distance = trajectory.segments[ newTrajectory.segments.length - 2 ].position;
+        // System.out.println("*************************DISTANCE IS " + distance + "*************************");
+
+        // System.out.println("***************** REVERSING ARRAY *************************");
+        Collections.reverse(Arrays.asList(newTrajectory.segments));
+        // System.out.println("***************** REVERSED ARRAY **************************");
+        System.out.println("Position: " + newTrajectory.segments[0].position);
+        System.out.println("Velocity: " + newTrajectory.segments[0].velocity);
+        // for (Segment index : newTrajectory.segments)
+        // {
+        //     index.position = distance - index.position;
+        //     System.out.println("Position: " + index.position);
+        //     System.out.println("Heading: " + index.heading);
+        // }
+        // System.out.println("***************** END REVERSED ARRAY ***********************");
+
+
+
+
+        for(int i = 0; i < newTrajectory.segments.length; i++)
         {
-            System.out.println("*******************VAR.POSITION IS " + var.position + "*******************");
-            var.position = distance - var.position;
+            newTrajectory.segments[i].heading = trajectory.segments[i].heading;
+            newTrajectory.segments[i].velocity *= -1;
         }
-        System.out.println("***************** TRANSVERSED/MODIFIED ARRAY ***********************");
-        System.out.println(Arrays.toString(copy.segments));
-        return copy;
+
+
+
+        // for (Segment var : copy.segments)
+        // {
+        //     var.position = distance - var.position;
+        // }
+        
+        return newTrajectory;
     }
 }
 

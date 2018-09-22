@@ -63,6 +63,7 @@ public class Robot extends IterativeRobot
 	{
 		Autonomous.initialization(enc, navX);
 		Autonomous.switchSide = "Right";
+		
 		navX.resetAngle();
 	}
 
@@ -80,7 +81,7 @@ public class Robot extends IterativeRobot
 	@Override
 	public void disabledPeriodic()
 	{
-		Drivetrain.setToCoast();
+		Drivetrain.setToBrake();
 	}
 	
 	@Override

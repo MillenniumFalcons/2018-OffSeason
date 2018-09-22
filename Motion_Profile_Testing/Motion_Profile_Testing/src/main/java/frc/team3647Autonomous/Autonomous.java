@@ -406,6 +406,7 @@ public class Autonomous
 
     public static void twoPathAuto(Encoders enc, NavX navX)
     {
+        enc.resetEncoders();
         enc.setEncoderValues();
         navX.setAngle();
         switch(currentState)
@@ -415,7 +416,7 @@ public class Autonomous
                 navX.resetAngle();
                 System.out.println("Loading Path");
                 traj.initialize();
-                traj.followPath("MiddleToRightSwitch", false, false);
+                traj.followPath("RightMiddleToSwitch", false, false);
                 //traj.followPath("StraightTenFeet");
                 currentState = 1;
                 break;
@@ -428,11 +429,11 @@ public class Autonomous
                 }
                 break;
             case 2:
-                enc.resetEncoders();
-                // navX.resetAngle();
+                //enc.resetEncoders();
+                //navX.resetAngle();
                 traj.initialize();
                 System.out.println("Loading Path");
-                traj.followPath("MiddleToRightSwitch", true, true);
+                traj.followPath("RightMiddleToSwitch", true, true);
                 currentState = 3;
             case 3:
                 traj.runPath(enc.leftEncoderValue, enc.rightEncoderValue, navX.yawUnClamped);
