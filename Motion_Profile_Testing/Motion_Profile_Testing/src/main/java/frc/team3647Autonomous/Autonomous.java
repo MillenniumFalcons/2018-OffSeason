@@ -63,58 +63,57 @@ public class Autonomous
         {
             case 0: //crossline
                 crossLine(enc, navX);
-            break;
+                break;
             case 1: //switch only
-            if(startPosition == 0)
-            {
-                middleSwitch(enc, navX);
-            }
-            else if(startPosition == -1 && switchSide == "Left" || startPosition == 1 && switchSide == "Right")
-            {
-                //sideSameSwitch(enc,navX);
-            }
-            else if(startPosition == -1 && switchSide == "Right" || startPosition == 1 && switchSide == "Left")
-            {
-                //sideFarSwitch(enc,navX);
-            }
-            break;
+                if(startPosition == 0) //if start in middle run middle switch auto
+                {
+                    middleSwitch(enc, navX);
+                }
+                else if(startPosition == -1 && switchSide == "Left" || startPosition == 1 && switchSide == "Right") //if switch on same side as start position run same side switch
+                {
+                    //sideSameSwitch(enc,navX);
+                }
+                else if(startPosition == -1 && switchSide == "Right" || startPosition == 1 && switchSide == "Left") //if switch on opposite side run far side auto
+                {
+                    //sideFarSwitch(enc,navX);
+                }
+                break;
             case 2: //scale only
-            if(startPosition == -1 && scaleSide == "Left" || startPosition == 1 && scaleSide == "Right")
-            {
-                //sideSameScale(enc, navX, false);
-            }
-            else if(startPosition == -1 && scaleSide == "Right" || startPosition == 1 && scaleSide == "Right")
-            {
-                //sideFarScale(enc, navX, false);
-            }
-            break;
+                if(startPosition == -1 && scaleSide == "Left" || startPosition == 1 && scaleSide == "Right") //if scale on same side run same side auto
+                {
+                    //sideSameScale(enc, navX, false);
+                }
+                else if(startPosition == -1 && scaleSide == "Right" || startPosition == 1 && scaleSide == "Left") //if scale on opposite side run far scale auto
+                {
+                    //sideFarScale(enc, navX, false);
+                }
+                break;
             case 3: //scale and switch
-            if(startPosition == -1 && scaleSide == "Left" || startPosition == 1 && scaleSide == "Right")
-            {
-                //sideSameScale(enc, navX, true);
-            }
-            else if(startPosition == -1 && scaleSide == "Right" || startPosition == 1 && scaleSide == "Right")
-            {
-                //sideFarScale(enc, navX, true);
-            }
-            break;
+                if(startPosition == -1 && scaleSide == "Left" || startPosition == 1 && scaleSide == "Right") //if same side run same side auto and boolean true for go to switch
+                {
+                    //sideSameScale(enc, navX, true);
+                }
+                else if(startPosition == -1 && scaleSide == "Right" || startPosition == 1 && scaleSide == "Left") //if opposite side run far auto and boolean true for go to switch
+                {
+                    //sideFarScale(enc, navX, true);
+                }
+                break;
             case 4: //scale clear
-            if(startPosition == -1 && scaleSide == "Left" || startPosition == 1 && scaleSide == "Right")
-            {
-                //sideSameScaleClear(enc, navX);
-            }
-            else if(startPosition == -1 && scaleSide == "Right" || startPosition == 1 && scaleSide == "Right")
-            {
-                //sideFarSwitch(enc, navX);
-            }
-            break;
+                if(startPosition == -1 && scaleSide == "Left" || startPosition == 1 && scaleSide == "Right") //if same side run the scale clear auto
+                {
+                    //sideSameScaleClear(enc, navX);
+                }
+                else if(startPosition == -1 && scaleSide == "Right" || startPosition == 1 && scaleSide == "Left") //if not same side run ??????
+                {
+                    
+                }
+                break;
         }
     }
 
     //Comp Autos
     public static void middleSwitch(Encoders enc, NavX navX)
     {
-        switchSide = "Right";
         enc.setEncoderValues();
         navX.setAngle();
         switch(currentState)
