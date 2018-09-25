@@ -377,7 +377,7 @@ public class Autonomous
                 navX.resetAngle();
                 System.out.println("Loading Path");
                 traj.initialize();
-                traj.followPath("RightMiddleToSwitch", false, false);   
+                traj.followPath("RightMiddleToSwitch0", false, false);   
                 //traj.followPath(WaypointPaths.middleToRightSwitch(), false, false);
                 //traj.followPath("StraightTenFeet", false);
                 //traj.followPath("StraightandLeftCurve", false, false);
