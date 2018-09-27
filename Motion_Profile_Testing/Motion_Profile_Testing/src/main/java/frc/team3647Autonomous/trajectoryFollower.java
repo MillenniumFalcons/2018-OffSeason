@@ -7,6 +7,7 @@ import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
 import frc.team3647ConstantsAndFunctions.Constants;
 import frc.team3647Subsystems.Drivetrain;
+import frc.robot.*;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.util.*;
@@ -22,12 +23,13 @@ public class TrajectoryFollower
     EncoderFollower right = new EncoderFollower();
     EncoderFollower left = new EncoderFollower();
     int adjustedREncoder, adjustedlEncoder;
-    boolean finalReverse;
+    boolean finalBackwards;
     double angleAdjustment;
     
+
     public void runPath(int lEncoder, int rEncoder, double navXAngle)
     {
-        if(!finalReverse)
+        if(!finalBackwards)
         {
             adjustedREncoder = rEncoder;
             adjustedlEncoder = lEncoder;
@@ -46,13 +48,13 @@ public class TrajectoryFollower
             
         //navX gyro code
         double gyroHeading = -1*navXAngle + angleAdjustment; //invert since RHR
-        double desiredHeading = Pathfinder.r2d(left.getHeading());
-        double headingDifference = Pathfinder.boundHalfDegrees(desiredHeading - gyroHeading);
-        double turn = Constants.PFTurnkP * (-1.0/80.0) * headingDifference;
-        double rPower = rValue + turn;
-        double lPower = lValue - turn; //supposed to be l + turn but only r-turn works omegalul
+        double desiredHeading = Pathfinder.boundHalfDegrees(Pathfinder.r2d(left.getHeading()));
+        double headingDifference = Pathfinder.boundHalfDegrees(gyroHeading - desiredHeading);
+        double turn = Constants.PFTurnkP * (1.0/80.0) * headingDifference;
+        double rPower = rValue - turn;
+        double lPower = lValue + turn; //supposed to be l + turn but only r-turn works omegalul
 
-        if(finalReverse)
+        if(finalBackwards)
         {
             Drivetrain.setPercentOutput(-rPower, -lPower); //with gyro
         }
@@ -83,7 +85,7 @@ public class TrajectoryFollower
             leftTrajectory = Pathfinder.readFromCSV(new File("/home/lvuser/paths/" + path + "_left_Jaci.csv"));
         }
 
-        finalReverse = backward;
+        finalBackwards = backward;
         
         if(reverse)
         {
@@ -116,7 +118,7 @@ public class TrajectoryFollower
             rightTrajectory = tankModifier.getRightTrajectory();
         }
 
-        finalReverse = backward;
+        finalBackwards = backward;
 
         if(reverse)
         {
