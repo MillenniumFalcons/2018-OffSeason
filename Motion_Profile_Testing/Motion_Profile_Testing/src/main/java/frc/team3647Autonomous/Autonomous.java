@@ -1,6 +1,6 @@
 package frc.team3647Autonomous;
 
-import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.team3647ConstantsAndFunctions.Constants;
 import frc.team3647Inputs.Encoders;
@@ -11,19 +11,13 @@ public class Autonomous
 {
     static TrajectoryFollower traj = new TrajectoryFollower();
     public static Timer stopWatch = new Timer();
-    public static Notifier autoNotifier = new Notifier();
-
-
     public static int currentState;
     public static double time;
     public static boolean twoCube, rSwitch, rScale;
     public static String switchSide, scaleSide;
-    public static boolean autoFinished;
 
-    
     public static void initialization(Encoders enc, NavX navX)
     {
-        autoFinished = false;
         String gameData;
         gameData = DriverStation.getInstance().getGameSpecificMessage();
         if(gameData.length() > 0)

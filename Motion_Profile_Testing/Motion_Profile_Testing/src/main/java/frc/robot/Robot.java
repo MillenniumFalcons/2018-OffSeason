@@ -31,14 +31,6 @@ public class Robot extends IterativeRobot
 	//Test Variables
 	boolean driveEncoders, driveCurrent, driveVelocity, driveClError, navXAngle;
 
-	class PeriodicRunnable implements Runnable
-    {
-        public void run()
-        {
-            autonomousPeriodic();
-        }
-    }
-
 	@Override
 	public void robotInit() 
 	{
@@ -84,10 +76,6 @@ public class Robot extends IterativeRobot
 		//Autonomous.middleSwitch(enc, navX);
 		//Drivetrain.turnDegrees(navX, 180, 0.5, 2);
 		//Autonomous.runAuto(enc, navX);
-		if(Autonomous.autoFinished)
-		{
-			Autonomous.autoNotifier.stop();
-		}
 	}
 	
 	@Override
