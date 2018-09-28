@@ -123,7 +123,7 @@ public class Autonomous
                 enc.resetEncoders();
                 navX.resetAngle();
                 System.out.println("Loading Path");
-                traj.followPath(switchSide + "RightMiddleToSwitch", false, false);
+                traj.followPath(switchSide + "MiddleToSwitch", false, false);
                 // Elevator.currentWristState = 0;
                 currentState = 1;
                 break;
@@ -377,10 +377,19 @@ public class Autonomous
                 navX.resetAngle();
                 System.out.println("Loading Path");
                 traj.initialize();
+<<<<<<< HEAD
                 traj.followPath("RightMiddleToSwitch0", false, false);   
                 //traj.followPath(WaypointPaths.middleToRightSwitch(), false, false);
                 //traj.followPath("StraightTenFeet", false);
                 //traj.followPath("StraightandLeftCurve", false, false);
+=======
+                traj.followPath("leftSwitchFromMiddle1", false, false);   
+                //traj.followPath(WaypointPaths.middleToRightSwitch(), false);
+               // traj.followPath("MiddleToRightSwitch", true);
+                //traj.followPath("StraightTenFeet", false);
+               // traj.followPath("SuryaOmegaLul", false);
+                //traj.followPath("StraightandLeftCurve", false);
+>>>>>>> parent of 977e080... auto code
                 currentState = 1;
                 break;
             case 1:

@@ -55,7 +55,7 @@ public class Robot extends IterativeRobot
 		driveCurrent = false;
     	driveVelocity = false;
 		driveClError = false;
-		navXAngle = false;
+		navXAngle = true;
 	}
 	
 	@Override
@@ -71,9 +71,9 @@ public class Robot extends IterativeRobot
 	public void autonomousPeriodic() 
 	{
 		navX.setAngle();
-		Autonomous.soloPathAuto(enc, navX);
+		//Autonomous.soloPathAuto(enc, navX);
 		//Autonomous.twoPathAuto(enc, navX);
-		//Autonomous.middleSwitch(enc, navX);
+		Autonomous.middleSwitch(enc, navX);
 		//Drivetrain.turnDegrees(navX, 180, 0.5, 2);
 		//Autonomous.runAuto(enc, navX);
 	}
@@ -81,23 +81,19 @@ public class Robot extends IterativeRobot
 	@Override
 	public void disabledPeriodic()
 	{
-		Drivetrain.setToCoast();
+		Drivetrain.setToBrake();
 	}
 	
 	@Override
 	public void teleopInit()
 	{
 		navX.resetAngle();
-		enc.resetEncoders();
 		Drivetrain.setToCoast();
 	}
 	
 	@Override
 	public void teleopPeriodic() 
 	{
-		// System.out.println("NAVX READING: " + navX.yawUnClamped);
-		// System.out.println("LEFT ENCODER: " + enc.leftEncoderValue);
-		// System.out.println("RIGHT ENCODER: " + enc.rightEncoderValue);
 		try 
 		{
 			navX.setAngle();
@@ -145,7 +141,7 @@ public class Robot extends IterativeRobot
 			//Drivetrain.arcadeDrive(Encoders.leftEncoderValue, Encoders.rightEncoderValue, joy.leftJoySticky, joy.rightJoyStickx);
 			//Drivetrain.FRCarcadedrive(joy.leftJoySticky, joy.rightJoyStickx);
 			//Drivetrain.runMEATDrivetrain(joy.leftJoySticky, joy.rightJoyStickx);
-			Drivetrain.newArcadeDrive(joy.leftJoySticky, joy.rightJoyStickx, navX.yaw);
+			Drivetrain.yeetDrive(joy.leftJoySticky, joy.rightJoyStickx);
 		}
 	}
 	
