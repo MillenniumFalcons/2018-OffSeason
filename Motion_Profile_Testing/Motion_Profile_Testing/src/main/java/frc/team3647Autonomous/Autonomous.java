@@ -123,7 +123,7 @@ public class Autonomous
                 enc.resetEncoders();
                 navX.resetAngle();
                 System.out.println("Loading Path");
-                traj.followPath(switchSide + "RightMiddleToSwitch", false, false);
+                traj.followPath("RightMiddleToSwitch0", false, false); //switchSide + 
                 // Elevator.currentWristState = 0;
                 currentState = 1;
                 break;
@@ -382,7 +382,7 @@ public class Autonomous
                // traj.followPath("MiddleToRightSwitch", true);
                 //traj.followPath("StraightTenFeet", false);
                // traj.followPath("SuryaOmegaLul", false);
-                traj.followPath("StraightandLeftCurve", false, false);
+                traj.followPath("RightMiddleToSwitch0", false, false);
                 currentState = 1;
                 break;
             case 1:
