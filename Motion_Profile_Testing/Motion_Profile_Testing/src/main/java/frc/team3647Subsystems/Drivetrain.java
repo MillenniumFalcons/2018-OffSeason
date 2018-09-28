@@ -14,8 +14,10 @@ import frc.team3647Inputs.*;
 
 public class Drivetrain 
 {
-	public static double aimedRatio, currentRatio, sum, speed, turn, turnRatioR, turnRatioL, rSpeed, lSpeed;
+	public static double aimedRatio, currentRatio, sum, speed, turn, turnRatioR, turnRatioL, rSpeed, lSpeed, constant;
 	public static boolean withinRange;
+
+	static double supposedAngle;
 	
 	public static double initialCorrection = 0;//-.04//.085
 	public static double correction = .08;
@@ -33,6 +35,9 @@ public class Drivetrain
 	public static double adjustmentFactor = .88;
 	
 	static double []adjustmentValues = new double[2];
+
+	public static boolean turnFinished;
+
 	
 	public static void drivetrainInitialization()
 	{
@@ -114,21 +119,33 @@ public class Drivetrain
 		drive.curvatureDrive(throttle, turn, true);
 	}
 
-	public static void newArcadeDrive(double yValue, double xValue)
+	public static void newArcadeDrive(double yValue, double xValue, double angle)
 	{
+		
 		if(yValue != 0 && xValue == 0)
 	 	{
-			Drivetrain.tankDrive(yValue, yValue);
+			//System.out.println(0);
+			Drivetrain.setSpeed(yValue, yValue);
 	 	}
 		else if(yValue == 0 && xValue == 0)
 		{
 			tankDrive(0, 0);
+			supposedAngle = angle;
 		}
 		else
 		{
-			FRCarcadedrive(yValue, xValue);
+			curvatureDrive(xValue, yValue);
+			supposedAngle = angle;
+			//System.out.println(1);
 		}
 	}
+
+	public static void setPercentOutput(double lOutput, double rOutput)
+	{
+		rightSRX.set(ControlMode.PercentOutput, lOutput);
+		leftSRX.set(ControlMode.PercentOutput, rOutput);
+	}
+
 	
 	public static void stop()
 	{
@@ -147,22 +164,29 @@ public class Drivetrain
 			return false;
 		}
 	}
-	
-	public static void setSpeed(double lSpeed, double rSpeed)
-	{
-		double targetVelocityRight = rSpeed * Constants.velocityConstant;
-		double targetVelocityLeft = lSpeed * Constants.velocityConstant;
-		rightSRX.set(ControlMode.Velocity, targetVelocityRight);
-		leftSRX.set(ControlMode.Velocity, targetVelocityLeft);
-	}
 
-	public static void setPercentOutput(double lOutput, double rOutput)
+	public static void straight(double yValue, double angle, double supposedAngle)
 	{
-		rightSRX.set(ControlMode.PercentOutput, lOutput);
-		leftSRX.set(ControlMode.PercentOutput, rOutput);
+		if(angle != supposedAngle)
+		{
+			if(angle > supposedAngle)
+			{
+				constant = 1 - (.02 * angle);
+				setSpeed(yValue, yValue * constant);
+				//System.out.println("Left speed: " + yValue + "; Right speed: " + yValue * constant);
+			}
+			else 
+			{
+				constant = 1 - (.02 * (angle));
+				setSpeed(yValue * constant, yValue);
+				//System.out.println("Left speed: " + yValue  * constant + "; Right speed: " + yValue);
+			}
+		}
+		else 
+		{
+			setSpeed(yValue, yValue);
+		}
 	}
-
-	public static boolean turnFinished = false;
 
 	public static void turnDegrees(NavX navX, double goalAngle, double rotationRate, double toleranceDegrees)
 	{
@@ -172,12 +196,19 @@ public class Drivetrain
 		if(angleDifference < toleranceDegrees)
 		{
 			turnFinished = true;
+
 		}
 		else
 		{
 			turnFinished = false;
-
-			output = slowDown(0.15, 1*rotationRate, 0, goalAngle, currentAngle);
+			if(angleDifference > 10 || angleDifference < -10)
+			{
+				output = 0.7*rotationRate;
+			}
+			else
+			{
+				output = 0.5*rotationRate;
+			}
 
 			if(angleDifference > 0)
 			{
@@ -189,15 +220,13 @@ public class Drivetrain
 			}
 		}
 	}
-
-	public static double slowDown(double lowSpeed, double highSpeed, double startAngle, double endAngle, double currentAngle)
+	
+	public static void setSpeed(double lSpeed, double rSpeed)
 	{
-		double yDiff = highSpeed - lowSpeed;
-		double xDiff = endAngle - startAngle;
-		double slope = -yDiff / xDiff;
-		double b = highSpeed - (slope * startAngle);
-		double returnValue = (slope * currentAngle) + b;
-		return returnValue;
+		double targetVelocityRight = rSpeed * Constants.velocityConstant;
+		double targetVelocityLeft = lSpeed * Constants.velocityConstant;
+		rightSRX.set(ControlMode.Velocity, targetVelocityRight);
+		leftSRX.set(ControlMode.Velocity, targetVelocityLeft);
 	}
 
 	public static void testDrivetrainCurrent()
