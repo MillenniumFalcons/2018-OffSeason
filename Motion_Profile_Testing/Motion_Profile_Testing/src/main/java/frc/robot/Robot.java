@@ -23,8 +23,8 @@ public class Robot extends IterativeRobot
 	MotorSafetyHelper safetyChecker;
 	CameraServer server;
 	
-	//Timer stopWatch = new Timer();
-	//Timer newStopWatch = new Timer();
+	Timer stopWatch = new Timer();
+	Timer newStopWatch = new Timer();
 	int run = 0;
 	double prevLeftEncoder = 0, prevRightEncoder = 0;
 
@@ -51,7 +51,7 @@ public class Robot extends IterativeRobot
 	
 	public void setTests()
 	{
-		driveEncoders = true;
+		driveEncoders = false;
 		driveCurrent = false;
     	driveVelocity = false;
 		driveClError = false;

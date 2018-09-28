@@ -46,11 +46,11 @@ public class TrajectoryFollower
             
         //navX gyro code
         double gyroHeading = -1*navXAngle + angleAdjustment; //invert since RHR
-        double desiredHeading = Pathfinder.r2d(left.getHeading());
+        double desiredHeading = Pathfinder.r2d(right.getHeading());
         double headingDifference = Pathfinder.boundHalfDegrees(desiredHeading - gyroHeading);
         double turn = Constants.PFTurnkP * (-1.0/80.0) * headingDifference;
         double rPower = rValue + turn;
-        double lPower = lValue - turn; //supposed to be l + turn but only r-turn works omegalul
+        double lPower = lValue - turn;
 
         if(finalReverse)
         {
@@ -63,9 +63,9 @@ public class TrajectoryFollower
         //set output
         //Drivetrain.setPercentOutput(lValue, rValue); //no gyro
         //Drivetrain.setPercentOutput(lPower, rPower);
-        SmartDashboard.putNumber("heading error", headingDifference);
-        SmartDashboard.putNumber("target left speed", lPower);
-        SmartDashboard.putNumber("target right speed", rPower);
+
+        SmartDashboard.putNumber("target left speed", lValue);
+        SmartDashboard.putNumber("target right speed", rValue);
         SmartDashboard.putNumber("left encoder value", lEncoder);
         SmartDashboard.putNumber("right encoder value", rEncoder);
     }
