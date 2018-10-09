@@ -23,4 +23,16 @@ public class Odometry
         });
         odoThread.startPeriodic(0.01);
     }
+
+    public void setOdometry(double xPos, double yPos, double thetaPos)
+    {
+        x = xPos;
+        y = yPos;
+        theta = thetaPos;
+    }
+
+    public void printPosition()
+    {
+        System.out.println("X: " + x + " Y: " + y + " Theta: " + theta);
+    }
 }

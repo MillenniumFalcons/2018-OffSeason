@@ -18,7 +18,7 @@ public class Drivetrain extends Subsystem
 	public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         // setDefaultCommand(new MySpecialCommand());
-    }
+	}
 	
 	public static WPI_TalonSRX leftSRX = new WPI_TalonSRX(Constants.kLeftMaster);
 	public static WPI_TalonSRX rightSRX = new WPI_TalonSRX(Constants.kRightMaster);
@@ -189,7 +189,7 @@ public class Drivetrain extends Subsystem
     
     public double getYaw()
     {
-        return AHRSnavX.getYaw();
+        return -AHRSnavX.getYaw();
 	}
 	
 	public void testAngle()

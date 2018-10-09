@@ -9,40 +9,38 @@ import jaci.pathfinder.Trajectory.Segment;
 import java.io.File;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.*;
+import frc.robot.Constants;
 
 public class RamseteFollower
 {
     Trajectory sourceTrajectory;
     Odometry odo;
+    Drivetrain mDrivetrain = new Drivetrain();
     int pointNum = 0;
 
-    public void followPath(String path)
+    public RamseteFollower(String path)
     {
         sourceTrajectory = Pathfinder.readFromCSV(new File("/home/lvuser/paths/" + path + "_source_Jaci.csv"));
+        odo.setOdometry(sourceTrajectory.get(0).x, sourceTrajectory.get(0).y, sourceTrajectory.get(0).heading);
     }
 
     public void runPath()
     {
         Segment currentSegment = sourceTrajectory.get(pointNum);
-        double targetAngVel = targetAngVel();
-        double velocity = calcVelocity(currentSegment.x, currentSegment.y, currentSegment.heading, currentSegment.velocity, targetAngVel);
-        double angVel = calcAngVel(currentSegment.x, currentSegment.y, currentSegment.heading, currentSegment.velocity, targetAngVel);
-        SmartDashboard.putNumber("Target Velocity", velocity);
+        double linVel = adjustedLinVel(currentSegment.x, currentSegment.y, currentSegment.heading, currentSegment.velocity, targetAngVel());
+        double angVel = adjustedAngVel(currentSegment.x, currentSegment.y, currentSegment.heading, currentSegment.velocity, targetAngVel());
+        double lOutput = ((-Units.inchesToMeters(Constants.kWheelBase) * angVel) / 2 + linVel) * (1/Units.feetToMeters(Constants.kMaxVelocity)); //calculate velocity in m/s then convert to scale of -1 to 1
+        double rOutput = ((+Units.inchesToMeters(Constants.kWheelBase) * angVel) / 2 + linVel) * (1/Units.feetToMeters(Constants.kMaxVelocity)); //v = ω*r
+        SmartDashboard.putNumber("Target Velocity", linVel);
         SmartDashboard.putNumber("Target Angular Velocity", angVel);
-        double lOutput = ((-Constants.kWheelBase * angVel) / 2 + velocity) * (1/Units.feetToMeters(Constants.kMaxVelocity)); //calculate velocity in m/s then convert to scale of -1 to 1
-        double rOutput = ((+Constants.kWheelBase * angVel) / 2 + velocity) * (1/Units.feetToMeters(Constants.kMaxVelocity));
+        SmartDashboard.putNumber("lOutput", lOutput);
+        SmartDashboard.putNumber("rOutput", rOutput);
 
         pointNum++;
 
-        Robot.mDrivetrain.setSpeed(lOutput, rOutput);
+        mDrivetrain.setSpeed(lOutput, rOutput);
     }
-
-    public boolean isFinished()
-    {
-        return pointNum == sourceTrajectory.length();
-    }
-
+    
     public double targetAngVel()
     {
         if(pointNum < sourceTrajectory.length() - 1)
@@ -56,34 +54,46 @@ public class RamseteFollower
             return 0;
         }
     }
-
-    public double calcKGain(double targetAngVel, double targetVelocity)
+    
+    public double kGain(double targetAngVel, double targetLinVel)
     {
-        return 2 * Constants.kZeta * Math.sqrt((Math.pow(targetAngVel, 2) + Math.pow(targetVelocity, 2)));
+        return 2 * Constants.kZeta * Math.sqrt(targetAngVel * targetAngVel + Constants.kBeta * targetLinVel * targetLinVel);
     }
-
-    public double calcVelocity(double targetX, double targetY, double targetTheta, double targetVelocity, double targetAngVel)
+    
+    public double adjustedLinVel(double targetX, double targetY, double targetTheta, double targetLinVel, double targetAngVel)
     {
-        double kGain = calcKGain(targetAngVel, targetVelocity);
+        double kGain = kGain(targetAngVel, targetLinVel);
         double xError = targetX - odo.x;
         double yError = targetY - odo.y;
         double thetaError = clampTheta(targetTheta - odo.theta);
-        return targetVelocity * Math.cos(thetaError) + kGain * (Math.cos(odo.theta) * yError + Math.sin(odo.theta) * xError);
+        return targetLinVel * Math.cos(thetaError) + kGain * (Math.cos(odo.theta) * xError + Math.sin(odo.theta) * yError);
     }
 
-    public double calcAngVel(double targetX, double targetY, double targetTheta, double targetVelocity, double targetAngVel)
+    public double adjustedAngVel(double targetX, double targetY, double targetTheta, double targetLinVel, double targetAngVel)
     {
-        double kGain = calcKGain(targetAngVel, targetVelocity);
+        double kGain = kGain(targetAngVel, targetLinVel);
         double xError = targetX - odo.x;
         double yError = targetY - odo.y;
         double thetaError = clampTheta(targetTheta - odo.theta);
-        return targetAngVel + kGain * targetVelocity * (Math.sin(thetaError) / thetaError) * (Math.cos(odo.theta) * yError + Math.sin(odo.theta) * xError) + kGain* thetaError;
+        return targetAngVel + Constants.kBeta * targetLinVel * (Math.sin(thetaError) / thetaError) * (Math.cos(odo.theta) * yError + Math.sin(odo.theta) * xError) + kGain* thetaError;
     }
 
+    
     public double clampTheta(double theta)
     {
-        while (theta >= Math.PI) theta -= 2*Math.PI;
-        while (theta < -Math.PI) theta += 2*Math.PI;
+        while (theta >= Math.PI)
+        {
+            theta -= 2*Math.PI;
+        }
+        while (theta < -Math.PI)
+        {
+            theta += 2*Math.PI;
+        }
         return theta;
+    }
+    
+    public boolean isFinished() 
+    {
+        return pointNum == sourceTrajectory.length();
     }
 }
