@@ -9,6 +9,7 @@ import team3647pistons.Clamp;
 import team3647pistons.DropDown;
 import team3647pistons.LightPiston;
 import team3647pistons.MainPiston;
+import team3647subsystems.Camera;
 import team3647subsystems.Climber;
 import team3647subsystems.DigitalInputs;
 import team3647subsystems.Motors007;
@@ -50,6 +51,7 @@ public class Robot extends IterativeRobot {
 	Climber climberObj;
 	Joystick007 joyStickValues;
 	CameraServer server;
+	Camera jevois;
 	
 	//This is the code for the robot initialization
 	//This function runs once before the whole robot starts running
@@ -60,12 +62,13 @@ public class Robot extends IterativeRobot {
 		joyStickValues = new Joystick007();
 		clampObj = new Clamp();
 		dropdown = new DropDown();
-		mainpiston = new MainPiston();
+		//mainpiston = new MainPiston();
 		climberObj = new Climber();
 		lightObj = new LightPiston();
 
 		//This piece of code runs the camera
 		server = CameraServer.getInstance();
+		jevois = new Camera();
 		server.startAutomaticCapture("cam0", 0);
 	}
 
@@ -106,6 +109,14 @@ public class Robot extends IterativeRobot {
 				moveForw();
 			}
 		}
+	}
+
+	//This is the function that runs during Tele-Operated Period
+	public void teleopPeriodic() 
+	{	
+			runTeleOp();
+			jevois.operatorControl();
+		//testEncoders();
 	}
 
 	// This piece of code is an emergency auto in case the robot can't read any digital inputs
@@ -562,12 +573,6 @@ public class Robot extends IterativeRobot {
 			}
 	}
 	
-	//This is the function that runs during Tele-Operated Period
-	public void teleopPeriodic() 
-	{	
-			runTeleOp();	
-		//testEncoders();
-	}
 	
 	public void switches()
 	{
@@ -590,7 +595,7 @@ public class Robot extends IterativeRobot {
 		if(steeringWheelDrive)
 		{
 			joyStickValues.updateContollerValues();
-			updateAllPistonsForSteeringWheel();
+			//updateAllPistonsForSteeringWheel();
 			climberObj.theClimber();
 			driveTrainForSteeringWheel();
 			switches();
@@ -598,7 +603,7 @@ public class Robot extends IterativeRobot {
 		else
 		{
 			joyStickValues.updateContollerValues();
-			updateAllPistons();
+			//updateAllPistons();
 			climberObj.theClimber();
 			driveTrain();
 			switches();
