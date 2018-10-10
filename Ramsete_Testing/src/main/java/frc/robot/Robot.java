@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.team3647Subsystems.*;
 import frc.team3647Autonomous.*;
-import frc.team3647Autonomous.team3647Commands.TestCommandGroup;
 import frc.team3647Utility.*;
 
 
@@ -24,6 +23,7 @@ public class Robot extends IterativeRobot
 	MotorSafety safety;
 	MotorSafetyHelper safetyChecker;
 	CameraServer server;
+	Odometry odo;
 	
 	//Subsystems
 	public static final Drivetrain mDrivetrain = new Drivetrain();
@@ -36,15 +36,18 @@ public class Robot extends IterativeRobot
 	//Test Variables
 	boolean driveEncoders, driveCurrent, driveVelocity, driveClError, navXAngle;
 
+	boolean lastAuto;
+	
 	@Override
 	public void robotInit() 
 	{
 		try
 		{
 			joy = new Joysticks();
+			odo = new Odometry();
 			mDrivetrain.drivetrainInitialization();
 			setTests();
-			
+			lastAuto = false;
 		}
 		catch(Throwable t)
 		{
@@ -64,19 +67,28 @@ public class Robot extends IterativeRobot
 	@Override
 	public void autonomousInit() 
 	{
-		auto = new TestCommandGroup();
+		auto = new TestAuto();
+		auto.start();
 	}
 
 	@Override
 	public void autonomousPeriodic() 
 	{
 		Scheduler.getInstance().run();
+		lastAuto = true;
 	}
 	
 	@Override
 	public void disabledPeriodic()
 	{
-		mDrivetrain.setToCoast();
+		if(lastAuto)
+		{
+			mDrivetrain.setToBrake();
+		}
+		else
+		{
+			mDrivetrain.setToCoast();
+		}
 	}
 	
 	@Override
@@ -84,6 +96,7 @@ public class Robot extends IterativeRobot
 	{
 		mDrivetrain.resetAngle();
 		mDrivetrain.setToCoast();
+		odo.odometryInit();
 	}
 	
 	@Override
@@ -94,6 +107,8 @@ public class Robot extends IterativeRobot
 			updateJoysticks();
 			runDrivetrain();
 			runTests();
+			lastAuto = false;
+			odo.printPosition();
 		}
 		catch(Throwable t)
 		{

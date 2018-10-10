@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.*;
 import frc.team3647Subsystems.*;
 
-public class Autonomous
+public class AutoSelector
 {
-
+    
 }
