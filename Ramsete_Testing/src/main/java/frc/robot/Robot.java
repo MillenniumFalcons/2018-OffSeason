@@ -9,8 +9,12 @@ import edu.wpi.first.wpilibj.MotorSafetyHelper;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.team3647Subsystems.*;
 import frc.team3647Autonomous.*;
+import frc.team3647Autonomous.AutoSelector;
+import frc.team3647Autonomous.AutoSelector.AutoMode;
+import frc.team3647Autonomous.AutoSelector.StartPosition;
 import frc.team3647Utility.*;
 
 
@@ -18,7 +22,9 @@ import frc.team3647Utility.*;
 public class Robot extends IterativeRobot 
 {
   //Objects
-	Command auto;
+	Command mAutonomous;
+	SendableChooser<AutoMode> mAutoModeChooser;
+	SendableChooser<StartPosition> mStartPosChooser;
 	Joysticks joy;
 	MotorSafety safety;
 	MotorSafetyHelper safetyChecker;
@@ -48,6 +54,14 @@ public class Robot extends IterativeRobot
 			mDrivetrain.drivetrainInitialization();
 			setTests();
 			lastAuto = false;
+			mAutoModeChooser = new SendableChooser<AutoMode>();
+			mAutoModeChooser.addDefault("TEST_PATH", AutoMode.TEST_PATH);
+			mAutoModeChooser.addObject("OPEN_LOOP_DRIVE", AutoMode.OPEN_LOOP_DRIVE);
+			
+			mStartPosChooser = new SendableChooser<StartPosition>();
+			mStartPosChooser.addDefault("Right", StartPosition.RIGHT);
+			mStartPosChooser.addObject("Middle", StartPosition.MIDDLE);
+			mStartPosChooser.addObject("Left", StartPosition.LEFT);
 		}
 		catch(Throwable t)
 		{
@@ -67,8 +81,8 @@ public class Robot extends IterativeRobot
 	@Override
 	public void autonomousInit() 
 	{
-		auto = new TestAuto();
-		auto.start();
+		mAutonomous = new AutoSelector(mStartPosChooser.getSelected(), mAutoModeChooser.getSelected());
+		mAutonomous.start();
 	}
 
 	@Override
