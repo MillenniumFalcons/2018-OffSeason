@@ -89,7 +89,7 @@ public class RamseteFollower
         {
             sinThetaErrOverThetaErr = Math.sin(thetaError) / (thetaError);
         }
-        return targetAngVel + Constants.kBeta * targetLinVel * sinThetaErrOverThetaErr * (Math.cos(odo.theta) * yError + Math.sin(odo.theta) * xError) + kGain* thetaError;
+        return targetAngVel + Constants.kBeta * targetLinVel * sinThetaErrOverThetaErr * (Math.cos(odo.theta) * yError - Math.sin(odo.theta) * xError) + kGain* thetaError;
     }
 
     
