@@ -22,11 +22,8 @@ public class Main {
     }
 
     public static void main(String[] args){
-        //Trajectory traj = Pathfinder.generate(waypoints, new Trajectory.Config(Trajectory.FitMethod.HERMITE_QUINTIC, Trajectory.Config.SAMPLES_HIGH, .02, 4, 10, 60));
-        File pathLoc = new File(System.getProperty("user.dir") + "\\src\\paths\\" + "LeftOppSideScale_source_Jaci.csv");
-        Trajectory traj = Pathfinder.readFromCSV(pathLoc);
-        follower = new RamseteFollower(2.166666, traj);
-        robotPos.add(follower.getInitOdometry());
+        follower = new RamseteFollower(traj);
+        robotPos.add(follower.sourceTrajectory.get(0).x, follower.sourceTrajectory.get(0).y, follower.sourceTrajectory.get(0).heading);
         int odometryIdx = 0;
         DriveSignal driveSignal;
         while(!follower.isFinished()){
@@ -35,18 +32,19 @@ public class Main {
             driveSignal = follower.getNextDriveSignal();
             double w = (-driveSignal.getLeft() + driveSignal.getRight()) / 2.166666;
             double v = (driveSignal.getLeft() + driveSignal.getRight()) / 2;
-            double dt = .02 * spicyRandomness(1.0, 1.0);
+            //double dt = .02 * spicyRandomness(1.0, 1.0);
+            double dt = 0.2;
             double heading = w * dt;
             double pos = v * dt;
-            double x = pos * Math.cos(current.getTheta() + heading);
-            double y = pos * Math.sin(current.getTheta() + heading);
+            double x = pos * Math.cos(current.theta + heading);
+            double y = pos * Math.sin(current.theta + heading);
 
-            double newX = current.getX() + x;
-            double newY = current.getY() + y;
-            double newTheta = current.getTheta() + heading;
+            double newX = current.x + x;
+            double newY = current.y + y;
+            double newTheta = current.theta + heading;
 
             System.out.println("New X: " + newX + " New Y: " + newY + " New Heading: " + Math.toDegrees(newTheta));
-            robotPos.add(new Odometry(newX, newY, newTheta));
+            robotPos.add(current.setOdometry(newX, newY, newTheta));
             odometryIdx++;
         }
 
