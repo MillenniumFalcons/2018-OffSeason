@@ -14,13 +14,16 @@ import frc.robot.Constants;
 public class RamseteFollower
 {
     Trajectory sourceTrajectory;
-    Odometry odo;
+    Odometry odo = new Odometry();
     Drivetrain mDrivetrain = new Drivetrain();
     int pointNum = 0;
 
     public RamseteFollower(String path)
     {
         sourceTrajectory = Pathfinder.readFromCSV(new File("/home/lvuser/paths/" + path + "_source_Jaci.csv"));
+        System.out.println("Loaded path");
+        odo.odometryInit();
+        System.out.println(sourceTrajectory.get(0).x + " " + sourceTrajectory.get(0).y + " " +sourceTrajectory.get(0).heading);
         odo.setOdometry(sourceTrajectory.get(0).x, sourceTrajectory.get(0).y, sourceTrajectory.get(0).heading);
     }
 
@@ -37,6 +40,7 @@ public class RamseteFollower
         SmartDashboard.putNumber("rOutput", rOutput);
 
         pointNum++;
+        odo.printPosition();
 
         mDrivetrain.setSpeed(lOutput, rOutput);
     }
@@ -81,15 +85,15 @@ public class RamseteFollower
     
     public double clampTheta(double theta)
     {
-        while (theta >= Math.PI)
-        {
-            theta -= 2*Math.PI;
-        }
-        while (theta < -Math.PI)
-        {
-            theta += 2*Math.PI;
-        }
-        return theta;
+        // while (theta >= Math.PI)
+        // {
+        //     theta -= 2*Math.PI;
+        // }
+        // while (theta < -Math.PI)
+        // {
+        //     theta += 2*Math.PI;
+        // }
+        return Pathfinder.d2r(Pathfinder.boundHalfDegrees(Pathfinder.r2d(theta)));
     }
     
     public boolean isFinished() 

@@ -30,7 +30,7 @@ public class Constants
 	public final static int kEncoderTicks = 1440;
 	
 	//Ramsete Constants
-	public final static double kBeta = 0; // b>0 (corrrection)
-	public final static double kZeta = 0; // 1>z>0 (dampening)
+	public final static double kBeta = 1; // b>0 (corrrection)
+	public final static double kZeta = 0.3; // 1>z>0 (dampening)
 
 }

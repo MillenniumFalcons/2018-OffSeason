@@ -1,5 +1,7 @@
 package frc.team3647Autonomous.team3647Commands;
 
+import com.ctre.phoenix.time.StopWatch;
+
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
@@ -10,7 +12,7 @@ public class FollowPath extends Command
 {
   RamseteFollower pathFollower;
   Odometry odo;
-  Timer stopWatch;
+  Timer stopWatch = new Timer();
 
   public FollowPath(String path) 
   {

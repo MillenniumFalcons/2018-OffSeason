@@ -21,12 +21,12 @@ public class Units
 
     public static double feetToMeters(double ft)
     {
-        return inchesToMeters(ft/12);
+        return inchesToMeters(ft*12);
     }
 
     public static double metersToFeet(double m)
     {
-        return metersToFeet(m) / 12;
+        return metersToInches(m) / 12;
     }
 
     public static double degreesToRadian(double d)

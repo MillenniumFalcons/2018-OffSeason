@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3647Subsystems.*;
 import frc.team3647Autonomous.*;
 import frc.team3647Autonomous.AutoSelector;
@@ -54,14 +55,17 @@ public class Robot extends IterativeRobot
 			mDrivetrain.drivetrainInitialization();
 			setTests();
 			lastAuto = false;
-			mAutoModeChooser = new SendableChooser<AutoMode>();
+
+			mAutoModeChooser = new SendableChooser<>();
 			mAutoModeChooser.addDefault("TEST_PATH", AutoMode.TEST_PATH);
 			mAutoModeChooser.addObject("OPEN_LOOP_DRIVE", AutoMode.OPEN_LOOP_DRIVE);
+			SmartDashboard.putData("Auto Mode", mAutoModeChooser);
 			
-			mStartPosChooser = new SendableChooser<StartPosition>();
+			mStartPosChooser = new SendableChooser<>();
 			mStartPosChooser.addDefault("Right", StartPosition.RIGHT);
 			mStartPosChooser.addObject("Middle", StartPosition.MIDDLE);
 			mStartPosChooser.addObject("Left", StartPosition.LEFT);
+			SmartDashboard.putData("Start position", mStartPosChooser);
 		}
 		catch(Throwable t)
 		{
@@ -123,6 +127,12 @@ public class Robot extends IterativeRobot
 			runTests();
 			lastAuto = false;
 			odo.printPosition();
+			if(joy.buttonA)
+			{
+				odo.setOdometry(0, 0, 0);
+				mDrivetrain.resetEncoders();
+				mDrivetrain.resetAngle();
+			}
 		}
 		catch(Throwable t)
 		{

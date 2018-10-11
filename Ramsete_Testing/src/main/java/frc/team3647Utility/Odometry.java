@@ -18,7 +18,7 @@ public class Odometry
             deltaPosition = Units.ticksToMeters(currentPosition - lastPosition);
             theta = Math.toRadians(Robot.mDrivetrain.getYaw());
             x +=  Math.cos(theta) * deltaPosition;
-            y +=  Math.sin(theta) * deltaPosition;
+            y +=  2*Math.sin(theta) * deltaPosition;
             lastPosition = currentPosition;
         });
         odoThread.startPeriodic(0.01);
@@ -33,6 +33,6 @@ public class Odometry
 
     public void printPosition()
     {
-        System.out.println("X: " + x + " Y: " + y + " Theta: " + theta);
+        System.out.println("X: " + Units.metersToFeet(x) + " Y: " + Units.metersToFeet(y) + " Theta: " + Units.radiansToDegress(theta));
     }
 }
