@@ -14,7 +14,7 @@ public class Odometry
     {
         lastPosition = 0;
         Notifier odoThread = new Notifier(() ->{
-            currentPosition = (Drivetrain.leftSRX.getSelectedSensorPosition(0) + Drivetrain.leftSRX.getSelectedSensorPosition(0))/2;
+            currentPosition = (Robot.mDrivetrain.leftSRX.getSelectedSensorPosition(0) + Robot.mDrivetrain.leftSRX.getSelectedSensorPosition(0))/2;
             deltaPosition = Units.ticksToMeters(currentPosition - lastPosition);
             theta = Math.toRadians(Robot.mDrivetrain.getYaw());
             x +=  Math.cos(theta) * deltaPosition;
@@ -29,6 +29,13 @@ public class Odometry
         x = xPos;
         y = yPos;
         theta = thetaPos;
+    }
+
+    public void resetOdometry()
+    {
+        x = 0;
+        y = 0;
+        theta = 0;
     }
 
     public void printPosition()
