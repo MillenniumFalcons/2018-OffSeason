@@ -1,0 +1,12 @@
+Edit EagleTuner.py
+lowerHue = 60
+upperHue = 115
+lowerSat = 170
+upperSat = 230
+lowerVal = 25
+upperVal = 60
+errode = 1
+dilate = 5
+approx = 15
+area = 2240
+solidity = 95

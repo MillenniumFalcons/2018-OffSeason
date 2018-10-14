@@ -4,7 +4,7 @@
 # This tutorial is a simple program that allows one to adjust the hue, saturation, and value ranges of the ObjectTracker
 # module using sliders
 
-serdev = 'COM9' # USB port connected to JeVois
+serdev = 'COM10' # USB port connected to JeVois
 
 from Tkinter import *
 import serial
@@ -12,17 +12,17 @@ import time
 
 
 # default values for Hue, Saturation, and Value ranges:
-lowerHue = 0
-upperHue = 255
-lowerSat = 0
-upperSat = 255
-lowerVal = 0
-upperVal = 255
-errode = 0
-dilate = 0
-approx = 6
-area = 500
-solidity = 100
+lowerHue = 59
+upperHue = 113
+lowerSat = 169
+upperSat = 228
+lowerVal = 25
+upperVal = 62
+errode = 1
+dilate = 5
+approx = 15
+area = 2236
+solidity = 95
 
 ####################################################################################################
 # Send a command to JeVois and show response
