@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.SerialPort;
 import team3647pistons.Clamp;
 import team3647pistons.DropDown;
 import team3647pistons.LightPiston;
@@ -67,9 +68,9 @@ public class Robot extends IterativeRobot {
 		lightObj = new LightPiston();
 
 		//This piece of code runs the camera
-		server = CameraServer.getInstance();
-		jevois = new Camera();
-		server.startAutomaticCapture("cam0", 0);
+		//server = CameraServer.getInstance();
+		//jevois = new Camera();
+		//server.startAutomaticCapture("cam0", 0);
 	}
 
 	//This is the code for the robot initialization
@@ -111,11 +112,15 @@ public class Robot extends IterativeRobot {
 		}
 	}
 
+	SerialPort cam = new SerialPort(921600, SerialPort.Port.kUSB); //.kUSB# -------> # = nothing if cam0, 1 if cam1, 2 if cam2
+
 	//This is the function that runs during Tele-Operated Period
 	public void teleopPeriodic() 
 	{	
+		System.out.println(cam.readString());
+
 			runTeleOp();
-			jevois.operatorControl();
+			//jevois.operatorControl();
 		//testEncoders();
 	}
 
