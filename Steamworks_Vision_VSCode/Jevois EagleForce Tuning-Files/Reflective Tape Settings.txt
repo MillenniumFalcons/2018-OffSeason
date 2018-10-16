@@ -10,3 +10,17 @@ dilate = 5
 approx = 15
 area = 2240
 solidity = 95
+
+
+v2
+lowerHue = 0
+upperHue = 180
+lowerSat = 0
+upperSat = 255
+lowerVal = 0
+upperVal = 160
+errode = 0
+dilate = 0
+approx = 15
+area = 2240
+solidity = 95
