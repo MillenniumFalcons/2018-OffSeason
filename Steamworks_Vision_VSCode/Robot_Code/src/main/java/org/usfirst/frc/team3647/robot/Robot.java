@@ -2,6 +2,8 @@ package org.usfirst.frc.team3647.robot;
 
 //These are the import statements...
 import edu.wpi.first.wpilibj.IterativeRobot;
+
+
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
@@ -16,6 +18,10 @@ import team3647subsystems.DigitalInputs;
 import team3647subsystems.Motors007;
 import team3647subsystems.Encoders;
 import team3647subsystems.Joystick007;
+import org.json.*;
+import jssc.SerialPort.*;
+import jssc.SerialPortException;
+import jssc.SerialPortList;
 
 public class Robot extends IterativeRobot {
 	
@@ -112,16 +118,64 @@ public class Robot extends IterativeRobot {
 		}
 	}
 
-	SerialPort cam = new SerialPort(921600, SerialPort.Port.kUSB); //.kUSB# -------> # = nothing if cam0, 1 if cam1, 2 if cam2
+	SerialPort cam = new SerialPort(115200, SerialPort.Port.kUSB); //.kUSB# -------> # = nothing if cam0, 1 if cam1, 2 if cam2
 
-	//This is the function that runs during Tele-Operated Period
+	public static int middleX = 160;
+	public static int middleY = 120;
+	public static double XCenter = -1;
+	public static double YCenter = -1;
+	
+
+	public void parseCam()
+	{
+		String input = cam.readString();
+        System.out.println(input);
+        JSONObject obj = new JSONObject(input);
+    	try
+    	{    			
+    		XCenter = obj.getInt("XCntr ");
+			YCenter = obj.getInt("YCntr ");
+			System.out.println("This is X Center" + XCenter);
+    		System.out.println("This is Y Center" + YCenter);
+		}
+		catch(NullPointerException e)
+		{
+    		System.out.println(e);
+		}
+	}
+
+	public void visionPID(double videoFeedX, double videoFeedY) 
+	//not true PID yet. need to add kP,I,D constants to make it go truly correct
+	//int videoFeedX and Y is the value from camera
+	{
+		if((videoFeedX > middleX) && (videoFeedY != middleY))
+		{
+			Motors007.leftTalon.set(.1);
+			Motors007.rightTalon.set(.05);
+		}
+		else if((videoFeedX < middleX) && (videoFeedY != middleY))
+		{
+			Motors007.leftTalon.set(.05);
+			Motors007.rightTalon.set(.1);
+		}
+		else if((videoFeedX == middleX) && (videoFeedY == middleY))
+		{
+			Motors007.leftTalon.set(0);
+			Motors007.rightTalon.set(0);
+		}
+		else
+		{
+			Motors007.leftTalon.set(.1);
+			Motors007.rightTalon.set(.1);	
+		}
+
+	}
+
+	// This is the function that runs during Tele-Operated Period
 	public void teleopPeriodic() 
-	{	
-		System.out.println(cam.readString());
-
-			runTeleOp();
-			//jevois.operatorControl();
-		//testEncoders();
+	{
+		parseCam();
+		visionPID(XCenter,YCenter);
 	}
 
 	// This piece of code is an emergency auto in case the robot can't read any digital inputs

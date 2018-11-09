@@ -4,7 +4,7 @@
 # This tutorial is a simple program that allows one to adjust the hue, saturation, and value ranges of the ObjectTracker
 # module using sliders
 
-serdev = 'COM5' # USB port connected to JeVois
+serdev = 'COM9' # USB port connected to JeVois
 
 from Tkinter import *
 import serial
