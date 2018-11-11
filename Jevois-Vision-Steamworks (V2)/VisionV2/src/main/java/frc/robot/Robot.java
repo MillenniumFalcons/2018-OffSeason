@@ -1,91 +1,127 @@
 package frc.robot;
 
+import org.json.JSONObject;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.*;
+import frc.team3647subsystems.Drivetrain;
+import org.json.*;
 
-/**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the IterativeRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the build.gradle file in the
- * project.
- */
-public class Robot extends IterativeRobot {
-  private static final String kDefaultAuto = "Default";
-  private static final String kCustomAuto = "My Auto";
-  private String m_autoSelected;
-  private final SendableChooser<String> m_chooser = new SendableChooser<>();
+import jssc.SerialPort.*;
+import jssc.SerialPortException;
+import jssc.SerialPortList;
 
-  /**
-   * This function is run when the robot is first started up and should be
-   * used for any initialization code.
-   */
+public class Robot extends IterativeRobot 
+{
+  
   @Override
-  public void robotInit() {
-    m_chooser.addDefault("Default Auto", kDefaultAuto);
-    m_chooser.addObject("My Auto", kCustomAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
+  public void robotInit() 
+  {
+
   }
 
-  /**
-   * This function is called every robot packet, no matter the mode. Use
-   * this for items like diagnostics that you want ran during disabled,
-   * autonomous, teleoperated and test.
-   *
-   * <p>This runs after the mode specific periodic functions, but before
-   * LiveWindow and SmartDashboard integrated updating.
-   */
+ 
   @Override
-  public void robotPeriodic() {
+  public void robotPeriodic() 
+  {
   }
 
-  /**
-   * This autonomous (along with the chooser code above) shows how to select
-   * between different autonomous modes using the dashboard. The sendable
-   * chooser code works with the Java SmartDashboard. If you prefer the
-   * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-   * getString line to get the auto name from the text box below the Gyro
-   *
-   * <p>You can add additional auto modes by adding additional comparisons to
-   * the switch structure below with additional strings. If using the
-   * SendableChooser make sure to add them to the chooser code above as well.
-   */
+  
   @Override
-  public void autonomousInit() {
-    m_autoSelected = m_chooser.getSelected();
-    // autoSelected = SmartDashboard.getString("Auto Selector",
-    // defaultAuto);
-    System.out.println("Auto selected: " + m_autoSelected);
+  public void autonomousInit() 
+  {
+    
   }
 
-  /**
-   * This function is called periodically during autonomous.
-   */
+  
   @Override
-  public void autonomousPeriodic() {
-    switch (m_autoSelected) {
-      case kCustomAuto:
-        // Put custom auto code here
-        break;
-      case kDefaultAuto:
-      default:
-        // Put default auto code here
-        break;
-    }
+  public void autonomousPeriodic() 
+  {
+    
   }
 
-  /**
-   * This function is called periodically during operator control.
-   */
-  @Override
-  public void teleopPeriodic() {
-  }
+  
+  SerialPort cam = new SerialPort(921600, SerialPort.Port.kUSB); //.kUSB# -------> # = nothing if cam0, 1 if cam1, 2 if cam2
 
-  /**
-   * This function is called periodically during test mode.
-   */
+	public static int middleX = 160;
+	public static int middleY = 120;
+	public static double XCenter = -1;
+	public static double YCenter = -1;
+	
+
+	public void parseCam()
+	{
+		String input = cam.readString();
+		if(!input.contains("}"))
+		{
+			System.out.println("Data not fully received");
+		}
+		else
+		{
+			System.out.println(input);
+        	JSONObject obj = new JSONObject(input);
+    		try
+    		{    			
+    			XCenter = obj.getInt("XCntr");
+				YCenter = obj.getInt("YCntr");
+				System.out.println("This is X Center" + XCenter);
+    			System.out.println("This is Y Center" + YCenter);
+			}
+			catch(NullPointerException e)
+			{
+    			System.out.println(e);
+			}
+		}
+        
+	}
+
+	public void visionPID(double videoFeedX, double videoFeedY) 
+	//not true PID yet. need to add kP,I,D constants to make it go truly correct
+	//int videoFeedX and Y is the value from camera
+	{
+		if((videoFeedX > middleX) && (videoFeedY != middleY))
+		{
+			Drivetrain.leftSRX.set(.1);
+			Drivetrain.rightSRX.set(.05);
+			// Motors007.leftTalon.set(.1);
+			// Motors007.rightTalon.set(.05);
+		}
+		else if((videoFeedX < middleX) && (videoFeedY != middleY))
+		{
+			Drivetrain.leftSRX.set(.05);
+			Drivetrain.rightSRX.set(.1);
+			// Motors007.leftTalon.set(.05);
+			// Motors007.rightTalon.set(.1);
+		}
+		else if((videoFeedX == middleX) && (videoFeedY == middleY))
+		{
+			Drivetrain.leftSRX.set(0);
+			Drivetrain.rightSRX.set(0);
+			// Motors007.leftTalon.set(0);
+			// Motors007.rightTalon.set(0);
+		}
+		else
+		{
+			Drivetrain.leftSRX.set(.05);
+			Drivetrain.rightSRX.set(.05);
+			// Motors007.leftTalon.set(.1);
+			// Motors007.rightTalon.set(.1);	
+		}
+
+	}
+
+	// This is the function that runs during Tele-Operated Period
+	public void teleopPeriodic() 
+	{
+		System.out.println("It Has Begun");
+		parseCam();
+		//visionPID(XCenter,YCenter);
+	}
+
+  
   @Override
-  public void testPeriodic() {
+  public void testPeriodic() 
+  {
+
   }
 }
