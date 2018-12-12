@@ -1,6 +1,6 @@
 package frc.robot;
 
-public class Constants
+public interface Constants
 {
 	//Drive Motor Pins
 	public final static int kLeftMaster = 57;

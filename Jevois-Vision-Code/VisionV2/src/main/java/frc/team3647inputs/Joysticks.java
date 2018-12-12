@@ -36,20 +36,20 @@ public class Joysticks
 	
 	public void setCoDriverContollerValues()
 	{
-		rightBumper1 =	coController.getRawButton(6);
-		leftBumper1 =	coController.getRawButton(5);
-		leftTrigger1 = fixJoystickValue(coController.getRawAxis(2));
-		buttonA1 =	coController.getRawButton(1);
-		buttonB1 = coController.getRawButton(2);
-		rightTrigger1 = fixJoystickValue(coController.getRawAxis(3));
-		buttonY1 = coController.getRawButton(4);
+		// rightBumper1 =	coController.getRawButton(6);
+		// leftBumper1 =	coController.getRawButton(5);
+		// leftTrigger1 = fixJoystickValue(coController.getRawAxis(2));
+		// buttonA1 =	coController.getRawButton(1);
+		// buttonB1 = coController.getRawButton(2);
+		// rightTrigger1 = fixJoystickValue(coController.getRawAxis(3));
+		// buttonY1 = coController.getRawButton(4);
 		leftJoySticky1 = fixJoystickValue(-coController.getRawAxis(1));
-		leftJoyStickx1 = fixJoystickValue(coController.getRawAxis(0));
-		rightJoyStickx1 = fixJoystickValue(coController.getRawAxis(4));
-		rightJoySticky1 = -fixJoystickValue(coController.getRawAxis(5));
-		buttonX1 = coController.getRawButton(3);
-		dPadValue = dPad.getPOV();
-		setDPadValues();
+		// leftJoyStickx1 = fixJoystickValue(coController.getRawAxis(0));
+		rightJoyStickx1 = fixJoystickValue(coController.getRawAxis(0));
+		// rightJoySticky1 = -fixJoystickValue(coController.getRawAxis(5));
+		// buttonX1 = coController.getRawButton(3);
+		// dPadValue = dPad.getPOV();
+		// setDPadValues();
 	}
 	
 	public void setDPadValues()

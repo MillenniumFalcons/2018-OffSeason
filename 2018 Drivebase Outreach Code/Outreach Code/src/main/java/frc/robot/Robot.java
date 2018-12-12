@@ -1,22 +1,22 @@
- package frc.robot;
-import com.ctre.phoenix.motorcontrol.ControlMode;
+package frc.robot;
 import edu.wpi.first.wpilibj.*;
 import frc.team3647inputs.*;
-import edu.wpi.first.wpilibj.CameraServer;
+import frc.team3647subsystems.Drivetrain;
 
 
 public class Robot extends IterativeRobot 
 {
 	//Objects
 	Encoders enc;
-	Joysticks joy;
 	NavX navX;
+	Joysticks stick;
 
 	@Override
 	public void robotInit() 
 	{
 		enc = new Encoders();
-		joy = new Joysticks();
+		stick = new Joysticks();
+	  	Drivetrain.drivetrainInitialization(false);
 	}
 	
 	
@@ -45,7 +45,8 @@ public class Robot extends IterativeRobot
 	// This is the function that runs during Tele-Operated Period
 	public void teleopPeriodic() 
 	{
-
+		stick.setMainContollerValues();
+		Drivetrain.FRCarcadedrive(stick.rightJoyStickx, stick.leftJoySticky);
 	}
 
 	@Override
@@ -57,10 +58,4 @@ public class Robot extends IterativeRobot
 	public void testPeriodic() 
 	{
 	}
-	
-	public void updateJoysticks()
-	{
-		joy.setMainContollerValues();
-		joy.setCoDriverContollerValues();
-	}	
 }

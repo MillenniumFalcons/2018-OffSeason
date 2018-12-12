@@ -2,7 +2,7 @@ package frc.team3647Utility;
 
 import frc.robot.Constants;
 
-public class Units
+public interface Units
 {
     public static double ticksToMeters(double ticks)
     {
