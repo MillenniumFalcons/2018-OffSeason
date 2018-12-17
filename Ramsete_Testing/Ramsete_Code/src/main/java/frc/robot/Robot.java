@@ -35,7 +35,7 @@ public class Robot extends IterativeRobot
 	public static final Drivetrain mDrivetrain = new Drivetrain(); //Creates a Drivetrain Object (that cannot change): For robot drivetrain movement
 
 	//Test Variables
-	boolean driveEncoders, driveCurrent, driveVelocity, driveClError, navXAngle;
+	boolean driveEncoders, driveCurrent, driveVelocity, navXAngle;
 
 	boolean lastAuto; //Boolean for checking if robot Auto is complete
 	
@@ -72,7 +72,6 @@ public class Robot extends IterativeRobot
 		driveEncoders = false; 	//test for encoder values
 		driveCurrent = false; 	//test for current
     	driveVelocity = false; 	//test for velocity
-		driveClError = false; 	//test for 
 		navXAngle = false;		//test for gyro angle
 	}
 	
@@ -110,9 +109,9 @@ public class Robot extends IterativeRobot
 	@Override
 	public void teleopInit()
 	{
-		mDrivetrain.resetAngle();		//
-		mDrivetrain.setToCoast();		//
-		odo.odometryInit();				//
+		mDrivetrain.resetAngle();		//Resets Gyro Yaw Angle to zero
+		mDrivetrain.setToCoast();		//Sets drivetrain motors to coast
+		odo.odometryInit();				//Odometry Object Initialization Method, see Odometry.java
 	}
 	
 	@Override
@@ -120,21 +119,21 @@ public class Robot extends IterativeRobot
 	{
 		try 
 		{
-			updateJoysticks();			//
-			runDrivetrain();			//
-			runTests();					//
-			lastAuto = false;			//
-			odo.printPosition();		//
-			if(joy.buttonA)				//
+			updateJoysticks();			//Updates Joysticks mappings and actions periodically
+			runDrivetrain();			//Runs Drivetrain Method
+			runTests();					//Runs robot sensor tests, if any to run
+			lastAuto = false;			//Sets lastAuto to false, thus setting motors to coast mode
+			odo.printPosition();		//Print position in odometry terms
+			if(joy.buttonA)
 			{
-				odo.setOdometry(0, 0, 0);		//
-				mDrivetrain.resetEncoders();	//
-				mDrivetrain.resetAngle();		//
+				odo.setOdometry(0, 0, 0);		//Resets Odometry Values
+				mDrivetrain.resetEncoders();	//Reset Encoder Values to zero
+				mDrivetrain.resetAngle();		//Resets Gyro Yaw Angle to zero
 			}
 		}
 		catch(Throwable t)
 		{
-			throw t;	//
+			throw t;	//Catch any errors or exceptions
 		}
 	}
 
@@ -150,42 +149,39 @@ public class Robot extends IterativeRobot
 
 	}
 	
-	public void updateJoysticks()
+	public void updateJoysticks() //This method, along with setting controls, also updates controller actions
 	{
-		joy.setMainContollerValues();		//
-		joy.setCoDriverContollerValues();	//
+		joy.setMainContollerValues();		//Set controller mapping for Joystick Input 0 in Dashboard - Main Driver
+		joy.setCoDriverContollerValues();	//Set controller mapping for Joystick Input 1 in Dashboard - Co-Driver
 	}
 
-	public void runDrivetrain()
+	public void runDrivetrain() 			//Method to set drivetrain speeds based on leftBumper toggle
 	{
 		if(joy.leftBumper)
-		{
-			mDrivetrain.newArcadeDrive(joy.leftJoySticky * 0.5, joy.rightJoyStickx * 0.5, mDrivetrain.getYaw());	//
-		}
-  	else
-		{
-			//Drivetrain.FRCarcadedrive(joy.leftJoySticky, joy.rightJoyStickx);										//
-			mDrivetrain.newArcadeDrive(joy.leftJoySticky, joy.rightJoyStickx, mDrivetrain.getYaw());				//
-		}
+			mDrivetrain.newArcadeDrive(joy.leftJoySticky * 0.5, joy.rightJoyStickx * 0.5, mDrivetrain.getYaw());	//move 0.5 speed if leftBumper is true
+
+		else
+			mDrivetrain.newArcadeDrive(joy.leftJoySticky, joy.rightJoyStickx, mDrivetrain.getYaw());				//move full speed if leftBumper is not true
+			
 	}
 	
 	public void runMotorSafety()
 	{
-		safetyChecker.setSafetyEnabled(false);	//
+		safetyChecker.setSafetyEnabled(false);	//Motor Safety Disabled
 	}
 	
-	public void runTests()
+	public void runTests()	//method for sensor tests
 	{
 		if(driveEncoders)
-			mDrivetrain.testEncoderPosition();
+			mDrivetrain.testEncoderPosition();		//Test Encoder Values
 		
 		if(driveCurrent)
-		  	mDrivetrain.testDrivetrainCurrent();
+		  	mDrivetrain.testDrivetrainCurrent();	//Test Electrical Current Values
 		
     	if(driveVelocity)
-			mDrivetrain.testEncoderVelocity();
+			mDrivetrain.testEncoderVelocity();		//Test Velocity
 		
 		if(navXAngle)
-			mDrivetrain.testAngle();
+			mDrivetrain.testAngle();				//Test Gyro Angle
 	}
 }
