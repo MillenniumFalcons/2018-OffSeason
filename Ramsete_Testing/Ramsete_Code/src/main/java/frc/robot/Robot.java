@@ -48,7 +48,7 @@ public class Robot extends IterativeRobot
 			odo = new Odometry(); 						//Initialize Odometry Object (see Odometry.java)
 			mDrivetrain.drivetrainInitialization(); 	//Initialize Drivetrain Object
 			setTests(); 								//Method used to run tests on sensors on the robot
-			lastAuto = false; 							//lastauto determines the coasting of brakes
+			lastAuto = false; 							//lastauto determines the coasting of motors
 
 			mAutoModeChooser = new SendableChooser<>(); 								//Create a SendableChooser to put in dashboard for choosing auto
 			mAutoModeChooser.addDefault("TEST_PATH", AutoMode.TEST_PATH);				//Default object set to, from AutoSelector.java, AutoMode Enum: "TEST_PATH" 
