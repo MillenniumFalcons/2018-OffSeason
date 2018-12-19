@@ -20,10 +20,10 @@ public class RamseteFollower
 
     public RamseteFollower(String path)
     {
-        sourceTrajectory = Pathfinder.readFromCSV(new File("/home/lvuser/paths/" + path + "_source_Jaci.csv"));
-        System.out.println("Loaded path");
-        odo.odometryInit();
-        pointNum = 0;
+        sourceTrajectory = Pathfinder.readFromCSV(new File("/home/lvuser/paths/" + path + "_source_Jaci.csv")); //Load path following file from filepath
+        System.out.println("Path has been successfully loaded!");  //Indicate Loading of Path was Successful
+        odo.odometryInit();                 //Start the periodic notifier event
+        pointNum = 0;                       //
         System.out.println("Starting Position: " + sourceTrajectory.get(0).x + " " + sourceTrajectory.get(0).y + " " +sourceTrajectory.get(0).heading);
         odo.setOdometry(sourceTrajectory.get(0).x, sourceTrajectory.get(0).y, sourceTrajectory.get(0).heading);
     }

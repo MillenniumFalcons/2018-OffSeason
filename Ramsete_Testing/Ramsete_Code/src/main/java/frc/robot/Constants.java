@@ -32,5 +32,5 @@ public interface Constants
 	//Ramsete Constants
 	public final static double kBeta = 1; // b>0 (corrrection)
 	public final static double kZeta = .2; // 1>z>0 (dampening)
-
+	
 }
