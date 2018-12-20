@@ -54,7 +54,7 @@ public class FollowPath extends Command
   protected void end() 
   {
     pathThread.stop();
-    System.out.println("Done with path!");
+    System.out.println("Path Successfully completed!");
     stopWatch.stop();
     System.out.println("Time to complete path: " + stopWatch.get());
   }
