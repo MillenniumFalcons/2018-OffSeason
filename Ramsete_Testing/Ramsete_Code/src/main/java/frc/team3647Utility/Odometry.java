@@ -11,17 +11,31 @@ public class Odometry
 
     private double currentPosition, deltaPosition, lastPosition;
 
-    public void odometryInit()
+    public void odometryInit(boolean backwards)
     {
         lastPosition = 0;
         Notifier odoThread = new Notifier(() ->                                     //create a notifier event
         {
-            currentPosition = (Robot.mDrivetrain.leftSRX.getSelectedSensorPosition(0) + Robot.mDrivetrain.leftSRX.getSelectedSensorPosition(0))/2;
-            deltaPosition = Units.ticksToMeters(currentPosition - lastPosition);    //delta position calculated by difference in encoder ticks
-            theta = Math.toRadians(Robot.mDrivetrain.getYaw());                     //Gyro angle in Radians
-            x +=  Math.cos(theta) * deltaPosition;                                  //Getting x position from cosine of the change in position
-            y +=  Math.sin(theta) * deltaPosition;                                  //Getting y position from sine of the change in position
-            lastPosition = currentPosition;
+            if(backwards == false)
+            {
+                currentPosition = (Robot.mDrivetrain.leftSRX.getSelectedSensorPosition(0) + Robot.mDrivetrain.leftSRX.getSelectedSensorPosition(0))/2;
+                deltaPosition = Units.ticksToMeters(currentPosition - lastPosition);    //delta position calculated by difference in encoder ticks
+                theta = Math.toRadians(Robot.mDrivetrain.getYaw());                     //Gyro angle in Radians
+                x +=  Math.cos(theta) * deltaPosition;                                  //Getting x position from cosine of the change in position
+                y +=  Math.sin(theta) * deltaPosition;                                  //Getting y position from sine of the change in position
+                lastPosition = currentPosition;
+            }
+            else
+            {
+                currentPosition = (Robot.mDrivetrain.leftSRX.getSelectedSensorPosition(0) + Robot.mDrivetrain.leftSRX.getSelectedSensorPosition(0))/2;
+                deltaPosition = Units.ticksToMeters(currentPosition - lastPosition);    //delta position calculated by difference in encoder ticks
+                theta = Math.toRadians(Robot.mDrivetrain.getYaw());                     //Gyro angle in Radians
+                x +=  Math.cos(theta) * deltaPosition;                                  //Getting x position from cosine of the change in position
+                y +=  Math.sin(theta) * deltaPosition;                                  //Getting y position from sine of the change in position
+                x *= -1;
+                y *= -1;
+                lastPosition = currentPosition;
+            }
         });
         odoThread.startPeriodic(0.01);                                              //run the notifier event periodically requeued every .01 seconds
     }

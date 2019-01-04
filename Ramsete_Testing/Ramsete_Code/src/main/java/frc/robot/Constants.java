@@ -24,14 +24,14 @@ public interface Constants
 	public final static double kVelocityConstant = 1550;
 
 	//Robot Constants
-	public final static double kWheelDiameter = 4.8;
-	public final static double kWheelBase = 27; //25.2
+	public final static double kWheelDiameter = 5;
+	public final static double kWheelBase = 24.5; //25.2
     public final static double kMaxVelocity = 14.498; 
 	public final static int kEncoderTicks = 1440;
 	
 	//Ramsete Constants
-	public final static double kBeta = 1; // b>0 (corrrection)
-	public final static double kZeta = .38; // 1>z>0 (dampening)
+	public final static double kBeta = .5; // b>0 (corrrection)
+	public final static double kZeta = .5; // 1>z>0 (dampening)
 	
 	
 }

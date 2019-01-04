@@ -8,6 +8,6 @@ public class TestAuto extends CommandGroup
   //test ye autos here
   public TestAuto() 
   {
-    addSequential(new FollowPath("CurveTest"));
+    addSequential(new FollowPath("StraightFiveMAndCurveLeft", false));
   }
 }

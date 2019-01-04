@@ -14,16 +14,17 @@ public class FollowPath extends Command
   Notifier pathThread;
   Timer stopWatch = new Timer();
 
-  public FollowPath(String path) 
+  public FollowPath(String path, boolean backwards) 
   {
     requires(Robot.mDrivetrain);
-    pathFollower = new RamseteFollower(path);
+    pathFollower = new RamseteFollower(path, backwards);
     System.out.println("Created Ramsete follower");
     pathThread = new Notifier(() ->{
-      pathFollower.runPath();
+      pathFollower.runPathBackwards();
     });
-    
   }
+
+  
 
   // Called just before this Command runs the first time
   @Override

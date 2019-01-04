@@ -7,6 +7,7 @@ import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Trajectory.Segment;
 import java.io.File;
+import java.util.*; 
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
@@ -18,12 +19,12 @@ public class RamseteFollower
     Drivetrain mDrivetrain = new Drivetrain();
     int pointNum;
 
-    public RamseteFollower(String path)
+    public RamseteFollower(String path, boolean backwards)
     {
         sourceTrajectory = Pathfinder.readFromCSV(new File("/home/lvuser/paths/" + path + "_source_Jaci.csv")); //Load path following file from filepath
-        System.out.println("Path has been successfully loaded!");  //Indicate Loading of Path was Successful
-        odo.odometryInit();                 //Start the periodic notifier event
-        pointNum = 0;                       //Start at the beginning of a trajectory
+        System.out.println("Path has been successfully loaded!");                                               //Indicate Loading of Path was Successful
+        odo.odometryInit(backwards);                                                                                     //Start the periodic notifier event
+        pointNum = 0;                                                                                           //Start at the beginning of a trajectory
         System.out.println("Starting Position: " + sourceTrajectory.get(0).x + " " + sourceTrajectory.get(0).y + " " +sourceTrajectory.get(0).heading);
         odo.setOdometry(sourceTrajectory.get(0).x, sourceTrajectory.get(0).y, sourceTrajectory.get(0).heading);
     }
@@ -45,6 +46,59 @@ public class RamseteFollower
 
         mDrivetrain.setSpeed(lOutput, rOutput); //Sets speed of motors to calculated adjusted speed
     }
+
+    public void runPathBackwards()
+    {
+        Segment currentSegment = sourceTrajectory.get(pointNum);
+        double linVel = adjustedLinVel(currentSegment.x, currentSegment.y, currentSegment.heading, currentSegment.velocity, targetAngVel());
+        double angVel = adjustedAngVel(currentSegment.x, currentSegment.y, currentSegment.heading, currentSegment.velocity, targetAngVel());
+        double lOutput = ((-Units.inchesToMeters(Constants.kWheelBase) * angVel) / 2 + linVel) * (1/Units.feetToMeters(Constants.kMaxVelocity)); //calculate velocity in m/s then convert to scale of -1 to 1
+        double rOutput = ((+Units.inchesToMeters(Constants.kWheelBase) * angVel) / 2 + linVel) * (1/Units.feetToMeters(Constants.kMaxVelocity)); //v = ω*r
+        SmartDashboard.putNumber("Target Velocity", linVel);            //Diplay Target Velocity in Dashboard
+        SmartDashboard.putNumber("Target Angular Velocity", angVel);    //Display Target Angular Velocity in Dashboard
+        SmartDashboard.putNumber("lOutput", lOutput);                   //Display adjusted left speed in Dashboard
+        SmartDashboard.putNumber("rOutput", rOutput);                   //Display adjusted right speed in Dashboard
+
+        pointNum++;             //Increase pointNum as you go from one trajectory point to another
+        odo.printPosition();    //Prints current position of the robot
+
+        mDrivetrain.setSpeed(-rOutput, -lOutput); //Sets speed of motors to calculated adjusted speed
+    }
+
+    /*
+    public void followPath(Trajectory trajPoints, boolean backward, boolean reverse)
+    {
+        // Trajectory.Config configPoints = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_LOW, Constants.MPTimeStep, maxVelocity, maxAcceleration, Constants.maxJerk);
+        // Trajectory trajPoints = Pathfinder.generate(points, configPoints);
+
+        TankModifier tankModifier = new TankModifier(trajPoints);
+        tankModifier.modify(Constants.wheelBase);
+
+        if(backward)
+        {
+            leftTrajectory = tankModifier.getRightTrajectory();
+            rightTrajectory = tankModifier.getLeftTrajectory();
+        }
+        else
+        {
+            leftTrajectory = tankModifier.getLeftTrajectory();
+            rightTrajectory = tankModifier.getRightTrajectory();
+        }
+
+        finalReverse = backward;
+
+        if(reverse)
+        {
+            right.setTrajectory(reverseTrajectory(rightTrajectory));
+            left.setTrajectory(reverseTrajectory(leftTrajectory));
+        }
+        else
+        {
+            right.setTrajectory(rightTrajectory);
+            left.setTrajectory(leftTrajectory);
+        }
+    }
+    */
     
     public double targetAngVel()
     {
