@@ -1,7 +1,9 @@
+//Class created by Kunal Singla
+
 package frc.team3647inputs;
 
-import frc.team3647subsystems.Drivetrain;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.team3647subsystems.Drivetrain;                   //using Drivetrain class to move motors
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard; //Smart dashboard to display values from limelight
 import edu.wpi.first.networktables.*;
 
 public class Limelight
@@ -19,8 +21,12 @@ public class Limelight
 
     public Limelight()  //used to initalize the main, important things
     {
-
         table = NetworkTableInstance.getDefault().getTable("limelight");    //initializing the network table to grab values from limelight
+        updateLimelight();
+    }
+
+    public void updateLimelight()
+    {
 
         NetworkTableEntry tx = table.getEntry("tx"); //setting the N.T. entry to the tx value from limelight N.T.
 		NetworkTableEntry ty = table.getEntry("ty"); //setting the N.T. entry to the ty value from limelight N.T.
@@ -33,7 +39,6 @@ public class Limelight
 		SmartDashboard.putNumber("LimelightX", x);          //adding the values to SmartDashboard
 		SmartDashboard.putNumber("LimelightY", y);          //adding the values to SmartDashboard
 		SmartDashboard.putNumber("LimelightArea", area);    //adding the values to SmartDashboard
-
     }
 
     // Drivebase Bot -> kP = .45, kI = 0.035, kD = .9

@@ -40,6 +40,7 @@ public class Robot extends IterativeRobot
 	@Override
 	public void autonomousPeriodic()
 	{
+		one.updateLimelight();
 		one.follow(.45, .035, .9, .3, .01, 10); // Drivebase Bot -> kP = .45, kI = 0.035, kD = .9
 	}
 
