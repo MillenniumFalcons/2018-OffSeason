@@ -56,15 +56,20 @@ public class Limelight
 		}
     }
     
-    public void follow(double kp, double ki, double kd, double defaultSpeed, double errorThreshold, double targetArea)    //method for robot to follow a target while maintaing center point
+    public void follow(double kp, double ki, double kd, double errorThreshold, double defaultSpeed, double targetArea)    //method for robot to follow a target while maintaing center point
 	{
-		errorThreshold = .01;                                       //set error threshold for default robot movement
-		double error = this.x / 27;                                 //error is x / 27. x is measured in degrees, where the max x is 27. We get a value from -1 to 1 to scale for speed output
+        double error = this.x / 27;                            //error is x / 27. x is measured in degrees, where the max x is 27. We get a value from -1 to 1 to scale for speed output
+        if(this.area >= targetArea/2)
+        {
+            Drivetrain.setSpeed(0,0);    //set drivetrain to default speed if target distance is unreached
+        }
+
 		if( (error > -errorThreshold) && (error < errorThreshold) )
 		{
-            if(this.area < targetArea)
+            if(this.area < targetArea-2)
             {
-                Drivetrain.setSpeed(defaultSpeed, defaultSpeed);    //set drivetrain to default speed if target distance is unreached
+                // Drivetrain.setSpeed(.5-(.37*this.area/targetArea), .5-(.37*this.area/targetArea));    //set drivetrain to default speed if target distance is unreached
+                Drivetrain.setSpeed(.5,.5);    //set drivetrain to default speed if target distance is unreached
             }
             else
             {
@@ -74,7 +79,7 @@ public class Limelight
 		else
 		{
             centerAlgorithm(error, kp, ki, kd);                     //use center algorithm to center the robot to target
-		}
+        }
     }
 
     private void centerAlgorithm(double error, double kp, double ki, double kd)
