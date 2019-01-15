@@ -111,7 +111,7 @@ public class Robot extends IterativeRobot
 	{
 		mDrivetrain.resetAngle();		//Resets Gyro Yaw Angle to zero
 		mDrivetrain.setToCoast();		//Sets drivetrain motors to coast
-		odo.odometryInit();				//Odometry Object Initialization Method, see Odometry.java
+		odo.odometryInit(false);		//Odometry Object Initialization Method, see Odometry.java
 	}
 	
 	@Override

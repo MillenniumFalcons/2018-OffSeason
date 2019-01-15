@@ -27,13 +27,11 @@ public class Odometry
             }
             else
             {
-                currentPosition = (Robot.mDrivetrain.leftSRX.getSelectedSensorPosition(0) + Robot.mDrivetrain.leftSRX.getSelectedSensorPosition(0))/2;
+                currentPosition = (-Robot.mDrivetrain.leftSRX.getSelectedSensorPosition(0) - Robot.mDrivetrain.leftSRX.getSelectedSensorPosition(0))/2;
                 deltaPosition = Units.ticksToMeters(currentPosition - lastPosition);    //delta position calculated by difference in encoder ticks
-                theta = Math.toRadians(Robot.mDrivetrain.getYaw());                     //Gyro angle in Radians
-                x +=  Math.cos(theta) * deltaPosition;                                  //Getting x position from cosine of the change in position
-                y +=  Math.sin(theta) * deltaPosition;                                  //Getting y position from sine of the change in position
-                x *= -1;
-                y *= -1;
+                theta = -Math.toRadians(Robot.mDrivetrain.getYaw());                     //Gyro angle in Radians
+                x +=  -Math.cos(theta) * deltaPosition;                                  //Getting x position from cosine of the change in position
+                y +=  -Math.sin(theta) * deltaPosition;                                  //Getting y position from sine of the change in position
                 lastPosition = currentPosition;
             }
         });

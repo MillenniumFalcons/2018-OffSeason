@@ -16,12 +16,25 @@ public class FollowPath extends Command
 
   public FollowPath(String path, boolean backwards) 
   {
-    requires(Robot.mDrivetrain);
-    pathFollower = new RamseteFollower(path, backwards);
-    System.out.println("Created Ramsete follower");
-    pathThread = new Notifier(() ->{
-      pathFollower.runPathBackwards();
-    });
+    if(backwards == true)
+    {
+      requires(Robot.mDrivetrain);
+      pathFollower = new RamseteFollower(path, backwards);
+      System.out.println("Created Ramsete follower");
+      pathThread = new Notifier(() ->{
+        pathFollower.runPathBackwards();
+      });
+    }
+    else
+    {
+      requires(Robot.mDrivetrain);
+      pathFollower = new RamseteFollower(path, backwards);
+      System.out.println("Created Ramsete follower");
+      pathThread = new Notifier(() ->{
+        pathFollower.runPath();
+      });
+    }
+    
   }
 
   
