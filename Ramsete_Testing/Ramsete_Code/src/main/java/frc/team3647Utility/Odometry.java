@@ -30,8 +30,8 @@ public class Odometry
                 currentPosition = (-Robot.mDrivetrain.leftSRX.getSelectedSensorPosition(0) - Robot.mDrivetrain.leftSRX.getSelectedSensorPosition(0))/2;
                 deltaPosition = Units.ticksToMeters(currentPosition - lastPosition);    //delta position calculated by difference in encoder ticks
                 theta = -Math.toRadians(Robot.mDrivetrain.getYaw());                     //Gyro angle in Radians
-                x +=  -Math.cos(theta) * deltaPosition;                                  //Getting x position from cosine of the change in position
-                y +=  -Math.sin(theta) * deltaPosition;                                  //Getting y position from sine of the change in position
+                x +=  Math.cos(theta) * deltaPosition;                                  //Getting x position from cosine of the change in position
+                y +=  Math.sin(theta) * deltaPosition;                                  //Getting y position from sine of the change in position
                 lastPosition = currentPosition;
             }
         });
@@ -49,9 +49,9 @@ public class Odometry
     //reset odometry properties
     public void resetOdometry()
     {
-        x = 0;
-        y = 0;
-        theta = 0;
+        this.x = 0;
+        this.y = 0;
+        this.theta = 0;
     }
 
     //print current position of robot
