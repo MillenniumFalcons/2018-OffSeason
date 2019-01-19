@@ -5,6 +5,8 @@ package frc.team3647inputs;
 import frc.team3647subsystems.Drivetrain;                   //using Drivetrain class to move motors
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard; //Smart dashboard to display values from limelight
 import edu.wpi.first.networktables.*;
+import frc.team3647subsystems.*;
+import frc.team3647inputs.*;
 
 public class Limelight
 {
