@@ -78,12 +78,14 @@ public class Robot extends IterativeRobot
 	@Override
 	public void autonomousInit() 
 	{
+		resetForAuto();
 		mAutonomous = new AutoSelector		//Create new AutoSelector Object to select auto behavior for the robot to run
 		(
 			mStartPosChooser.getSelected(), //Gets robot start position from SendableChooser on Dashboard
 			mAutoModeChooser.getSelected()	//Gets robot Auto Mode from SendableChooser on Dashboard
 		);
 		mAutonomous.start();
+		
 	}
 
 	@Override
@@ -109,9 +111,10 @@ public class Robot extends IterativeRobot
 	@Override
 	public void teleopInit()
 	{
+		resetForAuto();
 		mDrivetrain.resetAngle();		//Resets Gyro Yaw Angle to zero
 		mDrivetrain.setToCoast();		//Sets drivetrain motors to coast
-		odo.odometryInit();				//Odometry Object Initialization Method, see Odometry.java
+		odo.odometryInit(false);		//Odometry Object Initialization Method, see Odometry.java
 	}
 	
 	@Override
@@ -126,15 +129,20 @@ public class Robot extends IterativeRobot
 			odo.printPosition();		//Print position in odometry terms
 			if(joy.buttonA)
 			{
-				odo.setOdometry(0, 0, 0);		//Resets Odometry Values
-				mDrivetrain.resetEncoders();	//Reset Encoder Values to zero
-				mDrivetrain.resetAngle();		//Resets Gyro Yaw Angle to zero
+				resetForAuto();
 			}
 		}
 		catch(Throwable t)
 		{
 			throw t;	//Catch any errors or exceptions
 		}
+	}
+
+	public void resetForAuto()
+	{
+		odo.setOdometry(0, 0, 0); // Resets Odometry Values
+		mDrivetrain.resetEncoders(); // Reset Encoder Values to zero
+		mDrivetrain.resetAngle(); // Resets Gyro Yaw Angle to zero
 	}
 
 	@Override
